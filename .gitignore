@@ -21,13 +21,6 @@
 
 # debug
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-package-lock.json
-package.lock
-yarn.lock
-yarn-lock.json
 
 # local env files
 .env*.local
@@ -38,3 +31,8 @@ yarn-lock.json
 
 # typescript
 *.tsbuildinfo
+
+# hosting
+.firebase
+.firebaserc
+firebase.json

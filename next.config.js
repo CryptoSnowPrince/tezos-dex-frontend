@@ -9,8 +9,8 @@ module.exports = {
     ignoreBuildErrors: true,
   },
   images: {
-    loader: 'imgix',
-    path: 'https://cloudflare-ipfs.com/ipfs/',
+    // loader: 'imgix',
+    // path: 'https://cloudflare-ipfs.com/ipfs/',
     domains: [
       "https://cloudflare-ipfs.com/ipfs/",
       "https://cloudflare-ipfs.com/",

@@ -1,0 +1,110 @@
+@import "../utils/utils.module";
+.navbar{
+  height: $navbar-desktop-height;
+  @include display-flex();
+  background-color: $clr-black-800;
+  @include maxmq('mobile'){
+    height: $navbar-mobile-height;
+  }
+  :global{
+    .navbar-wrapper{
+      padding: 12px 20px;
+      @include display-flex($justifyContent: space-between, $alignItems: center);
+      @include maxWidth;
+      height: 100%;
+    }
+    .desktop-navbar-wrapper{
+      @include maxmq('xl'){
+        max-width: 100%;
+        padding: 12px 10px;
+      }
+      @include maxmq('mobile'){
+        display: none;
+      }
+      .navbar-contents{
+        height: 100%;
+        @include display-flex($justifyContent: center, $alignItems: center);
+        &.left{
+          width: 30%;
+          column-gap: 20px;
+          @include display-flex($justifyContent: space-between);
+          @include maxmq('xl'){
+            column-gap: 8px;
+          }
+          .logo{
+            height: 100%;
+            img{
+              height: 100%;
+              object-fit: contain;
+            }
+          }
+          .left-wrapper{
+            @include display-flex();
+            column-gap: 16px;
+            @include maxmq('xl'){
+              column-gap: 5px;
+            }
+          }
+        }
+        &.right{
+          column-gap: 20px;
+          @include maxmq('xl'){
+            column-gap: 5px;
+          }
+          .balance{
+            padding: 5px 12px;
+            &-link{
+              text-decoration: underline;
+            }
+          }
+          .right-wrapper{
+            @include display-flex();
+            column-gap: 15px;
+            @include maxmq('xl'){
+              column-gap: 5px;
+            }
+            .btn{
+              &-pool{
+
+              }
+              &-wallet{
+
+              }
+            }
+          }
+        }
+      }
+    }
+    .mobile-navbar-wrapper{
+      position: relative;
+      @include minmq('mobileMin'){
+        display: none;
+      }
+      .mobile-wrapper{
+        height: 100%;
+        @include display-flex();
+        column-gap: 30px;
+        .burger{
+          width: 25px;
+          height: 25px;
+          img{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .logo{
+          height: 100%;
+          img{
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+
+      }
+      .mobile-navbar-container{
+        position: absolute;
+      }
+    }
+  }
+}

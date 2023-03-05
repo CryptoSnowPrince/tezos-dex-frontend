@@ -1,0 +1,136 @@
+@import "styles/utils/utils.module";
+.pools{
+  :global{
+    //background: linear-gradient(0deg, rgba(19, 18, 101, 0.1), rgba(19, 18, 101, 0.1)),
+    //url("/images/pools_bg.png");
+    .section{
+      width: 100%;
+      @include display-flex();
+      .sec-wrapper{
+        @include maxWidth;
+      }
+    }
+    .pool-main {
+      @include maxmq('mobile'){
+       padding-top: 15px;
+      }
+      .sec-wrapper {
+        display: grid;
+        grid-template-columns: 5.5fr 4.5fr;
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        @include maxmq('mobile'){
+          grid-template-columns: 1fr;
+          grid-row-gap: 20px;
+          .empty{
+            display: none;
+          }
+        }
+        .titles{
+          width: 100%;
+          @include display-flex($justifyContent: space-between);
+          column-gap: 19px;
+          .title{
+            min-width: 85.3px;
+            @include maxmq('s'){
+              min-width: 78px;
+            }
+          }
+          .extras{
+            width: 100%;
+            max-width: 290px;
+            @include display-flex($justifyContent: space-between);
+            column-gap: 25px;
+            @media (max-width: 900px) {
+              column-gap: 15px;
+            }
+            .more{
+              @include display-flex();
+              column-gap: 10px;
+              @include maxmq('s'){
+                column-gap: 5px;
+                p{
+                  font-size: 14px;
+                }
+              }
+
+            }
+          }
+        }
+        .connect-box{
+          @include content-box;
+          padding: 48px 43px;
+          @include display-flex($flexDirection: column, $alignItems: start);
+          row-gap: 40px;
+          .title{
+            font-weight: 500;
+            font-size: 24px;
+          }
+          .connect-btn{
+            border: 1px solid $clr-main2;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            background: #0A0F1B;
+            padding: 16px 48px;
+            color: $clr-main2;
+          }
+        }
+        .learn-boxes{
+          @include display-flex($flexDirection: column);
+          row-gap: 30px;
+          .learn-box{
+            height: 50%;
+            width: 100%;
+            background: #0A0F1B;
+            box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            padding: 24px 18px;
+            @include display-flex($flexDirection: column, $alignItems: start, $justifyContent: start);
+            row-gap: 30px;
+            .titles{
+              @include display-flex($justifyContent: space-between);
+              column-gap: 10px;
+              .title{
+                font-weight: 500;
+                font-size: 18px;
+              }
+            }
+            .desc{
+              font-weight: 400;
+              font-size: 14px;
+              color: rgba(255, 255, 255, 0.5);
+            }
+          }
+        }
+      }
+    }
+    .topPools{
+      overflow-x: hidden;
+      padding-top: 70px;
+      padding-bottom: 35px;
+      padding-left: 5vw;
+      .sec-wrapper{
+        max-width: 100%;
+        width: 100%;
+        .titles{
+          margin-bottom: 20px;
+          max-width: $max-width;
+          @include display-flex($justifyContent: space-between);
+          column-gap: 10px;
+          .title{
+            font-weight: 500;
+            font-size: 24px;
+          }
+          .explore{
+            font-weight: 400;
+            font-size: 16px;
+            @include display-flex($justifyContent: start);
+            column-gap: 10px;
+          }
+        }
+      }
+    }
+  }
+}

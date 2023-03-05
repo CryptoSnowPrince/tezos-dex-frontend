@@ -1,0 +1,103 @@
+@import "styles/utils/utils.module";
+.footer{
+  :global{
+    width: 100%;
+    @include display-flex($flexDirection: column);
+    .footer-container{
+      width: 100%;
+      @include display-flex();
+      .footer-wrapper{
+        @include maxWidth;
+      }
+      &.footer-container-top{
+        border-top: 0.8px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 0.8px solid rgba(255, 255, 255, 0.1);
+        padding-top: 35px;
+        padding-bottom: 50px;
+        .footer-wrapper-top{
+          @include display-flex($justifyContent: start);
+          .wrapper-wrapper{
+            width: 100%;
+            max-width: 90%;
+            @include display-flex($justifyContent: space-between);
+            column-gap: 50px;
+            @include maxmq('xl'){
+              max-width: 100%;
+            }
+            @include maxmq('mobile'){
+              flex-direction: column;
+            }
+            .left{
+              width: 100%;
+              max-width: 337px;
+              display: flex;
+              flex-direction: column;
+              row-gap: 16px;
+              @include maxmq('mobile'){
+                align-items: center;
+              }
+              img{
+                width: 112px;
+                height: 112px;
+                object-fit: contain;
+              }
+              .desc{
+                font-weight: 400;
+                font-size: 14px;
+              }
+            }
+            .bar{
+              width: 100vw;
+              height: 1px;
+              background: rgba(255, 255, 255, 0.1);
+              margin: 20px 0;
+              @include minmq('mobileMin'){
+                display: none;
+              }
+            }
+            .right{
+              @include display-flex($justifyContent: space-between, $alignItems: start);
+              width: 100%;
+              max-width: 635px;
+              column-gap: 10px;
+              .menus{
+                @include display-flex($flexDirection: column, $justifyContent: start, $alignItems: start);
+                font-size: 14px;
+                .menu{
+                  margin-bottom: 16px;
+                  font-weight: 500;
+                }
+                .sub-menu{
+                  margin-bottom: 12px;
+                  font-weight: 400;
+                }
+              }
+            }
+          }
+        }
+      }
+      &.footer-container-bottom{
+        padding-top: 15px;
+        padding-bottom: 40px;
+        background: #0A0F1B;
+        .footer-wrapper-bottom{
+          @include display-flex($justifyContent: space-between, $alignItems: start);
+          @include maxmq('mobile'){
+            flex-direction: column;
+            align-items: center;
+            row-gap: 10px;
+            text-align: center;
+          }
+          .copyright{
+            font-weight: 400;
+            font-size: 14px;
+          }
+          .sns-wrapper{
+            @include display-flex();
+            column-gap: 15px;
+          }
+        }
+      }
+    }
+  }
+}

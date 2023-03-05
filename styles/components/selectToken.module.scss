@@ -1,0 +1,134 @@
+@import "styles/utils/utils.module";
+
+.selectToken{
+  :global{
+    width: 100%;
+    .select{
+      width: 100%;
+      padding: 15px 20px;
+      height: 72px;
+      background: #0A0F1B;
+      border: 0.7px solid rgba(255, 255, 255, 0.2);
+      box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      @include display-flex($justifyContent: space-between);
+      &-token{
+        @include display-flex($justifyContent: space-between);
+        column-gap: 10px;
+        width: 100%;
+        max-width: 200px;
+        font-weight: 600;
+        font-size: 18px;
+      }
+    }
+  }
+}
+.selectTokenModal{
+  :global{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include display-flex();
+    padding: 0 25px;
+    z-index: 9;
+    .select-popup{
+      width: 100%;
+      max-width: 630px;
+      height: fit-content;
+      background: #000B11;
+      border: 0.7px solid rgba(255, 255, 255, 0.2);
+      box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      padding: 35px 35px 25px 35px;
+      @include maxmq('m'){
+        padding: 20px 20px 15px 20px;
+      }
+      .select-popup-titles{
+        @include display-flex($justifyContent: space-between)
+      }
+      .search-bar{
+        margin-top: 25px;
+        .input{
+          width: 100%;
+          background: #0A0F1B url("/images/search.png");
+          background-repeat: no-repeat;
+          background-position: 20px;
+        }
+      }
+      .token-list-wrapper{
+        position: relative;
+        margin-top: 16px;
+        border-radius: 8px;
+
+        height: 385px;
+        overflow: hidden;
+        overflow-y: scroll;
+        &::-webkit-scrollbar{
+          width: 10px;
+        }
+        &::-webkit-scrollbar-thumb{
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 8px;
+        }
+        &::-webkit-scrollbar-track{
+          background: #000B11;
+          border-radius: 10px;
+        }
+      }
+      .tokens-list{
+        position: absolute;
+        width: calc(100% - 10px);
+        background: #0A0F1B;
+        box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 16px;
+        @include display-flex($flexDirection: column, $alignItems: start);
+        row-gap: 12px;
+
+        @include maxmq('m'){
+          padding: 10px;
+        }
+        .token{
+          width: 100%;
+          background: #000B11;
+          box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+          border-radius: 20px;
+          padding: 15px 20px;
+          @include display-flex($justifyContent: space-between);
+          column-gap: 10px;
+          @include maxmq('m'){
+            padding: 10px 15px;
+          }
+          &-titles{
+            display: flex;
+            column-gap: 15px;
+            .token-img{
+              width: 32px;
+              height: 32px;
+              object-fit: contain;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+            .token-title{
+              @include display-flex();
+              column-gap: 10px;
+             & > p {
+               min-width: fit-content;
+             }
+              .token-name-short{
+                color: rgba(255, 255, 255, 0.5);
+              }
+            }
+          }
+          &-balance{
+            min-width: fit-content;}
+        }
+      }
+    }
+  }
+
+}

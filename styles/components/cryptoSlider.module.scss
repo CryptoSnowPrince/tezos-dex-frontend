@@ -1,0 +1,69 @@
+@import "styles/utils/utils.module";
+.cryptoSlider{
+  :global{
+    width: 100%;
+    height: 260px;
+    .swiper-slide{
+      width: 260px !important;
+      height: 260px;
+      background: #000000;
+      box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      padding: 12px;
+      .slide-wrapper{
+        @include display-flex($flexDirection: column, $alignItems: start);
+        row-gap: 20px;
+        width: 100%;
+        font-size: 18px;
+        .hot{
+          background: rgba(233, 32, 79, 0.1);
+          border-radius: 20px;
+          width: 80px;
+          height: 40px;
+          @include display-flex();
+          font-weight: 600;
+          font-size: 12px;
+          color: $clr-main2;
+        }
+        .token{
+          .token-imgs{
+            @include display-flex();
+            height: fit-content;
+            .token-img{
+              position: absolute;
+              left: 12px;
+              width: 65px;
+              height: 65px;
+              object-fit: contain;
+              &.token-img1{
+                z-index: 1;
+              }
+              &.token-img2{
+                left: 50px;
+              }
+            }
+            .token-faucet{
+              margin-left: 120px;
+            }
+          }
+        }
+        .token-name{
+          font-weight: 500;
+        }
+        .token-number{
+          width: 100%;
+          @include display-flex($justifyContent: space-between);
+          .title{
+            font-weight: 500;
+            font-size: 12px;
+          }
+          .number{
+            font-weight: 600;
+            font-size: 18px;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,134 @@
+@import "styles/utils/utils.module";
+.liquidity{
+  :global{
+    position: relative;
+    .section{
+      width: 100%;
+      @include display-flex();
+      .sec-wrapper{
+        @include maxWidth;
+      }
+    }
+    .liquidity1{
+      padding-bottom: 70px;
+      .sec-wrapper{
+        .titles{
+          @include display-flex($justifyContent: space-between);
+          .title-wrapper{
+            @include display-flex();
+            column-gap: 30px;
+          }
+          .extras{
+            @include display-flex();
+            column-gap: 27px;
+            .img-setting{
+              width: 27px;
+              height: 28px;
+            }
+          }
+        }
+        .content-box{
+          margin-top: 25px;
+          display: grid;
+          grid-template-columns: 5.5fr 4.5fr;
+          grid-column-gap: 50px;
+          @media (max-width: 1015px) {
+            grid-template-columns: 1fr;
+            grid-row-gap: 25px;
+          }
+          .content-part-wrapper{
+            @include content-box;
+            padding: 25px 45px 50px 45px;
+            &.left{
+              @include display-flex($flexDirection: column, $alignItems: start);
+              row-gap: 32px;
+              .content-part{
+                @include display-flex($flexDirection: column, $alignItems: start);
+                width: 100%;
+                &.content-part1{
+                  row-gap: 12px;
+                }
+                &.content-part2{
+                  .pairs-wrapper{
+                    margin-top: 10px;
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    grid-column-gap: 20px;
+                    .pairs{
+                      padding: 10px 16px;
+                      background: #000B11;
+                      border-radius: 20px;
+                      cursor: pointer;
+                      &:hover, &:active, &-activated{
+                        border: 2px solid $clr-main2;
+                      }
+                      .number{
+                        font-weight: 600;
+                        font-size: 18px;
+                      }
+                      .text{
+                        margin-top: 5px;
+                        font-weight: 400;
+                        font-size: 14px;
+                      }
+                    }
+                  }
+                }
+                &.content-part3{
+                  .deposit-wrapper{
+                    margin-top: 10px;
+                    width: 100%;
+                    @include display-flex($flexDirection: column);
+                    row-gap: 28px;
+                    .deposit{
+                      width: 100%;
+                      background: #000B11;
+                      border-radius: 20px;
+                      padding: 17px 25px;
+                      @include display-flex($flexDirection: column,$alignItems: start);
+                      position: relative;
+                      .deposit-crypto-img{
+                        position: absolute;
+                        width: 32px;
+                        height: 32px;
+                        object-fit: contain;
+                        right: 25px;
+                        top: -16px;
+                      }
+                      .top{
+                        width: 100%;
+                        @include display-flex($justifyContent: space-between);
+                        font-weight: 500;
+                        font-size: 24px;
+                        p{
+                          display: block;
+                          font-weight: 600;
+                          font-size: 18px;
+                        }
+                      }
+                      .bottom{
+                        width: 100%;
+                        @include display-flex($justifyContent: end);
+                        font-weight: 500;
+                        font-size: 16px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            &.right{
+
+            }
+          }
+        }
+      }
+    }
+    .liquidity2{
+    }
+    .liquidity3{
+    }
+  }
+
+}

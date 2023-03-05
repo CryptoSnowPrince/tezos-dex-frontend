@@ -1,0 +1,22 @@
+@import "styles/utils/utils.module";
+
+.setting{
+  :global{
+    position: absolute;
+    right: 5vw;
+    top: calc($navbar-desktop-height + 120px);
+    width: calc(100vw - 50px);
+    max-width: 475px;
+    background: #000B11;
+    border: 0.7px solid rgba(255, 255, 255, 0.2);
+    box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    padding: 25px;
+    color: $clr-main;
+    .title{
+      font-weight: 500;
+      font-size: 20px;
+    }
+
+  }
+}

@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           gtag('config', 'G-671PKE2RZR');
         `}
       </Script>
-      {router.pathname.includes("airdrop") ? <MetaAirdrop /> : <Meta />}
+      {/* {router.pathname.includes("airdrop") ? <MetaAirdrop /> : <Meta />} */}
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>

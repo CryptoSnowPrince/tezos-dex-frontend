@@ -23,7 +23,7 @@ const Home: NextPage = () => {
     Object.keys(token).length !== 0 && dispatch(getTokenPrice());
   }, [token]);
   useEffect(() => {
-    Router.push("/swap");
+    Router.push("/home");
   });
   return (
     <>

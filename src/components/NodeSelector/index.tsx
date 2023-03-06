@@ -45,7 +45,7 @@ function NodeSelector(props: any) {
   const nodeNames = {
     TZKT: "TZKT",
     SmartPY: "SmartPY",
-    PLENTY: "Plenty Node",
+    PLENTY: "Kodex Node",
   };
 
   const [rpcNodeDetecting, setRpcNodeDetecting] = useState(false);
@@ -141,7 +141,7 @@ function NodeSelector(props: any) {
         className={clsx(
           "  px-4 border  flex items-center h-[54px] z-10 cursor-pointer font-body4 rounded-2xl mt-4 ",
           props.currentRPC === props.identifier
-            ? "bg-muted-500 border-primary-500  text-primary-500"
+            ? "bg-muted-500 border-primary-500 text-white"
             : "text-text-700 bg-card-500 border-text-800"
         )}
       >

@@ -9,8 +9,13 @@ import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
 import { useRouter } from 'next/router';
 import { ConnectWalletBtnDeskTop } from '../src/components/Button/ConnectWalletDesktop';
+import NodeSelector from '../src/components/NodeSelector';
+import WertWidgetPopup from '../src/components/Wert';
+import CopiedToast from '../src/components/Notification/copiedToast';
+import { useAppSelector } from '../src/redux';
 
 export default function Navbar() {
+    const userAddress = useAppSelector((state) => state.wallet.address);
     const router = useRouter();
 
     const [showToast, setShowToast] = useState(false);
@@ -69,68 +74,72 @@ export default function Navbar() {
     }
 
     return (
-        <section className={styles.navbar}>
-            <div className="desktop-navbar-wrapper navbar-wrapper">
-                <div className="navbar-contents left">
+        <>
+            <section className={styles.navbar}>
+                <div className="desktop-navbar-wrapper navbar-wrapper">
+                    <div className="navbar-contents left">
 
-                    <div className="logo">
-                        <Link href={"/"}>
-                            <img src="/images/logo_blanc.png" />
-                        </Link>
+                        <div className="logo">
+                            <Link href={"/"}>
+                                <img src="/images/logo_blanc.png" />
+                            </Link>
 
-                    </div>
-
-                    <div className="left-wrapper">
-                        <div className="btn-home">
-                            <Thickbtn text="Home" src="/images/home.png" onClick={handleHome} />
                         </div>
-                        <div className="btn-swap">
-                            <Thickbtn text="Swap" src="/images/swap.png" onClick={handleSwap} />
-                        </div>
-                    </div>
-                </div>
 
-                <div className="navbar-contents right">
-                    <img className="settings" src="/images/settings.png" alt="settings" />
-                    <div className="balance">
-                        <Link href="/" target="_blank" className="balance-link">
-                            $ 0.33
-                        </Link>
-                    </div>
-                    <div className="right-wrapper">
-                        <div className="btn-pool">
-                            <Pinkbtn text="Create Pool" type="withoutBorder" onClick={createPool} />
-                        </div>
-                        <div className="btn-wallet">
-                            {/* <Pinkbtn text="Connect Wallet" src="/images/home.png" type="withoutBorder" onClick={connect} /> */}
-                            <ConnectWalletBtnDeskTop
-                                setNodeSelector={setNodeSelector}
-                                setShowFiat={setShowFiat}
-                                setShowToast={setShowToast}
-                            />
+                        <div className="left-wrapper">
+                            <div className="btn-home">
+                                <Thickbtn text="Home" src="/images/home.png" onClick={handleHome} />
+                            </div>
+                            <div className="btn-swap">
+                                <Thickbtn text="Swap" src="/images/swap.png" onClick={handleSwap} />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div className="mobile-navbar-wrapper navbar-wrapper">
-
-                <div className="mobile-wrapper">
-                    <div className="burger">
-                        <img src="/images/burger.png" />
+                    <div className="navbar-contents right">
+                        <img className="settings" src="/images/settings.png" alt="settings" />
+                        <div className="balance">
+                            <Link href="/" target="_blank" className="balance-link">
+                                $ 0.33
+                            </Link>
+                        </div>
+                        <div className="right-wrapper">
+                            <div className="btn-pool">
+                                <Pinkbtn text="Create Pool" type="withoutBorder" onClick={createPool} />
+                            </div>
+                            <div className="btn-wallet">
+                                <ConnectWalletBtnDeskTop
+                                    setNodeSelector={setNodeSelector}
+                                    setShowFiat={setShowFiat}
+                                    setShowToast={setShowToast}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="logo">
-                        <img src="/images/logo_noir.png" />
+                </div>
+
+                <div className="mobile-navbar-wrapper navbar-wrapper">
+
+                    <div className="mobile-wrapper">
+                        <div className="burger">
+                            <img src="/images/burger.png" />
+                        </div>
+                        <div className="logo">
+                            <img src="/images/logo_noir.png" />
+                        </div>
+                    </div>
+
+                    <div className="btn-wallet">
+                        <Pinkbtn text="Connect Wallet" type="withoutBorder" style={{ height: "20px" }} onClick={connect} />
+                    </div>
+                    <div className="mobile-navbar-container">
+
                     </div>
                 </div>
-
-                <div className="btn-wallet">
-                    <Pinkbtn text="Connect Wallet" type="withoutBorder" style={{ height: "20px" }} onClick={connect} />
-                </div>
-                <div className="mobile-navbar-container">
-
-                </div>
-            </div>
-        </section>
+                {showToast && <CopiedToast address={userAddress} />}
+            </section>
+            <NodeSelector show={showNodeSelector} setShow={setNodeSelector} />
+            {showFiat && <WertWidgetPopup hide={setShowFiat} />}
+        </>
     )
 }

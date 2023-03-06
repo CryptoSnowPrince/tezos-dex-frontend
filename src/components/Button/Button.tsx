@@ -16,7 +16,7 @@ function Button(props: IButtonProps) {
   return (
     <button
       className={clsx(
-        "bg-primary-500      h-13 text-black w-full",
+        "bg-primary-red      h-13 text-white w-full",
         props.color === "disabled" && "bg-primary-600 text-text-600",
         props.color === "error" && "bg-error-100 text-error-200",
         props.width ? props.width : "w-full",

@@ -11,7 +11,7 @@
       border-radius: 20px;
       padding: 12px;
       .slide-wrapper{
-        @include display-flex($flexDirection: column, $alignItems: start);
+        @include display-flex($flexDirection: column, $alignItems: flex-start);
         row-gap: 20px;
         width: 100%;
         font-size: 18px;

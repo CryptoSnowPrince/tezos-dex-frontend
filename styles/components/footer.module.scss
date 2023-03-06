@@ -15,7 +15,7 @@
         padding-top: 35px;
         padding-bottom: 50px;
         .footer-wrapper-top{
-          @include display-flex($justifyContent: start);
+          @include display-flex($justifyContent: flex-start);
           .wrapper-wrapper{
             width: 100%;
             max-width: 90%;
@@ -56,12 +56,12 @@
               }
             }
             .right{
-              @include display-flex($justifyContent: space-between, $alignItems: start);
+              @include display-flex($justifyContent: space-between, $alignItems: flex-start);
               width: 100%;
               max-width: 635px;
               column-gap: 10px;
               .menus{
-                @include display-flex($flexDirection: column, $justifyContent: start, $alignItems: start);
+                @include display-flex($flexDirection: column, $justifyContent: flex-start, $alignItems: flex-start);
                 font-size: 14px;
                 .menu{
                   margin-bottom: 16px;
@@ -81,7 +81,7 @@
         padding-bottom: 40px;
         background: #0A0F1B;
         .footer-wrapper-bottom{
-          @include display-flex($justifyContent: space-between, $alignItems: start);
+          @include display-flex($justifyContent: space-between, $alignItems: flex-start);
           @include maxmq('mobile'){
             flex-direction: column;
             align-items: center;

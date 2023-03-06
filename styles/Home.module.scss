@@ -16,7 +16,7 @@
             row-gap: 20px;
           }
           .left{
-            @include display-flex($alignItems: start, $flexDirection: column);
+            @include display-flex($alignItems: flex-start, $flexDirection: column);
             @media (max-width: 950px) {
               width: 100%;
             }
@@ -40,7 +40,7 @@
               border-radius: 20px;
               background: rgba(0, 0, 0, 0.5);
               box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
-              @include display-flex($flexDirection: column, $justifyContent: space-between, $alignItems: start);
+              @include display-flex($flexDirection: column, $justifyContent: space-between, $alignItems: flex-start);
               @media (max-width: 555px) {
                 width: 100%;
               }
@@ -106,7 +106,7 @@
             border-radius: 20px;
             height: 270px;
             padding: 50px;
-            @include display-flex($justifyContent: space-between, $flexDirection: column, $alignItems: start);
+            @include display-flex($justifyContent: space-between, $flexDirection: column, $alignItems: flex-start);
             row-gap: 25px;
             @media (max-width: 460px) {
               height: 100%;
@@ -219,7 +219,7 @@
                 max-width: fit-content;
                 @media (max-width: 530px) {
                   flex-direction: column;
-                  align-items: start;
+                  align-items: flex-start;
                   row-gap: 8px;
                 }
                 .token-imgs{
@@ -250,11 +250,11 @@
                 @include maxmq('l'){
                   grid-column-start: 1;
                   grid-column-end: 2;
-                  justify-content: start;
+                  justify-content: flex-start;
                 }
                 @include maxmq('m'){
                   flex-direction: column;
-                  align-items: start;
+                  align-items: flex-start;
                 }
               }
               &-right{

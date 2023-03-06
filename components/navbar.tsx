@@ -69,7 +69,7 @@ export default function Navbar() {
                 <div className="navbar-contents left">
 
                     <div className="logo">
-                        <Link href={"/home"}>
+                        <Link href={"/"}>
                             <img src="/images/logo_blanc.png" />
                         </Link>
 

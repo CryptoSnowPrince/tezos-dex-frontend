@@ -60,7 +60,7 @@
         .connect-box{
           @include content-box;
           padding: 48px 43px;
-          @include display-flex($flexDirection: column, $alignItems: start);
+          @include display-flex($flexDirection: column, $alignItems: flex-start);
           row-gap: 40px;
           .title{
             font-weight: 500;
@@ -87,7 +87,7 @@
             box-shadow: -8px 20px 30px rgba(0, 0, 0, 0.15);
             border-radius: 20px;
             padding: 24px 18px;
-            @include display-flex($flexDirection: column, $alignItems: start, $justifyContent: start);
+            @include display-flex($flexDirection: column, $alignItems: flex-start, $justifyContent: flex-start);
             row-gap: 30px;
             .titles{
               @include display-flex($justifyContent: space-between);
@@ -126,7 +126,7 @@
           .explore{
             font-weight: 400;
             font-size: 16px;
-            @include display-flex($justifyContent: start);
+            @include display-flex($justifyContent: flex-start);
             column-gap: 10px;
           }
         }

@@ -1,95 +1,90 @@
-import type { NextPage } from "next";
-import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { SideBarHOC } from "../../src/components/Sidebar/SideBarHOC";
-import Swap from "../../src/components/Swap";
-import { useInterval } from "../../src/hooks/useInterval";
-import { createGaugeConfig, getConfig } from "../../src/redux/config/config";
-import { getEpochData } from "../../src/redux/epoch/epoch";
-import { AppDispatch, store, useAppSelector } from "../../src/redux/index";
-import { getTotalVotingPower } from "../../src/redux/pools";
-import { getLpTokenPrice, getTokenPrice } from "../../src/redux/tokenPrice/tokenPrice";
-import { fetchWallet, walletConnection, walletDisconnection } from "../../src/redux/wallet/wallet";
+import styles from "../../styles/pages/swap.module.scss"
+import React, {useState} from "react";
+import Navbar from "../../components/navbar";
+// import SelectTokenModal from "../../components/selectTokenModal";
+import SelectToken from "../../components/selectToken";
+import Setting from "../../components/setting";
 
-const Home: NextPage = () => {
-  const userAddress = useAppSelector((state) => state.wallet.address);
-  const token = useAppSelector((state) => state.config.tokens);
-  const totalVotingPowerError = useAppSelector((state) => state.pools.totalVotingPowerError);
-  const epochError = useAppSelector((state) => state.epoch).epochFetchError;
-  const tokenPrices = useAppSelector((state) => state.tokenPrice.tokenPrice);
-  const amm = useAppSelector((state) => state.config.AMMs);
-  const initialPriceCall = useRef<boolean>(true);
-  const initialLpPriceCall = useRef<boolean>(true);
+export default function Swap (){
+    let [setting, setSetting] = useState(false);
 
-  const dispatch = useDispatch<AppDispatch>();
+    let [test, setTest] = useState([
+        {
+            "name" : "name1",
+            "value" : "value1"
+        },
+        {
+            "name" : "name2",
+            "value" : "value2"
+        }
+    ]);
 
-  const connectTempleWallet = () => {
-    return dispatch(walletConnection());
-  };
-  useEffect(() => {
-    dispatch(fetchWallet());
-    dispatch(getConfig());
-  }, []);
-  useEffect(() => {
-    if (epochError) {
-      dispatch(getEpochData());
-    }
-  }, [epochError]);
 
-  useInterval(() => {
-    dispatch(getEpochData());
-  }, 60000);
-  useEffect(() => {
-    if (userAddress) {
-      dispatch(getTotalVotingPower());
-    }
-  }, [userAddress]);
-  useEffect(() => {
-    if (userAddress && totalVotingPowerError) {
-      dispatch(getTotalVotingPower());
-    }
-  }, [totalVotingPowerError]);
-  useEffect(() => {
-    if(!initialPriceCall.current) {
-      Object.keys(token).length !== 0 && dispatch(getTokenPrice());
-    } else {
-      initialPriceCall.current = false;
-    }
-  }, [token]);
-  useEffect(() => {
-    if(!initialLpPriceCall.current) {
-      Object.keys(tokenPrices).length !== 0 && dispatch(getLpTokenPrice(tokenPrices));
-    } else {
-      initialLpPriceCall.current = false;
-    }
-  }, [tokenPrices]);
-  useEffect(() => {
-    Object.keys(amm).length !== 0 && dispatch(createGaugeConfig());
-  }, [amm]);
-  const disconnectUserWallet = async () => {
-    if (userAddress) {
-      return dispatch(walletDisconnection());
-    }
-  };
-  const otherPageProps = {
-    connectWallet: connectTempleWallet,
-    disconnectWallet: disconnectUserWallet,
-    walletAddress: userAddress,
-  };
-  return (
-    <>
-      <SideBarHOC makeTopBarScroll>
-        <Swap otherProps={otherPageProps} />
-      </SideBarHOC>
-    </>
-  );
-};
-Home.propTypes = {
-  connectWallet: PropTypes.any,
-  disconnectWallet: PropTypes.any,
-  fetchWalletAddress: PropTypes.any,
-  userAddress: PropTypes.any,
-};
+    return(
+        <div className={styles.swap}>
+            <Navbar/>
+            <section className="section sec1 swap-main">
+                <div className="sec-wrapper">
+                    <div className="titles">
+                        <h1 className="title">Swap</h1>
+                        <img className="pointer" src="/images/settings.png" onClick={() => {setSetting(!setting)}}/>
+                        {
+                            setting
+                                ?
+                                    <><Setting/></>
+                                :
+                                    <></>
+                        }
+                    </div>
+                    <div className="content-box">
+                        <div className="content-box-left content-box-container">
+                            <div className="content-box-top">
+                                <div className="content-box-number">
+                                    {test[0].name} and {test[0].value}
+                                </div>
+                                <div className="content-box-select">
+                                    <SelectToken/>
+                                </div>
+                            </div>
+                            <div className="content-box-bottom">
+                                balance :
+                            </div>
 
-export default Home;
+                        </div>
+                        <div className="content-box-mid pointer" onClick={() => {
+                            let copy = [];
+                            let arr = [];
+
+                            arr = [...test];
+                            copy[0] = arr[1];
+                            copy[1] = arr[0];
+
+                            setTest([...copy]);
+                        }}>
+                            <img src="/images/swap.png"/>
+                        </div>
+                        <div className="content-box-right content-box-container">
+                            <div className="content-box-top">
+                                <div className="content-box-select">
+                                    <SelectToken/>
+                                </div>
+                                <div className="content-box-number">
+                                    {test[1].name} and {test[1].value}
+                                </div>
+                            </div>
+                            <div className="content-box-bottom">
+                                balance :
+                            </div>
+
+                        </div>
+                        <div className="content-box-btn">
+                            <button className="swap-btn">Swap</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    )
+}

@@ -72,7 +72,7 @@ export default function Pools(){
                             <img src="/images/right_arrow.png"/>
                         </div>
                     </div>
-                    <CryptoSlider/>
+                    <CryptoSlider pools={[]}/>
                 </div>
             </section>
 

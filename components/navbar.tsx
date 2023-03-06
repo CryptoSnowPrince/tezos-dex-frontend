@@ -16,6 +16,14 @@ export default function Navbar() {
         console.log('createPool: ')
         router.push('/pools')
     }
+    const handleSwap = () => {
+        console.log('handleSwap: ')
+        router.push('/swap')
+    }
+    const handleHome = () => {
+        console.log('handleHome: ')
+        router.push('/home')
+    }
     const connect = async () => {
 
 
@@ -61,23 +69,19 @@ export default function Navbar() {
                 <div className="navbar-contents left">
 
                     <div className="logo">
-                        <Link href={"/"}>
+                        <Link href={"/home"}>
                             <img src="/images/logo_blanc.png" />
                         </Link>
 
                     </div>
 
                     <div className="left-wrapper">
-                        <Link href="/">
-                            <div className="btn-home">
-                                <Thickbtn text="Home" src="/images/home.png" />
-                            </div>
-                        </Link>
-                        <Link href="/swap">
-                            <div className="btn-swap">
-                                <Thickbtn text="Swap" src="/images/swap.png" />
-                            </div>
-                        </Link>
+                        <div className="btn-home">
+                            <Thickbtn text="Home" src="/images/home.png" onClick={handleHome} />
+                        </div>
+                        <div className="btn-swap">
+                            <Thickbtn text="Swap" src="/images/swap.png" onClick={handleSwap} />
+                        </div>
                     </div>
                 </div>
 

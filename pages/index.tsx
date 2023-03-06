@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SideBarHOC } from "../src/components/Sidebar/SideBarHOC";
+import Home from "./home";
 import { AppDispatch, useAppSelector } from "../src/redux";
 import { getConfig } from "../src/redux/config/config";
 import { getEpochData } from "../src/redux/epoch/epoch";
 import { getTokenPrice } from "../src/redux/tokenPrice/tokenPrice";
 import { fetchWallet } from "../src/redux/wallet/wallet";
 
-const Home: NextPage = () => {
+const Main: NextPage = () => {
   const token = useAppSelector((state) => state.config.tokens);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -22,20 +23,18 @@ const Home: NextPage = () => {
   useEffect(() => {
     Object.keys(token).length !== 0 && dispatch(getTokenPrice());
   }, [token]);
-  useEffect(() => {
-    Router.push("/home");
-  });
+
   return (
     <>
-      <SideBarHOC>{}</SideBarHOC>
+      <Home />
     </>
   );
 };
-Home.propTypes = {
+Main.propTypes = {
   connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
   fetchWalletAddress: PropTypes.any,
   userAddress: PropTypes.any,
 };
 
-export default Home;
+export default Main;

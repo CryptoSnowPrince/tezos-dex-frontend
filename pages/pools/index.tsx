@@ -20,7 +20,7 @@ export default function Pools(){
                                 <p>More</p>
                                 <img src="/images/arrow_down.svg"/>
                             </div>
-                            <Link href="/liqudity">
+                            <Link href="/liquidity">
                                 <Pinkbtn src="/images/more.svg" type = "withoutBorder" text = "New Position" padding = "small"/>
                             </Link>
                         </div>

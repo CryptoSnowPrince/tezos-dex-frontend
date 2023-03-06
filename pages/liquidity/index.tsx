@@ -1,14 +1,14 @@
-import styles from '../styles/pages/liquidity.module.scss'
-import Navbar from "../components/navbar";
-import Pinkbtn from "../components/buttons/pinkbtn";
+import styles from '../../styles/pages/liquidity.module.scss'
+import Navbar from "../../components/navbar";
+import Pinkbtn from "../../components/buttons/pinkbtn";
 import React, {useState} from "react";
 import Link from "next/link";
-import CryptoSlider from "../components/cryptoSlider";
-import Footer from "../components/footer";
-import SelectToken from "../components/selectToken";
+import CryptoSlider from "../../components/cryptoSlider";
+import Footer from "../../components/footer";
+import SelectToken from "../../components/selectToken";
 import {useRouter} from "next/router";
 
-export default function Liqudity(){
+export default function Liquidity(){
 
     let [step1, setStep1] = useState(true);
     let [step2, setStep2] = useState(false);
@@ -45,7 +45,7 @@ export default function Liqudity(){
                             <div className="more">
                                 <p>Clear All</p>
                             </div>
-                            <Link href="/liqudity" className="img-setting">
+                            <Link href="/liquidity" className="img-setting">
                                 <img src="/images/settings.png"/>
                             </Link>
                         </div>

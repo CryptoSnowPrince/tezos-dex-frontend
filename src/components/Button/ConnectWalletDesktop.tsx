@@ -4,6 +4,7 @@ import "animate.css";
 import loadingLogo from "../../assets/icon/common/loadingLogo.svg";
 import settingLogo from "../../assets/icon/common/settingLogo.svg";
 import walletIcon from "../../assets/icon/common/walletIcon.svg";
+import styles from '../../../styles/components/buttons.module.scss'
 import copy from "copy-to-clipboard";
 import truncateMiddle from "truncate-middle";
 import copyLogo from "../../assets/icon/common/copyLogo.svg";
@@ -21,6 +22,7 @@ import Link from "next/link";
 import close from "../../assets/icon/common/close-icon.svg";
 
 import { BUY_CRYPTO } from "../../constants/localStorage";
+import Pinkbtn from "../../../components/buttons/pinkbtn";
 
 export interface IConnectWalletBtnDeskTopProps {
   setShowFiat: React.Dispatch<React.SetStateAction<boolean>>;
@@ -62,10 +64,10 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
     setShowMenu(false);
   });
 
-  const handleFiat = () => {
-    setShowMenu(false);
-    props.setShowFiat(true);
-  };
+  // const handleFiat = () => {
+  //   setShowMenu(false);
+  //   props.setShowFiat(true);
+  // };
 
   const [showCryptoTooltip, setShowCryptoTooltip] = React.useState(
     localStorage.getItem(BUY_CRYPTO)
@@ -82,7 +84,20 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
     return (
       <>
         <div className="relative flex items-center" ref={reff}>
-          <button
+          <div className={`btn withoutBorder`} onClick={() => {
+            handleClick();
+            setShowMenu((sow) => !sow);
+          }}>
+            <div className={styles.pinkbtn}>
+              <div className={`btn withoutBorder`}>
+                <img src="/images/tezos.png" className="img" />
+                <p>{truncateMiddle(userAddress, 4, 4, "...")}</p>
+                {isConnectWalletLoading && <img src="/images/loading.png" className="img spin" />}
+                <img src="/images/settings.png" className="img" />
+              </div>
+            </div>
+          </div>
+          {/* <button
             onClick={() => {
               handleClick();
               setShowMenu((sow) => !sow);
@@ -103,8 +118,8 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
             </p>
             {isConnectWalletLoading && <Image alt={"alt"} src={loadingLogo} className="spin" />}
             <Image alt={"alt"} src={settingLogo} />
-          </button>
-          {(localStorage.getItem(BUY_CRYPTO) !== "true" || showCryptoTooltip !== "true") && (
+          </button> */}
+          {/* {(localStorage.getItem(BUY_CRYPTO) !== "true" || showCryptoTooltip !== "true") && (
             <div
               className="gradientBorderCrypto cursor-pointer"
               id="animate-tooltip"
@@ -131,30 +146,30 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           {showMenu && (
-            <div className="absolute w-[320px] fade-in-3  right-0 top-[55px] mt-2 border z-50 bg-primary-750 rounded-2xl border-muted-50 py-3.5 flex flex-col">
+            <div className="absolute w-[320px] fade-in-3  right-0 top-[55px] mt-2 border z-50 bg-primary-red rounded-2xl border-muted-50 py-3.5 flex flex-col">
               {/* <p className="bg-primary-755 text-f14 p-4 flex gap-2">
                 <span className="text-text-400">Temple wallet</span>(
                 <span className="text-text-50">{truncateMiddle(userAddress, 4, 4, "...")}</span>)
               </p> */}
               <p
-                className="flex gap-2 px-4  py-4 hover:bg-primary-755  cursor-pointer text-white text-f14"
+                className="flex gap-2 px-4  py-4 hover:bg-primary-blue  cursor-pointer text-white text-f14"
                 onClick={copyAddress}
               >
                 <Image alt={"alt"} src={copyLogo} />
                 <span>Copy address</span>
               </p>
-              <p
+              {/* <p
                 className="flex gap-2 px-4  py-4 hover:bg-primary-755  cursor-pointer text-white text-f14"
                 onClick={handleFiat}
               >
                 <Image alt={"alt"} src={fiatLogo} />
                 <span>Buy tez with fiat</span>
-              </p>
+              </p> */}
               <p
-                className="flex gap-2 px-4  py-4 hover:bg-primary-755  cursor-pointer text-white text-f14"
+                className="flex gap-2 px-4  py-4 hover:bg-primary-blue  cursor-pointer text-white text-f14"
                 onClick={switchWalletFunction}
               >
                 <Image alt={"alt"} src={switchLogo} />
@@ -162,7 +177,7 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
               </p>
 
               <p
-                className="flex gap-2 px-4  py-4 hover:bg-primary-755  cursor-pointer text-white text-f14"
+                className="flex gap-2 px-4  py-4 hover:bg-primary-blue  cursor-pointer text-white text-f14"
                 onClick={() => props.setNodeSelector(true)}
               >
                 <Image alt={"alt"} src={nodeSelectorLogo} />
@@ -173,7 +188,7 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
                   <Link className={``} href={"/swap"}>
                     <p
                       onClick={disconnectUserWallet}
-                      className="flex gap-2 px-4  py-4 hover:bg-primary-755  cursor-pointer text-white text-f14"
+                      className="flex gap-2 px-4  py-4 hover:bg-primary-blue  cursor-pointer text-white text-f14"
                     >
                       <Image alt={"alt"} src={disconnectLogo} />
                       <span>Disconnect</span>
@@ -197,12 +212,19 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
   }
   return (
     <div className="flex items-center">
-      <button
+      <div className={`btn withoutBorder`} onClick={connectTempleWallet}>
+        <div className={styles.pinkbtn}>
+          <div className={`btn withoutBorder`}>
+            <p>Connect Wallet</p>
+          </div>
+        </div>
+      </div>
+      {/* <button
         onClick={connectTempleWallet}
         className="bg-primary-500/5 py-2 px-4 hover:bg-opacity-95 rounded-2xl border border-primary-500/100  text-f14 "
       >
         Connect wallet
-      </button>
+      </button> */}
     </div>
   );
 }

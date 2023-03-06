@@ -8,9 +8,14 @@ import { DAppClient, PermissionScope, SigningType } from "@airgap/beacon-sdk";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
 import { useRouter } from 'next/router';
+import { ConnectWalletBtnDeskTop } from '../src/components/Button/ConnectWalletDesktop';
 
 export default function Navbar() {
     const router = useRouter();
+
+    const [showToast, setShowToast] = useState(false);
+    const [showFiat, setShowFiat] = useState(false);
+    const [showNodeSelector, setNodeSelector] = useState(false);
 
     const createPool = () => {
         console.log('createPool: ')
@@ -97,7 +102,12 @@ export default function Navbar() {
                             <Pinkbtn text="Create Pool" type="withoutBorder" onClick={createPool} />
                         </div>
                         <div className="btn-wallet">
-                            <Pinkbtn text="Connect Wallet" src="/images/home.png" type="withoutBorder" onClick={connect} />
+                            {/* <Pinkbtn text="Connect Wallet" src="/images/home.png" type="withoutBorder" onClick={connect} /> */}
+                            <ConnectWalletBtnDeskTop
+                                setNodeSelector={setNodeSelector}
+                                setShowFiat={setShowFiat}
+                                setShowToast={setShowToast}
+                            />
                         </div>
                     </div>
                 </div>

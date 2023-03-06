@@ -2,13 +2,20 @@ import styles from '../styles/components/navbar.module.scss'
 import Pinkbtn from "./buttons/pinkbtn";
 import Link from "next/link";
 import Thickbtn from "./buttons/thickbtn";
-import { motion } from "framer-motion"
-import {useState} from "react";
-import {DAppClient, PermissionScope, SigningType} from "@airgap/beacon-sdk";
-import {BeaconWallet} from "@taquito/beacon-wallet";
-import {TezosToolkit} from "@taquito/taquito";
+// import { motion } from "framer-motion"
+import { useState } from "react";
+import { DAppClient, PermissionScope, SigningType } from "@airgap/beacon-sdk";
+import { BeaconWallet } from "@taquito/beacon-wallet";
+import { TezosToolkit } from "@taquito/taquito";
+import { useRouter } from 'next/router';
 
-export default function Navbar(){
+export default function Navbar() {
+    const router = useRouter();
+
+    const createPool = () => {
+        console.log('createPool: ')
+        router.push('/pools')
+    }
     const connect = async () => {
 
 
@@ -48,47 +55,45 @@ export default function Navbar(){
 
     }
 
-    return(
+    return (
         <section className={styles.navbar}>
             <div className="desktop-navbar-wrapper navbar-wrapper">
                 <div className="navbar-contents left">
 
-                        <div className="logo">
-                            <Link href={"/"}>
-                                <img src="/images/logo_blanc.png"/>
-                            </Link>
+                    <div className="logo">
+                        <Link href={"/"}>
+                            <img src="/images/logo_blanc.png" />
+                        </Link>
 
-                        </div>
+                    </div>
 
                     <div className="left-wrapper">
                         <Link href="/">
                             <div className="btn-home">
-                                <Thickbtn text = "Home" src="/images/home.png" />
+                                <Thickbtn text="Home" src="/images/home.png" />
                             </div>
                         </Link>
                         <Link href="/swap">
                             <div className="btn-swap">
-                                <Thickbtn text = "Swap" src="/images/swap.png" />
+                                <Thickbtn text="Swap" src="/images/swap.png" />
                             </div>
                         </Link>
                     </div>
                 </div>
 
                 <div className="navbar-contents right">
-                    <img className="settings" src="/images/settings.png" alt="settings"/>
+                    <img className="settings" src="/images/settings.png" alt="settings" />
                     <div className="balance">
                         <Link href="/" target="_blank" className="balance-link">
-                           $ 0.33
+                            $ 0.33
                         </Link>
                     </div>
                     <div className="right-wrapper">
                         <div className="btn-pool">
-                            <Link href="/pools">
-                                <Pinkbtn text = "Create Pool" type="withoutBorder"/>
-                            </Link>
+                            <Pinkbtn text="Create Pool" type="withoutBorder" onClick={createPool} />
                         </div>
                         <div className="btn-wallet">
-                            <Pinkbtn text = "Connect Wallet" src="/images/home.png" type="withoutBorder" onClick={connect}/>
+                            <Pinkbtn text="Connect Wallet" src="/images/home.png" type="withoutBorder" onClick={connect} />
                         </div>
                     </div>
                 </div>
@@ -98,15 +103,15 @@ export default function Navbar(){
 
                 <div className="mobile-wrapper">
                     <div className="burger">
-                        <img src="/images/burger.png"/>
+                        <img src="/images/burger.png" />
                     </div>
                     <div className="logo">
-                        <img src="/images/logo_noir.png"/>
+                        <img src="/images/logo_noir.png" />
                     </div>
                 </div>
 
                 <div className="btn-wallet">
-                    <Pinkbtn text = "Connect Wallet" type="withoutBorder" style={{height: "20px"}}/>
+                    <Pinkbtn text="Connect Wallet" type="withoutBorder" style={{ height: "20px" }} onClick={connect} />
                 </div>
                 <div className="mobile-navbar-container">
 

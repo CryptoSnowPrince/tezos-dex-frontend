@@ -3,7 +3,7 @@ import { isMobile } from "react-device-detect";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Column } from "react-table";
-import { POOL_TYPE } from "../../../pages/pools";
+import { POOL_TYPE } from "../../../pages/poolsOld";
 import { IAllPoolsData, IAllPoolsDataResponse } from "../../api/pools/types";
 import { usePoolsTableFilter } from "../../hooks/usePoolsTableFilter";
 import { usePoolsTableSearch } from "../../hooks/usePoolsTableSearch";

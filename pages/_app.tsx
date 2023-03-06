@@ -8,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Meta } from "../src/components/Meta";
 import { store } from "../src/redux/index";
 import "../styles/globals.css";
+import "../styles/globals.scss";
 import "@rainbow-me/rainbowkit/styles.css";
 import Script from "next/script";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";

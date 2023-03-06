@@ -2,7 +2,7 @@ import { BigNumber } from "bignumber.js";
 import Image from "next/image";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { POOL_TYPE } from "../../../pages/pools";
+import { POOL_TYPE } from "../../../pages/poolsOld";
 import { getPnlpOutputEstimate, getPoolShareForPnlp } from "../../api/liquidity";
 import { ELiquidityProcess } from "../../api/liquidity/types";
 import { getDepositedAmounts, getRewards } from "../../api/rewards";

@@ -4,27 +4,27 @@ import * as React from "react";
 export function Meta() {
   return (
     <Head>
-      <title>Plenty | Decentralized trading on Tezos</title>
+      <title>Kodex | Decentralized trading on Tezos</title>
       <meta
-        content="Plenty is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos."
+        content="Kodex is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos."
         name="description"
       />
-      <meta content="Plenty | Decentralized trading on Tezos" property="og:title" />
+      <meta content="Kodex | Decentralized trading on Tezos" property="og:title" />
       <meta
-        content="Plenty is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos."
+        content="Kodex is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos."
         property="og:description"
       />
       <meta
-        content="https://uploads-ssl.webflow.com/6307b856943c0f1358714dab/6324ce5512dd9d566cce53d1_OG-plenty.network_V2.png"
+        content="https://uploads-ssl.webflow.com/6307b856943c0f1358714dab/6324ce5512dd9d566cce53d1_OG-kodex.network_V2.png"
         property="og:image"
       />
-      <meta content="Plenty | Decentralized trading on Tezos" property="twitter:title" />
+      <meta content="Kodex | Decentralized trading on Tezos" property="twitter:title" />
       <meta
-        content="Plenty is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos."
+        content="Kodex is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos."
         property="twitter:description"
       />
       <meta
-        content="https://uploads-ssl.webflow.com/6307b856943c0f1358714dab/6324ce5512dd9d566cce53d1_OG-plenty.network_V2.png"
+        content="https://uploads-ssl.webflow.com/6307b856943c0f1358714dab/6324ce5512dd9d566cce53d1_OG-kodex.network_V2.png"
         property="twitter:image"
       />
       <meta property="og:type" content="website" />

@@ -48,7 +48,7 @@ function ConfirmLocking(props: IConfirmLockingProps) {
           <div className="text-text-250 font-subtitle1 md:font-subtitle3 px-3 md:px-5">
             You will receive a veNFT with a voting power of{" "}
           </div>
-          <div className="ml-auto font-title2 text-primary-500 px-3 md:px-5">
+          <div className="ml-auto font-title2 text-primary-white px-3 md:px-5">
             {props.votingPower.toFixed(2)}
           </div>
         </div>
@@ -99,9 +99,9 @@ function ConfirmLocking(props: IConfirmLockingProps) {
               <span className="text-white ml-1 font-subtitle2 block">{dateFormat} UTC</span>
             </div>
           </span>
-          <span className="ml-auto flex rounded-lg bg-primary-500/[0.2] h-[32px] items-center px-3">
+          <span className="ml-auto flex rounded-lg bg-primary-red/[0.2] h-[32px] items-center px-3">
             <Image alt={"alt"} src={lockPurple} />
-            <span className="font-subtitle2 text-primary-500 ml-1">{props.endDate}</span>
+            <span className="font-subtitle2 text-primary-white ml-1">{props.endDate}</span>
           </span>
         </div>
       </div>

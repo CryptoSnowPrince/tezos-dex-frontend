@@ -379,7 +379,7 @@ function AddBribes(props: IAddBribes) {
                           <input
                             type="text"
                             className={clsx(
-                              "text-primary-500 inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
+                              "text-primary-white inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
                             )}
                             placeholder="--"
                             disabled
@@ -392,7 +392,7 @@ function AddBribes(props: IAddBribes) {
                   <div className="flex -mt-[12px]">
                     <div className="text-left cursor-pointer" onClick={onClickAmount}>
                       <span className="text-text-600 font-body3">Balance:</span>{" "}
-                      <span className="font-body4 text-primary-500 cursor-pointer">
+                      <span className="font-body4 text-primary-white cursor-pointer">
                         {Number(props.allBalance[props.bribeToken.name]?.balance) >= 0 ? (
                           <ToolTip
                             message={props.allBalance[props.bribeToken.name]?.balance.toString()}
@@ -505,7 +505,7 @@ function AddBribes(props: IAddBribes) {
       <TokenModal
         tokens={tokensListConfig.filter((e: any) => {
           return (
-            e.name.toLowerCase() !== MigrateToken.PLENTY.toLowerCase() &&
+            e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
             e.name.toLowerCase() !== MigrateToken.WRAP.toLowerCase()
           );
         })}

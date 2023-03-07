@@ -83,7 +83,7 @@ function RemoveLiquidity(props: IRemoveLiquidityProps) {
             className={clsx(
               "cursor-pointer rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
               props.burnAmount === 0.25 * Number(props.pnlpBalance) &&
-                "border-primary-500 bg-primary-500/[0.20]"
+                "border-primary-500 bg-primary-red/[0.20]"
             )}
             {...(!walletAddress || Number(props.pnlpBalance) === 0
               ? {}
@@ -95,7 +95,7 @@ function RemoveLiquidity(props: IRemoveLiquidityProps) {
             className={clsx(
               "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
               props.burnAmount === 0.5 * Number(props.pnlpBalance) &&
-                "border-primary-500 bg-primary-500/[0.20]"
+                "border-primary-500 bg-primary-red/[0.20]"
             )}
             {...(!walletAddress || Number(props.pnlpBalance) === 0
               ? {}
@@ -107,7 +107,7 @@ function RemoveLiquidity(props: IRemoveLiquidityProps) {
             className={clsx(
               "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
               props.burnAmount === 0.75 * Number(props.pnlpBalance) &&
-                "border-primary-500 bg-primary-500/[0.20]"
+                "border-primary-500 bg-primary-red/[0.20]"
             )}
             {...(!walletAddress || Number(props.pnlpBalance) === 0
               ? {}
@@ -147,7 +147,7 @@ function RemoveLiquidity(props: IRemoveLiquidityProps) {
               <Image alt={"alt"} src={wallet} width={"32px"} height={"32px"} />
             </div>
             <div
-              className="ml-1 text-primary-500 font-body2 cursor-pointer"
+              className="ml-1 text-primary-white font-body2 cursor-pointer"
               onClick={onClickAmount}
             >
               {nFormatterWithLesserNumber(new BigNumber(props.pnlpBalance))} PNLP

@@ -1,14 +1,14 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 
 const siteData = {
-  title: "plenty network",
-  url: "https://ghostnet.plenty.network/",
+  title: "kodex finance",
+  url: "https://ghostnet.kodex.finance/",
   description:
-    "Plenty is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos.",
+    "Kodex is a decentralized exchange on the Tezos blockchain that allows users to trade and earn additional income through voting, staking, and providing liquidity. The platform offers both stable and volatile liquidity pools and a bridge from Ethereum and Polygon to Tezos.",
 };
 const SeoStructuredData = {
   "@context": "https://schema.org/",
-  "@type": "plenty.network",
+  "@type": "kodex.finance",
   name: siteData.title,
   description: siteData.description,
   isAccessibleForFree: true,

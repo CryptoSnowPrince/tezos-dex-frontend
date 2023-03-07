@@ -566,7 +566,7 @@ export function NewPool(props: IManageLiquidityProps) {
       <TokenModalPool
         tokens={tokensListConfig.filter((e: any) => {
           return (
-            e.name.toLowerCase() !== MigrateToken.PLENTY.toLowerCase() &&
+            e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
             // e.name.toLowerCase() !== "XTZ".toLowerCase() &&
             e.name.toLowerCase() !== MigrateToken.WRAP.toLowerCase()
           );

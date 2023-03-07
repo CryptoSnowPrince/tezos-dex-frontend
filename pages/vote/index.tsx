@@ -593,7 +593,7 @@ export default function Vote() {
                               totalVotingPower !== 0 &&
                               totalVotingPower === 100 &&
                               Number(selectedDropDown.votingPower) > 0
-                              ? "cursor-pointer bg-primary-500 hover:bg-primary-400 text-black font-subtitle6"
+                              ? "cursor-pointer bg-primary-red hover:bg-primary-400 text-black font-subtitle6"
                               : "cursor-not-allowed bg-card-700 text-text-400 font-subtitle4"
                           )}
                           onClick={() =>
@@ -635,7 +635,7 @@ export default function Vote() {
                               : false) &&
                             totalVotingPower === 100 &&
                             Number(selectedDropDown.votingPower) > 0
-                            ? "cursor-pointer bg-primary-500 hover:bg-primary-400 text-black font-subtitle6"
+                            ? "cursor-pointer bg-primary-red hover:bg-primary-400 text-black font-subtitle6"
                             : "cursor-not-allowed bg-card-700 text-text-400 font-subtitle4"
                         )}
                         onClick={() =>
@@ -762,7 +762,7 @@ export default function Vote() {
                           totalVotingPower !== 0 &&
                           totalVotingPower === 100 &&
                           Number(selectedDropDown.votingPower) > 0
-                          ? "cursor-pointer bg-primary-500 hover:bg-primary-400 text-black font-subtitle6"
+                          ? "cursor-pointer bg-primary-red hover:bg-primary-400 text-black font-subtitle6"
                           : "cursor-not-allowed bg-card-700 text-text-400 font-subtitle4"
                       )}
                       onClick={() =>
@@ -803,7 +803,7 @@ export default function Vote() {
                           : false) &&
                         totalVotingPower === 100 &&
                         Number(selectedDropDown.votingPower) > 0
-                        ? "cursor-pointer bg-primary-500 hover:bg-primary-400 text-black font-subtitle6"
+                        ? "cursor-pointer bg-primary-red hover:bg-primary-400 text-black font-subtitle6"
                         : "cursor-not-allowed bg-card-700 text-text-400 font-subtitle4"
                     )}
                     onClick={() =>

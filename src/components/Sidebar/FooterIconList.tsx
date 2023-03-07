@@ -58,7 +58,7 @@ export function FooterInfoIcon(props: IFooterInfoIconProps) {
         </a>
       </li>
       <li className="cursor-pointer">
-        <a href="https://medium.com/plenty-defi" target="_blank" rel="noreferrer">
+        <a href="https://medium.com/kodex-defi" target="_blank" rel="noreferrer">
           <svg
             width="32"
             className="footerInteraction"
@@ -84,7 +84,7 @@ export function FooterInfoIcon(props: IFooterInfoIconProps) {
         </a>
       </li>
       <li className="cursor-pointer">
-        <a href="https://github.com/Plenty-network" target="_blank" rel="noreferrer">
+        <a href="https://github.com/Kodex" target="_blank" rel="noreferrer">
           <svg
             width="32"
             className="footerInteraction"

@@ -254,7 +254,7 @@ function CreateLock(props: ICreateLockProps) {
                   position={Position.top}
                   message={fromExponential(props.plyBalance?.toString())}
                 >
-                  <div className="cursor-pointer ml-1 text-primary-500 font-body2">
+                  <div className="cursor-pointer ml-1 text-primary-white font-body2">
                     {Number(props.plyBalance) > 0 ? props.plyBalance.toFixed(2) : "0"} PLY
                   </div>
                 </ToolTip>
@@ -267,7 +267,7 @@ function CreateLock(props: ICreateLockProps) {
                 "cursor-pointer rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[32px] px-[13px] items-center flex",
                 props.plyInput !== "" &&
                   Number(props.plyInput) === 0.25 * Number(props.plyBalance) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.plyBalance) === 0
                 ? {}
@@ -280,7 +280,7 @@ function CreateLock(props: ICreateLockProps) {
                 "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[32px] px-[13px] items-center flex",
                 props.plyInput !== "" &&
                   Number(props.plyInput) === 0.5 * Number(props.plyBalance) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.plyBalance) === 0
                 ? {}
@@ -293,7 +293,7 @@ function CreateLock(props: ICreateLockProps) {
                 "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[32px] px-[13px] items-center flex",
                 props.plyInput !== "" &&
                   Number(props.plyInput) === 0.75 * Number(props.plyBalance) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.plyBalance) === 0
                 ? {}
@@ -333,7 +333,7 @@ function CreateLock(props: ICreateLockProps) {
                 className={clsx(
                   "rounded-[32px] cursor-pointer border px-[14px] md:px-[18px] md:px-[25px] flex items-center h-[44px]  font-caption1-small md:font-subtitle3",
                   props.lockingEndData.selected === WEEK
-                    ? "bg-primary-500/[0.2] border-primary-500 text-white"
+                    ? "bg-primary-red/[0.2] border-primary-500 text-white"
                     : "bg-muted-200/[0.1] border-border-200 text-text-500"
                 )}
                 onClick={() => handleDateSelection(WEEK, undefined)}
@@ -344,7 +344,7 @@ function CreateLock(props: ICreateLockProps) {
                 className={clsx(
                   "rounded-[32px] bg-muted-200/[0.1] border border-border-200 px-[14px] md:px-[18px] md:px-[25px] flex items-center h-[44px]  font-caption1-small md:font-subtitle3 cursor-pointer",
                   props.lockingEndData.selected === 4 * WEEK
-                    ? "bg-primary-500/[0.2] border-primary-500 text-white"
+                    ? "bg-primary-red/[0.2] border-primary-500 text-white"
                     : "bg-muted-200/[0.1] border-border-200 text-text-500"
                 )}
                 onClick={() => handleDateSelection(4 * WEEK, undefined)}
@@ -355,7 +355,7 @@ function CreateLock(props: ICreateLockProps) {
                 className={clsx(
                   "rounded-[32px] bg-muted-200/[0.1] border border-border-200 px-[14px] md:px-[18px] md:px-[25px] flex items-center h-[44px]  font-caption1-small md:font-subtitle3 cursor-pointer",
                   props.lockingEndData.selected === YEAR
-                    ? "bg-primary-500/[0.2] border-primary-500 text-white"
+                    ? "bg-primary-red/[0.2] border-primary-500 text-white"
                     : "bg-muted-200/[0.1] border-border-200 text-text-500"
                 )}
                 onClick={() => handleDateSelection(YEAR, undefined)}
@@ -377,7 +377,7 @@ function CreateLock(props: ICreateLockProps) {
                     className={clsx(
                       "rounded-[32px] cursor-pointer bg-muted-200/[0.1] border border-border-200 px-[14px] md:px-[18px] md:px-[25px] flex items-center h-[44px]  font-caption1-small md:font-subtitle3 cursor-pointer",
                       props.lockingEndData.selected === MAX_TIME
-                        ? "bg-primary-500/[0.2] border-primary-500 text-white"
+                        ? "bg-primary-red/[0.2] border-primary-500 text-white"
                         : "bg-muted-200/[0.1] border-border-200 text-text-500"
                     )}
                     onClick={() => handleDateSelection(MAX_TIME, undefined)}
@@ -392,7 +392,7 @@ function CreateLock(props: ICreateLockProps) {
               <div className="text-text-250 w-[155px] md:w-auto font-mobile-f1020 md:font-subtitle3">
                 You will receive a veNFT with a voting power of{" "}
               </div>
-              <div className="ml-auto px-3 h-[38px] flex items-center text-primary-500 bg-primary-500/[0.1] rounded-[30px]">
+              <div className="ml-auto px-3 h-[38px] flex items-center text-primary-white bg-primary-red rounded-[30px]">
                 ~ {isNaN(votingPower) ? "0.00" : votingPower.toFixed(2)}
               </div>
             </div>

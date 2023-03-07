@@ -2,7 +2,7 @@ import { IConfig, TokenStandard } from './types';
 import { NetworkType } from "@airgap/beacon-types";
 
 const Config: IConfig = {
-  NAME: "Plenty Network",
+  NAME: "Kodex",
   API: {
     url: "https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false",
     API_KEY: "4824FE50-DB6E-4316-B099-72283C964891",
@@ -50,25 +50,25 @@ const Config: IConfig = {
   },
 
   VE_INDEXER: {
-    mainnet: "https://ply-indexer.mainnet.plenty.network/v1/",
-    testnet: "https://ply-indexer.ghostnet.plenty.network/v1/",
+    mainnet: "https://ply-indexer.mainnet.kodex.finance/v1/",
+    testnet: "https://ply-indexer.ghostnet.kodex.finance/v1/",
   },
   ANALYTICS_INDEXER: {
-    mainnet: "https://api.analytics.plenty.network/",
-    testnet: "http://3.111.147.231:3000/",//"https://analytics-indexer.ghostnet.plenty.network/",
+    mainnet: "https://api.analytics.kodex.finance/",
+    testnet: "http://3.111.147.231:3000/",//"https://analytics-indexer.ghostnet.kodex.finance/",
   },
 
   FAUCET: "KT1RZREo5PFKCGSgtfoMUzXqisT6mFQ1qxhH",
 
   AIRDROP_SERVER: {
-    mainnet: "https://airdrop.plenty.network/",
-    testnet: "https://airdrop.plenty.network/",
+    mainnet: "https://airdrop.kodex.finance/",
+    testnet: "https://airdrop.kodex.finance/",
   },
 
   AIRDROP_ETH_MESSAGE_PREFIX: "Confirming Tezos address for claiming airdrop: ",
 
   EXCHANGE_TOKENS: {
-    PLENTY: {
+    KODEX: {
       exchangeRate: 5.714,
       tokenDecimals: 18,
       contractEnumValue: 0,
@@ -89,12 +89,12 @@ const Config: IConfig = {
 
   CONFIG_LINKS: {
     testnet: {
-      POOL: "https://ghostnet.data-config.plenty.network/pools",
-      TOKEN: "https://ghostnet.data-config.plenty.network/tokens",
+      POOL: "https://ghostnet.data-config.kodex.finance/pools",
+      TOKEN: "https://ghostnet.data-config.kodex.finance/tokens",
     },
     mainnet: {
-      POOL: "https://config.mainnet.plenty.network/pools",
-      TOKEN: "https://config.mainnet.plenty.network/tokens",
+      POOL: "https://config.mainnet.kodex.finance/pools",
+      TOKEN: "https://config.mainnet.kodex.finance/tokens",
     },
   },
 
@@ -110,7 +110,7 @@ const Config: IConfig = {
   SERVERLESS_REQUEST: {
     mainnet: {
       "HOME-PAGE-TVL": "/tvl",
-      "PLENTY-STATS": "/homestats",
+      "KODEX-STATS": "/homestats",
     },
     testnet: {},
   },

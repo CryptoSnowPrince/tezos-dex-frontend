@@ -205,7 +205,7 @@ export function MoreSubMenuList(props: ISubMenuListProps) {
           name="Bridge"
           className="px-9 justify-between"
           iconName="bridge"
-          pathName={"https://bridge.plenty.network/"}
+          pathName={"https://bridge.kodex.finance/"}
           isBottomMenu
           isHrefIcon={true}
           openNewPage={true}

@@ -386,7 +386,7 @@ function TezosChain(props: ITezosChain) {
           return (
             <button
               className={clsx(
-                "bg-primary-500 h-13 text-black w-full rounded-2xl font-title3-bold cursor-pointer"
+                "bg-primary-red h-13 text-black w-full rounded-2xl font-title3-bold cursor-pointer"
               )}
               onClick={handleAirdropOperation}
             >
@@ -402,7 +402,7 @@ function TezosChain(props: ITezosChain) {
           return (
             <button
               className={clsx(
-                "bg-primary-500 text-black  h-13  w-full rounded-2xl font-title3-bold cursor-pointer"
+                "bg-primary-red text-black  h-13  w-full rounded-2xl font-title3-bold cursor-pointer"
               )}
               onClick={handleAirdropOperation}
             >
@@ -571,7 +571,7 @@ function TezosChain(props: ITezosChain) {
         </div>
 
         <div
-          className="ml-auto bg-primary-500/[0.1] text-primary-500 font-caption2 w-[180px]  cursor-pointer md:h-[42px] rounded-lg  flex items-center justify-center px-2"
+          className="ml-auto bg-primary-red text-primary-white font-caption2 w-[180px]  cursor-pointer md:h-[42px] rounded-lg  flex items-center justify-center px-2"
           onClick={() => setShowCreateLockModal(true)}
         >
           {" "}

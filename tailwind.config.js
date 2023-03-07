@@ -7,7 +7,7 @@ module.exports = {
     },
     colors: {
       primary: {
-        500: "#ffffff35",
+        500: "#FFFFFF35",
         400: "#A76CFF",
         401: "#5710C1",
         600: "#000b11",
@@ -28,6 +28,7 @@ module.exports = {
         257: "#271740",
         red: "#E9204F",
         blue: "#0d61ff",
+        white: "#FFFFFF"
       },
       shimmer: {
         100: "#211336",

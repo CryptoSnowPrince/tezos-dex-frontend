@@ -13,7 +13,7 @@ export interface ITabProps {
   className?: string;
 }
 
-const active = "border-b border-b-primary-500 text-primary-500";
+const active = "border-b border-b-primary-500 text-primary-white";
 
 export function Header(props: ITabProps) {
   const { isActive, text, onClick } = props;

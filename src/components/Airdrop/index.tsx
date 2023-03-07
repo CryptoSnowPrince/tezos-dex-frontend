@@ -23,15 +23,15 @@ function MainAirdrop(props: IMainAirdropProps) {
         <div className="mt-4 rounded-xl bg-muted-600 pl-4 pr-5 flex items-center h-[40px]">
           <p className="text-text-500 font-body2">
             {isMobile
-              ? "Plenty airdrops eligibility criteria"
+              ? "Kodex airdrops eligibility criteria"
               : "An overview of what went behind the scenes for airdrop eligibility criteria"}
           </p>
-          <p className="ml-auto text-primary-500 font-caption2">
+          <p className="ml-auto text-primary-white font-caption2">
             <a
-              href="https://medium.com/plenty-defi/ply-public-airdrop-criteria-9bbf778a74ac"
+              href="https://medium.com/kodex-defi/ply-public-airdrop-criteria-9bbf778a74ac"
               target="_blank"
               rel="noreferrer"
-              className="text-primary-500 font-caption2"
+              className="text-primary-white font-caption2"
             >
               Learn more
             </a>
@@ -42,12 +42,12 @@ function MainAirdrop(props: IMainAirdropProps) {
       </div>
       {/* <div className="font-body2 text-text-250 mt-[10px] mx-2 md:mx-auto md:w-[568px] text-center mb-5">
         Know more about Airdrop and its eligibility{" "}
-        <span className="text-primary-500">
+        <span className="text-primary-white">
           <a
-            href="https://medium.com/plenty-defi/ply-public-airdrop-criteria-9bbf778a74ac"
+            href="https://medium.com/kodex-defi/ply-public-airdrop-criteria-9bbf778a74ac"
             target="_blank"
             rel="noreferrer"
-            className="text-primary-500 "
+            className="text-primary-white "
           >
             Learn more
           </a>

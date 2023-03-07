@@ -111,7 +111,7 @@ export function ConnectWalletBtnMobile(props: IConnectWalletBtnMobileProps) {
                   </div>
                 </div>
                 <div className="font-body1 text-white mt-1 ">
-                  Use your card or Apple Pay to purchase tez on Plenty, powered by Wert.
+                  Use your card or Apple Pay to purchase tez on Kodex, powered by Wert.
                 </div>
               </div>
             </div>
@@ -185,7 +185,7 @@ export function ConnectWalletBtnMobile(props: IConnectWalletBtnMobileProps) {
     <div className="flex flex-col justify-center">
       <button
         onClick={() => connectTempleWallet()}
-        className="bg-primary-500/5 px-[12px] py-[6.5px] hover:bg-opacity-95 rounded-md border text-primary-500 border-primary-500/100"
+        className="bg-primary-red/5 px-[12px] py-[6.5px] hover:bg-opacity-95 rounded-md border text-primary-white border-primary-500/100"
       >
         Connect
       </button>

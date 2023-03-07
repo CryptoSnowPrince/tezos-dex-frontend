@@ -179,7 +179,7 @@ function ClaimVested(props: IMigrateProps) {
             className={clsx(
               "h-[50px] cursor-pointer  flex items-center justify-center w-full rounded-xl  font-title3-bold ",
               props.vestedData.isClaimable
-                ? "bg-primary-500 text-black"
+                ? "bg-primary-red text-black"
                 : "bg-blue-200 text-blue-300"
             )}
             onClick={props.vestedData.isClaimable ? () => setConfirmPLYPopup(true) : () => {}}
@@ -217,10 +217,10 @@ function ClaimVested(props: IMigrateProps) {
         <div className="flex items-center flex-row px-5 lg:px-9 relative">
           <div className="font-title2">Claim Vested PLY</div>
         </div>
-        <div className=" pt-[41px] mt-[16px] pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-500/[0.04]">
+        <div className=" pt-[41px] mt-[16px] pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-red/[0.04]">
           <div
             className={clsx(
-              "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-500/[0.02]"
+              "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-red/[0.02]"
             )}
           >
             <div className=" flex ">
@@ -238,7 +238,7 @@ function ClaimVested(props: IMigrateProps) {
                   <input
                     type="text"
                     className={clsx(
-                      "text-primary-500  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-500 "
+                      "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
                     )}
                     placeholder="0.0"
                     value={props.vestedData?.claimableAmount?.toFixed(6)}
@@ -288,7 +288,7 @@ function ClaimVested(props: IMigrateProps) {
         </div>
       </div>
       {/* <div className="font-body2 text-text-250 mt-4 mx-2 md:mx-auto md:w-[568px] text-center">
-        Tip: Convert PLENTY/WRAP to PLY. By locking PLY, you&apos;re earning fees and bribe rewards
+        Tip: Convert KODEX/WRAP to PLY. By locking PLY, you&apos;re earning fees and bribe rewards
         from your veNFT, plus you may boost your gauge rewards.
       </div> */}
 

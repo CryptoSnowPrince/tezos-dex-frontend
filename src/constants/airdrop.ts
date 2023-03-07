@@ -39,14 +39,14 @@ export const AIRDROP_MISSIONS_FOR_DISPLAY: {
 }[] = [
   {
     mission: Mission.ELIGIBLE,
-    displayText: "Tweet about Plenty & airdrop",
+    displayText: "Tweet about Kodex & airdrop",
     mobileDisplayText: "Tweet about the airdrop",
     href: "",
   },
   {
     mission: Mission.TRADE,
-    displayText: "Make a trade on Plenty",
-    mobileDisplayText: "Make a trade on Plenty",
+    displayText: "Make a trade on Kodex",
+    mobileDisplayText: "Make a trade on Kodex",
     href: "/swap",
   },
   {
@@ -76,6 +76,6 @@ export const AIRDROP_MISSIONS_FOR_DISPLAY: {
   },
 ];
 
-export const AIRDROP_TWEET_TEXT: string = `Just participated in the Plenty airdrop on Tezos!
+export const AIRDROP_TWEET_TEXT: string = `Just participated in the Kodex airdrop on Tezos!
 Excited to join the #DeFi revolution with @plenty_network, the leading #DEX/#AMM on the #Tezos blockchain.\n\n
-Check if you are eligible on https://app.plenty.network/airdrop 🪂`;
+Check if you are eligible on https://kodex.finance/airdrop 🪂`;

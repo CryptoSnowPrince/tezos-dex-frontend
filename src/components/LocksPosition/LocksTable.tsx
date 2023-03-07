@@ -330,7 +330,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
       //isstaked
       return (
         <div
-          className="bg-primary-500/10 md:w-[151px] w-[78px] cursor-pointer  text-primary-500 hover:opacity-90  md:font-subtitle4 font-f11-500  rounded-lg flex items-center h-[40px] justify-center"
+          className="bg-primary-red/10 md:w-[151px] w-[78px] cursor-pointer  text-primary-white hover:opacity-90  md:font-subtitle4 font-f11-500  rounded-lg flex items-center h-[40px] justify-center"
           onClick={() => {
             props.setIsManageLock(true);
             props.setManageData(props.manageData);
@@ -342,7 +342,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
     } else if (false) {
       return (
         <div
-          className="bg-primary-500 md:w-[151px] w-[78px] cursor-pointer  md:font-subtitle4 font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+          className="bg-primary-red md:w-[151px] w-[78px] cursor-pointer  md:font-subtitle4 font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
           onClick={() => {}}
         >
           Stake
@@ -357,7 +357,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
       if (props.locksState === ELocksState.CONSUMED) {
         return (
           <div
-            className="bg-primary-500/10 w-[59px] cursor-pointer  text-primary-500 hover:opacity-90  font-subtitle4 rounded-lg flex items-center h-[40px] justify-center"
+            className="bg-primary-red/10 w-[59px] cursor-pointer  text-primary-white hover:opacity-90  font-subtitle4 rounded-lg flex items-center h-[40px] justify-center"
             onClick={() => {}}
           >
             <span className="relative top-0.5">
@@ -374,7 +374,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
       } else if (props.locksState === ELocksState.AVAILABLE) {
         return (
           <div
-            className="bg-primary-500 w-[59px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+            className="bg-primary-red w-[59px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
             onClick={() => {
               var flag = false;
 
@@ -422,7 +422,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
       } else if (props.locksState === ELocksState.EXPIRED) {
         return (
           <div
-            className="bg-primary-500 w-[59px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+            className="bg-primary-red w-[59px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
             onClick={() => {
               props.setWithdraw(true);
               props.setManageData(props.manageData);
@@ -437,7 +437,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
         //isstaked
         return (
           <div
-            className="bg-primary-500 w-[59px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+            className="bg-primary-red w-[59px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
             onClick={() => {}}
           >
             <span className="relative top-0.5">
@@ -457,7 +457,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
         //isstaked
         return (
           <div
-            className="bg-primary-500/10 w-[151px] cursor-pointer  text-primary-500 hover:opacity-90  font-subtitle4 rounded-lg flex items-center h-[40px] justify-center"
+            className="bg-primary-red/10 w-[151px] cursor-pointer  text-primary-white hover:opacity-90  font-subtitle4 rounded-lg flex items-center h-[40px] justify-center"
             onClick={() => {}}
           >
             Voted{" "}
@@ -472,7 +472,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
       } else if (props.locksState === ELocksState.AVAILABLE) {
         return (
           <div
-            className="bg-primary-500 w-[151px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+            className="bg-primary-red w-[151px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
             onClick={() => {
               var flag = false;
 
@@ -518,7 +518,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
       } else if (props.locksState === ELocksState.EXPIRED) {
         return (
           <div
-            className="bg-primary-500 w-[151px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+            className="bg-primary-red w-[151px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
             onClick={() => {
               props.setWithdraw(true);
               props.setManageData(props.manageData);
@@ -531,7 +531,7 @@ export function LocksTablePosition(props: ILocksTablePosition) {
         //isstaked
         return (
           <div
-            className="bg-primary-500/10 w-[151px] cursor-pointer  text-primary-500 hover:opacity-90  font-subtitle4 rounded-lg flex items-center h-[40px] justify-center"
+            className="bg-primary-red/10 w-[151px] cursor-pointer  text-primary-white hover:opacity-90  font-subtitle4 rounded-lg flex items-center h-[40px] justify-center"
             onClick={() => {}}
           >
             Vote{" "}

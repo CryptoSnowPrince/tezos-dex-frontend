@@ -62,7 +62,7 @@ function MigrateMain(props: any) {
   const initialLpPriceCall = useRef<boolean>(true);
 
   const tokenIn = { symbol: "WRAP" };
-  const tokenOut = { symbol: "PLENTY" };
+  const tokenOut = { symbol: "KODEX" };
   const [userBalances, setUserBalances] = useState<{ [key: string]: string }>({});
   useEffect(() => {
     const updateBalance = async () => {
@@ -260,7 +260,7 @@ function MigrateMain(props: any) {
   useEffect(() => {
     if (userAddress) {
       if (
-        (Number(userBalances[MigrateToken.PLENTY]) !== 0 ||
+        (Number(userBalances[MigrateToken.KODEX]) !== 0 ||
           Number(userBalances[MigrateToken.WRAP]) !== 0) &&
         vestedData.claimableAmount?.toNumber() === 0
       ) {
@@ -268,7 +268,7 @@ function MigrateMain(props: any) {
         setIsClaimVested(false);
         setShowTopBar(false);
       } else if (
-        (Number(userBalances[MigrateToken.PLENTY]) !== 0 ||
+        (Number(userBalances[MigrateToken.KODEX]) !== 0 ||
           Number(userBalances[MigrateToken.WRAP]) !== 0) &&
         vestedData.claimableAmount?.toNumber() !== 0
       ) {
@@ -276,7 +276,7 @@ function MigrateMain(props: any) {
         setShowMigrateSwap(true);
         setIsClaimVested(false);
       } else if (
-        Number(userBalances[MigrateToken.PLENTY]) === 0 &&
+        Number(userBalances[MigrateToken.KODEX]) === 0 &&
         Number(userBalances[MigrateToken.WRAP]) === 0 &&
         vestedData.claimableAmount?.toNumber() !== 0
       ) {
@@ -284,7 +284,7 @@ function MigrateMain(props: any) {
         setShowTopBar(false);
         setShowMigrateSwap(false);
       } else if (
-        Number(userBalances[MigrateToken.PLENTY]) === 0 &&
+        Number(userBalances[MigrateToken.KODEX]) === 0 &&
         Number(userBalances[MigrateToken.WRAP]) === 0 &&
         vestedData.claimableAmount?.toNumber() === 0
       ) {
@@ -297,7 +297,7 @@ function MigrateMain(props: any) {
       setShowMigrateSwap(true);
     }
   }, [
-    userBalances[MigrateToken.PLENTY],
+    userBalances[MigrateToken.KODEX],
     userBalances[MigrateToken.WRAP],
     vestedData.claimableAmount,
     props.operationSuccesful,
@@ -323,7 +323,7 @@ function MigrateMain(props: any) {
                   isLoading={false}
                   vestedData={vestedData}
                   onClick={handleClaimClick}
-                  plentyBal={new BigNumber(userBalances[MigrateToken.PLENTY])}
+                  plentyBal={new BigNumber(userBalances[MigrateToken.KODEX])}
                   wrapBal={new BigNumber(userBalances[MigrateToken.WRAP])}
                 />
               )}
@@ -335,7 +335,7 @@ function MigrateMain(props: any) {
               isLoading={false}
               vestedData={vestedData}
               onClick={handleClaimClick}
-              plentyBal={new BigNumber(userBalances[MigrateToken.PLENTY])}
+              plentyBal={new BigNumber(userBalances[MigrateToken.KODEX])}
               wrapBal={new BigNumber(userBalances[MigrateToken.WRAP])}
             />
           )}

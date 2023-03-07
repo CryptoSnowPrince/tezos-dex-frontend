@@ -159,7 +159,7 @@ function ConfirmAddPool(props: IConfirmSwapProps) {
                     <Image alt={"alt"} src={ratesrefresh} onClick={(e) => convertRates(e)} />
                   </span>
                 </div>
-                <div className="ml-auto bg-primary-500/10 px-3  cursor-pointer  text-primary-500 hover:opacity-90  font-body2 rounded-lg flex items-center h-[28px] justify-center">
+                <div className="ml-auto bg-primary-red/10 px-3  cursor-pointer  text-primary-white hover:opacity-90  font-body2 rounded-lg flex items-center h-[28px] justify-center">
                   {props.pair}
                 </div>
               </>

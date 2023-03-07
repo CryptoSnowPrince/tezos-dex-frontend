@@ -9,8 +9,8 @@ import { store } from "../../redux";
 
 /**
  * Calculates the exchange amount and splits into claimable and vested
- * @param inputValue - User input value for Plenty / Wrap
- * @param token - PLENTY / WRAP
+ * @param inputValue - User input value for Kodex / Wrap
+ * @param token - KODEX / WRAP
  */
 export const getMigrateExchangeAmount = (
   inputValue: BigNumber,

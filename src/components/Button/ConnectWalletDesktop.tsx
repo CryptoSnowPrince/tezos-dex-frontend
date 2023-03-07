@@ -102,7 +102,7 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
               handleClick();
               setShowMenu((sow) => !sow);
             }}
-            className="flex flex-row justify-center items-center gap-2 bg-primary-500/10 py-2 px-4 hover:bg-opacity-95 rounded-2xl border border-primary-500/30"
+            className="flex flex-row justify-center items-center gap-2 bg-primary-red/10 py-2 px-4 hover:bg-opacity-95 rounded-2xl border border-primary-500/30"
           >
             <Image alt={"alt"} src={walletIcon} />
             <p
@@ -142,7 +142,7 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
                   </div>
                 </div>
                 <div className="font-body1 text-white mt-1 ">
-                  Use your card or Apple Pay to purchase tez on Plenty, powered by Wert.
+                  Use your card or Apple Pay to purchase tez on Kodex, powered by Wert.
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ export function ConnectWalletBtnDeskTop(props: IConnectWalletBtnDeskTopProps) {
       </div>
       {/* <button
         onClick={connectTempleWallet}
-        className="bg-primary-500/5 py-2 px-4 hover:bg-opacity-95 rounded-2xl border border-primary-500/100  text-f14 "
+        className="bg-primary-red/5 py-2 px-4 hover:bg-opacity-95 rounded-2xl border border-primary-500/100  text-f14 "
       >
         Connect wallet
       </button> */}

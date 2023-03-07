@@ -65,7 +65,7 @@ export function Flash(props: IInfoProps) {
         <div className="text-f14 font-semibold text-[#F3F2F3]">{props.trailingText}</div>
         {props.onClick && (
           <div className="flex gap-2.5 items-center mt-1 cursor-pointer" onClick={handleClick}>
-            <span className="text-f12 leading-4 text-primary-500 font-semibold ">
+            <span className="text-f12 leading-4 text-primary-white font-semibold ">
               {props.linkText}
             </span>
             <Image height={12} width={12} src={openInNewTab} />
@@ -78,7 +78,7 @@ export function Flash(props: IInfoProps) {
       >
         <Image height={24} width={24} src={epclose} />
       </div>
-      <div className="w-[359px] absolute bottom-0 h-[3px] bg-primary-500/10">
+      <div className="w-[359px] absolute bottom-0 h-[3px] bg-primary-red/10">
         <div className="bg-primary-401  h-[3px] " style={{ width: stateWidth + "px" }}></div>
       </div>
     </div>

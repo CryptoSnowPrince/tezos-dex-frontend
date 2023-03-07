@@ -314,7 +314,7 @@ export function PoolsTablePosition(props: IPoolsTablePosition) {
     if (props.isManage || !props.isGauge) {
       return (
         <div
-          className="bg-primary-500/10 md:w-[151px] w-[100px] cursor-pointer  text-primary-500 hover:opacity-90  font-subtitle3 rounded-lg flex items-center h-[40px] justify-center"
+          className="bg-primary-red/10 md:w-[151px] w-[100px] cursor-pointer  text-primary-white hover:opacity-90  font-subtitle3 rounded-lg flex items-center h-[40px] justify-center"
           onClick={() => {
             setShowLiquidityModal(true);
             dispatch(getTotalVotingPower());
@@ -345,7 +345,7 @@ export function PoolsTablePosition(props: IPoolsTablePosition) {
     } else {
       return (
         <div
-          className="bg-primary-500 md:w-[151px] w-[100px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
+          className="bg-primary-red md:w-[151px] w-[100px] cursor-pointer font-subtitle4 text-black hover:opacity-90  rounded-lg flex items-center justify-center h-[40px]"
           onClick={() => {
             setShowLiquidityModal(true);
             dispatch(getTotalVotingPower());

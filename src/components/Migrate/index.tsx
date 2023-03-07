@@ -126,7 +126,7 @@ function Migrate(props: IMigrateProps) {
       setFirstTokenAmount(input.toString().trim());
       const res = getMigrateExchangeAmount(
         new BigNumber(input),
-        tokenIn.name === "PLENTY" ? MigrateToken.PLENTY : MigrateToken.WRAP
+        tokenIn.name === "KODEX" ? MigrateToken.KODEX : MigrateToken.WRAP
       );
       setExchangeRes(res);
       setSecondTokenAmount(res.claimableAmount.decimalPlaces(6, 1).toString());
@@ -162,7 +162,7 @@ function Migrate(props: IMigrateProps) {
       new BigNumber(firstTokenAmount).decimalPlaces(4, 1).toString()
     );
     exchange(
-      tokenIn.name === "PLENTY" ? MigrateToken.PLENTY : MigrateToken.WRAP,
+      tokenIn.name === "KODEX" ? MigrateToken.KODEX : MigrateToken.WRAP,
       new BigNumber(firstTokenAmount),
       userAddress,
       transactionSubmitModal,
@@ -241,7 +241,7 @@ function Migrate(props: IMigrateProps) {
           </span>
           <span className="border-r border-text-250 h-[18px] w-px"></span>
           <span className="md:font-body4 font-body2">
-            1 PLENTY = {Config.EXCHANGE_TOKENS.PLENTY.exchangeRate} PLY
+            1 KODEX = {Config.EXCHANGE_TOKENS.KODEX.exchangeRate} PLY
           </span>
         </div>
       </div>
@@ -291,7 +291,7 @@ function Migrate(props: IMigrateProps) {
           <div className="flex -mt-[20px]">
             <div className="text-left cursor-pointer" onClick={onClickAmount}>
               <span className="text-text-600 font-body3">Balance:</span>{" "}
-              <span className="font-body4 cursor-pointer text-primary-500 ">
+              <span className="font-body4 cursor-pointer text-primary-white ">
                 {Number(props.allBalance[tokenIn.name]) >= 0 ? (
                   <ToolTip
                     message={fromExponential(props.allBalance[tokenIn.name].toString())}
@@ -322,10 +322,10 @@ function Migrate(props: IMigrateProps) {
           </div>
         )}
 
-        <div className=" pt-[24px] mt-[24px] pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-500/[0.04]">
+        <div className=" pt-[24px] mt-[24px] pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-red/[0.04]">
           <div
             className={clsx(
-              "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-500/[0.02]"
+              "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-red/[0.02]"
             )}
           >
             <div className=" flex ">
@@ -343,7 +343,7 @@ function Migrate(props: IMigrateProps) {
                   <input
                     type="text"
                     className={clsx(
-                      "text-primary-500  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-500 cursor-not-allowed"
+                      "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white cursor-not-allowed"
                     )}
                     disabled
                     placeholder="0.0"
@@ -356,8 +356,8 @@ function Migrate(props: IMigrateProps) {
               <div className="text-left flex">
                 <span className="font-body3 text-text-500">1 {tokenIn.name} =</span>
                 <span className="font-body4 text-text-250 ml-1">
-                  {tokenIn.name === "PLENTY"
-                    ? Config.EXCHANGE_TOKENS.PLENTY.exchangeRate
+                  {tokenIn.name === "KODEX"
+                    ? Config.EXCHANGE_TOKENS.KODEX.exchangeRate
                     : Config.EXCHANGE_TOKENS.WRAP.exchangeRate}{" "}
                   PLY
                 </span>
@@ -384,7 +384,7 @@ function Migrate(props: IMigrateProps) {
         </div>
       </div>
       {/* <div className="font-body2 text-text-250 mt-4 mx-2 md:mx-auto md:w-[568px] text-center mb-5">
-        Tip: Convert PLENTY/WRAP to PLY. By locking PLY, you&apos;re earning fees and bribe rewards
+        Tip: Convert KODEX/WRAP to PLY. By locking PLY, you&apos;re earning fees and bribe rewards
         from your veNFT, plus you may boost your gauge rewards.
       </div> */}
 

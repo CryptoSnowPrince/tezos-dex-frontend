@@ -28,7 +28,7 @@ const { chains, provider } = configureChains(defaultChains, [publicProvider()]);
 
 /* Configure wallets [currently using default wallets from RaibowKit] */
 const { connectors } = getDefaultWallets({
-  appName: "plenty.network",
+  appName: "kodex.finance",
   chains,
 });
 

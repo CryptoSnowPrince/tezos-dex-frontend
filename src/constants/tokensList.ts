@@ -4,7 +4,7 @@ import gif from "../assets/Tokens/gif-dao-token.png";
 import hDAO from "../assets/Tokens/hdao.png";
 import KALAM from "../assets/Tokens/kalam.png";
 import kusd from "../assets/Tokens/kusd.png";
-import plenty from "../assets/Tokens/plenty.png";
+import kodex from "../assets/Tokens/kodex.png";
 import QUIPU from "../assets/Tokens/quipu.png";
 import SMAK from "../assets/Tokens/smak-swap.png";
 import usdtz from "../assets/Tokens/usdtz.png";
@@ -207,8 +207,8 @@ export const tokensList = [
     address: "KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6",
   },
   {
-    name: "PLENTY",
-    image: plenty,
+    name: "KODEX",
+    image: kodex,
     new: false,
     chainType: "TEZOS",
     address: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
@@ -324,7 +324,7 @@ export const tokenIcons: { [token: string]: StaticImageData } = {
   CTEZ: ctez,
   CTez: ctez,
   ETHtz: ETHtz,
-  PLENTY: plenty,
+  KODEX: kodex,
   USDtz: usdtz,
   tzBTC: tzBTC,
   WRAP: WRAP,

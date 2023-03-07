@@ -1,4 +1,4 @@
-import plenty from "../assets/Tokens/plenty.png";
+import kodex from "../assets/Tokens/kodex.png";
 import WRAP from "../assets/Tokens/wrap.png";
 export const MigrateTokens = [
   {
@@ -10,8 +10,8 @@ export const MigrateTokens = [
   },
 
   {
-    name: "PLENTY",
-    image: plenty,
+    name: "KODEX",
+    image: kodex,
     new: false,
     chainType: "TEZOS",
     address: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",

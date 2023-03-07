@@ -29,7 +29,7 @@ function Steps(props: ISteps) {
         onClick={() => setIsDropDownActive(!isDropDownActive)}
       >
         {isDropDownActive ? (
-          <p className="bg-primary-500/[0.2] rounded-lg h-[28px] px-2 text-primary-500 font-subtitle1 flex items-center">
+          <p className="bg-primary-red/[0.2] rounded-lg h-[28px] px-2 text-primary-white font-subtitle1 flex items-center">
             {props.claimData.success
               ? props.hasTweeted
                 ? 6 - props.claimData.claimData.length
@@ -40,9 +40,9 @@ function Steps(props: ISteps) {
         ) : (
           <p className="">
             <span className="md:font-subtitle4 font-subtitle2  mr-1">
-              {isMobile ? "Tweet about the new..." : "Tweet about the new plenty.network"}{" "}
+              {isMobile ? "Tweet about the new..." : "Tweet about the new kodex.finance"}{" "}
             </span>
-            <span className="font-subtitle1 text-primary-500">
+            <span className="font-subtitle1 text-primary-white">
               +
               {props.claimData.success
                 ? props.hasTweeted

@@ -140,7 +140,7 @@ function TokenModal(props: ISwapModalProps) {
                       </div>
                     </div>
                     {/* {token.new && (
-                      <div className="ml-auto mt-[6px] bg-primary-500/[0.2] py-1 px-1.5 h-[26px] text-center text-primary-500 font-body2 rounded-xl">
+                      <div className="ml-auto mt-[6px] bg-primary-red/[0.2] py-1 px-1.5 h-[26px] text-center text-primary-white font-body2 rounded-xl">
                         <span>New!</span>
                       </div>
                     )} */}

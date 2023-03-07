@@ -1,7 +1,7 @@
 import { BigNumber } from "bignumber.js";
 
 // export enum MigrateToken {
-//   PLENTY,
+//   KODEX,
 //   WRAP,
 // }
 

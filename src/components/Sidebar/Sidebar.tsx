@@ -11,12 +11,12 @@ export const FooterMenu: Array<IHrefIconProps> = [
   {
     name: "Analytics",
     iconName: "VectorfooterMenu",
-    href: "https://analytics.plenty.network/",
+    href: "https://analytics.kodex.finance/",
   },
   {
     name: "Docs",
     iconName: "VectorfooterMenu-1",
-    href: "https://whitepaper.plenty.network/",
+    href: "https://whitepaper.kodex.finance/",
   },
   {
     name: "Feedback",
@@ -69,7 +69,7 @@ const MainMenu: Array<ISingleSideBarProps> = [
   {
     name: "Bridge",
     iconName: "bridge",
-    pathName: "https://bridge.plenty.network/",
+    pathName: "https://bridge.kodex.finance/",
     activePathName: "/bridge",
     isHrefIcon: true,
     openNewPage: true,

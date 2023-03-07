@@ -55,10 +55,10 @@ function Disclaimer(props: IDisclaimerProps) {
           </div>
           <div className="cursor-pointer">
             <span
-              className="font-body4 text-primary-500 ml-0.5"
+              className="font-body4 text-primary-white ml-0.5"
               onClick={() =>
                 window.open(
-                  "https://medium.com/plenty-defi/ply-public-airdrop-criteria-9bbf778a74ac",
+                  "https://medium.com/kodex-defi/ply-public-airdrop-criteria-9bbf778a74ac",
                   "_blank"
                 )
               }

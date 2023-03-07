@@ -247,7 +247,7 @@ function ManageLock(props: IManageLockProps) {
               <div>
                 <Image alt={"alt"} src={wallet} width={"32px"} height={"32px"} />
               </div>
-              <div className=" ml-1 text-primary-500 font-body2">
+              <div className=" ml-1 text-primary-white font-body2">
                 {Number(props.allBalance["PLY"]) >= 0
                   ? new BigNumber(props.allBalance["PLY"]).toFixed(2)
                   : "0"}{" "}
@@ -261,7 +261,7 @@ function ManageLock(props: IManageLockProps) {
                 "cursor-pointer rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[32px] px-[13px] items-center flex",
                 props.updatedPlyVoteValue !== "" &&
                   Number(props.updatedPlyVoteValue) === 0.25 * Number(props.allBalance["PLY"]) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.allBalance["PLY"]) === 0
                 ? {}
@@ -274,7 +274,7 @@ function ManageLock(props: IManageLockProps) {
                 "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[32px] px-[13px] items-center flex",
                 props.updatedPlyVoteValue !== "" &&
                   Number(props.updatedPlyVoteValue) === 0.5 * Number(props.allBalance["PLY"]) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.allBalance["PLY"]) === 0
                 ? {}
@@ -287,7 +287,7 @@ function ManageLock(props: IManageLockProps) {
                 "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[32px] px-[13px] items-center flex",
                 props.updatedPlyVoteValue !== "" &&
                   Number(props.updatedPlyVoteValue) === 0.75 * Number(props.allBalance["PLY"]) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.allBalance["PLY"]) === 0
                 ? {}
@@ -383,7 +383,7 @@ function ManageLock(props: IManageLockProps) {
               <div className="text-text-250 w-[155px] md:w-auto font-mobile-f1020 md:font-subtitle3">
                 You will receive a veNFT with a voting power of{" "}
               </div>
-              <div className="ml-auto px-3 h-[38px] flex items-center text-primary-500 bg-primary-500/[0.1] rounded-[30px]">
+              <div className="ml-auto px-3 h-[38px] flex items-center text-primary-white bg-primary-red rounded-[30px]">
                 ~ {isNaN(votingPower) ? "0.00" : votingPower.toFixed(2)}
               </div>
             </div>

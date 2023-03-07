@@ -13,7 +13,7 @@ export interface ITabProps {
   onClick: Function;
 }
 
-const active = "border border-primary-500 rounded-xl bg-primary-500/20 text-white";
+const active = "border border-primary-500 rounded-xl bg-primary-red/20 text-white";
 
 export function Tab(props: ITabProps) {
   const { isActive, text, onClick } = props;

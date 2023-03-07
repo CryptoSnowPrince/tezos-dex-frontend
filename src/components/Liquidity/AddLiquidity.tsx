@@ -161,7 +161,7 @@ function AddLiquidity(props: IAddLiquidityProps) {
                 <Image alt={"alt"} src={wallet} className="walletIcon" />
               </div>
               <div
-                className="ml-1 flex cursor-pointer text-primary-500 font-caption1-small md:font-body2"
+                className="ml-1 flex cursor-pointer text-primary-white font-caption1-small md:font-body2"
                 onClick={onClickAmount}
               >
                 {!(Number(props.userBalances[props.tokenIn.name]) >= 0) ? (
@@ -239,7 +239,7 @@ function AddLiquidity(props: IAddLiquidityProps) {
                 <Image alt={"alt"} src={wallet} className="walletIcon" />
               </div>
               <div
-                className="ml-1 cursor-pointer flex text-primary-500  font-caption1-small md:font-body2"
+                className="ml-1 cursor-pointer flex text-primary-white  font-caption1-small md:font-body2"
                 onClick={onClickSecondAmount}
               >
                 {!(Number(props.userBalances[props.tokenOut.name]) >= 0) ? (

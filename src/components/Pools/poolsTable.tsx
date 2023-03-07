@@ -435,7 +435,7 @@ export function ShortCard(props: IShortCardProps) {
     return (
       <div className="pl-0 pr-1 md:pr-0 md:pl-0">
         <div
-          className="bg-primary-500/10 font-caption2 md:font-subtitle4  hover:bg-primary-500/20 cursor-pointer  text-primary-500 px-5 md:px-7 py-2 rounded-lg"
+          className="bg-primary-red/10 font-caption2 md:font-subtitle4  hover:bg-primary-red/20 cursor-pointer  text-primary-white px-5 md:px-7 py-2 rounded-lg"
           onClick={() => {
             userAddress && dispatch(getTotalVotingPower());
             props.setIsGaugeAvailable(props.isGauge);

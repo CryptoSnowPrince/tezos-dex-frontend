@@ -256,7 +256,7 @@ export function Staking(props: IStakingProps) {
               className={clsx(
                 "cursor-pointer rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
                 props.stakeInput === 0.25 * Number(props.pnlpBalance) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.pnlpBalance) === 0
                 ? {}
@@ -268,7 +268,7 @@ export function Staking(props: IStakingProps) {
               className={clsx(
                 "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
                 props.stakeInput === 0.5 * Number(props.pnlpBalance) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.pnlpBalance) === 0
                 ? {}
@@ -280,7 +280,7 @@ export function Staking(props: IStakingProps) {
               className={clsx(
                 "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md: h-[32px] px-[8.5px] md:px-[13px] items-center flex",
                 props.stakeInput === 0.75 * Number(props.pnlpBalance) &&
-                  "border-primary-500 bg-primary-500/[0.20]"
+                  "border-primary-500 bg-primary-red/[0.20]"
               )}
               {...(!walletAddress || Number(props.pnlpBalance) === 0
                 ? {}
@@ -492,7 +492,7 @@ export function Unstaking(props: IUnstakingProps) {
             className={clsx(
               "cursor-pointer rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
               props.unStakeInput === 0.25 * Number(props.stakedToken) &&
-                "border-primary-500 bg-primary-500/[0.20]"
+                "border-primary-500 bg-primary-red/[0.20]"
             )}
             {...(!walletAddress || Number(props.stakedToken) === 0
               ? {}
@@ -504,7 +504,7 @@ export function Unstaking(props: IUnstakingProps) {
             className={clsx(
               "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md:h-[32px] px-[8.5px] md:px-[13px] items-center flex",
               props.unStakeInput === 0.5 * Number(props.stakedToken) &&
-                "border-primary-500 bg-primary-500/[0.20]"
+                "border-primary-500 bg-primary-red/[0.20]"
             )}
             {...(!walletAddress || Number(props.stakedToken) === 0
               ? {}
@@ -516,7 +516,7 @@ export function Unstaking(props: IUnstakingProps) {
             className={clsx(
               "cursor-pointer ml-2 rounded-lg border border-text-800/[0.5] bg-cardBackGround h-[28px] md: h-[32px] px-[8.5px] md:px-[13px] items-center flex",
               props.unStakeInput === 0.75 * Number(props.stakedToken) &&
-                "border-primary-500 bg-primary-500/[0.20]"
+                "border-primary-500 bg-primary-red/[0.20]"
             )}
             {...(!walletAddress || Number(props.stakedToken) === 0
               ? {}

@@ -7,7 +7,7 @@ export function TextNewPool() {
     <div className="px-2 mb-4">
       <div className="font-body4 mt-[16px]">
         Please go through the following points carefully before adding a pool.{" "}
-        {/* <span className="font-body4 text-primary-500 ml-0.5">request gauge</span> */}
+        {/* <span className="font-body4 text-primary-white ml-0.5">request gauge</span> */}
         {/* <span className="relative top-0.5 ml-1">
           <Image src={link} />
         </span> */}
@@ -20,12 +20,12 @@ export function TextNewPool() {
           New pools are not attached to the vote-escrow system by default. Please raise an
           attachment request in{" "}
           <a href="https://discord.com/invite/9wZ4CuvkuJ" target="_blank" rel="noreferrer">
-            <i className="text-primary-500 ml-0.5">#gauge-requests</i>
+            <i className="text-primary-white ml-0.5">#gauge-requests</i>
           </a>{" "}
           channel.{" "}
-          {/* <span className="text-primary-500 ml-0.5">
+          {/* <span className="text-primary-white ml-0.5">
             <a href="https://discord.com/invite/9wZ4CuvkuJ" target="_blank" rel="noreferrer">
-              Plenty&apos;s Discord.
+              Kodex&apos;s Discord.
             </a>
           </span> */}
         </span>

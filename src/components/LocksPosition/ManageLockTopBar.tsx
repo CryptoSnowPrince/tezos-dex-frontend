@@ -58,7 +58,7 @@ export function TopBar(props: ITopBar) {
           </p>
           <p className="border h-16 border-text-800 bg-card-900    items-center w-[121px] pl-4 rounded-lg">
             <div className="text-text-500 font-body2 mt-3">Voting power</div>
-            <div className="text-primary-500 font-body4 mt-0.5">
+            <div className="text-primary-white font-body4 mt-0.5">
               {Number(props.manageData.currentVotingPower) > 0
                 ? props.manageData.currentVotingPower.isLessThan(0.01)
                   ? "<0.01"
@@ -68,7 +68,7 @@ export function TopBar(props: ITopBar) {
           </p>
           <p className="border border-text-800 bg-card-900    items-center h-16 w-[108px] pl-4 rounded-lg">
             <div className="text-text-500 font-body2 mt-3">PLY locked</div>
-            <div className="text-primary-500 font-body4 mt-0.5">
+            <div className="text-primary-white font-body4 mt-0.5">
               {Number(props.manageData.baseValue) > 0
                 ? props.manageData.baseValue.isLessThan(0.01)
                   ? "<0.01"
@@ -79,7 +79,7 @@ export function TopBar(props: ITopBar) {
           </p>
           <p className="border border-text-800 bg-card-900    items-center h-16 w-[122px] pl-4 rounded-lg">
             <div className="text-text-500 font-body2 mt-3">Expires on</div>
-            <div className="text-primary-500 font-body4 mt-0.5">{dateFormat}</div>
+            <div className="text-primary-white font-body4 mt-0.5">{dateFormat}</div>
           </p>
         </div>
       </div>

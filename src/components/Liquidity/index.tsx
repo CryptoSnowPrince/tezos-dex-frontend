@@ -233,7 +233,7 @@ function Liquidity(props: ILiquidityProps) {
                 <div>
                   <Image alt={"alt"} src={wallet} width={"32px"} height={"32px"} />
                 </div>
-                <div className="ml-1 text-primary-500 font-body2">
+                <div className="ml-1 text-primary-white font-body2">
                   {Number(props.pnlpBalance).toFixed(4)} PNLP
                 </div>
               </div>

@@ -47,7 +47,7 @@ function Progress(props: IProgress) {
               </span>
               Your progress
             </p>
-            <p className="ml-auto text-primary-500 font-subtitle4">( 0 %)</p>
+            <p className="ml-auto text-primary-white font-subtitle4">( 0 %)</p>
           </div>
         </>
       ) : (
@@ -84,7 +84,7 @@ function Progress(props: IProgress) {
               </span>
               Your progress
             </p>
-            <p className="ml-auto text-primary-500 font-subtitle4">
+            <p className="ml-auto text-primary-white font-subtitle4">
               (
               {props.res.success && !props.fetching
                 ? (

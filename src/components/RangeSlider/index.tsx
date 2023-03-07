@@ -173,7 +173,7 @@ export function RangeSlider(props: IRangeSliderProps) {
               <div
                 {...props}
                 className={clsx(
-                  "bg-primary-500 h-3 w-3 outline-none rounded-full border-2 border-white"
+                  "bg-primary-red h-3 w-3 outline-none rounded-full border-2 border-white"
                 )}
               />
             )}
@@ -187,12 +187,12 @@ export function RangeSlider(props: IRangeSliderProps) {
       )}
       <div
         className={clsx(
-          "bg-primary-500/10 flex   text-f12 py-[9px] text-center h-[38px] w-[48px] rounded-lg px-[9px]",
+          "bg-primary-red/10 flex   text-f12 py-[9px] text-center h-[38px] w-[48px] rounded-lg px-[9px]",
           props.totalVotes1[props.index] > 0 ? "border border-primary-500 " : ""
         )}
       >
         <input
-          className="slider-input bg-primary-500/[0.0] w-[19px] outline-none text-center text-f12 "
+          className="slider-input bg-primary-red/[0.0] w-[19px] outline-none text-center text-f12 "
           value={props.totalVotes1[props.index] ? props.totalVotes1[props.index] : ""}
           onChange={(e) =>
             props.isDisabled ? () => {} : handleInputEdit(props.index, e.target.value)

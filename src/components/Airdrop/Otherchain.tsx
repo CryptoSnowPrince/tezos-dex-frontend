@@ -47,7 +47,7 @@ function OtherChain(props: IOtherChain) {
                   type="text"
                   disabled
                   className={clsx(
-                    "text-primary-500  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-500 "
+                    "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
                   )}
                   placeholder="0.0"
                   value={

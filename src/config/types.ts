@@ -156,7 +156,7 @@ export interface IGaugeConfig {
 }
 
 export enum MigrateToken {
-  PLENTY = "PLENTY",
+  KODEX = "KODEX",
   WRAP = "WRAP",
 }
 

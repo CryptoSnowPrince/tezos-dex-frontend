@@ -547,7 +547,7 @@ function MyPortfolio(props: any) {
           className={clsx(
             " font-title3 cursor-pointer box-border py-3 w-[147px] flex items-center justify-center  gap-1",
             activeSection === MyPortfolioSection.Positions
-              ? "text-primary-500 bg-primary-500/[0.1] border border-primary-500/[0.6] rounded-l-lg"
+              ? "text-primary-white bg-primary-red border border-primary-500/[0.6] rounded-l-lg"
               : "text-text-250 bg-muted-700 rounded-l-lg"
           )}
           onClick={() => {
@@ -566,7 +566,7 @@ function MyPortfolio(props: any) {
           className={clsx(
             " cursor-pointer font-title3 py-3 box-border  w-[147px] flex items-center justify-center  gap-1",
             activeSection === MyPortfolioSection.Rewards
-              ? "text-primary-500 bg-primary-500/[0.1] border border-primary-500/[0.6] rounded-r-lg"
+              ? "text-primary-white bg-primary-red border border-primary-500/[0.6] rounded-r-lg"
               : "text-text-250 bg-muted-700 rounded-r-lg"
           )}
           onClick={() => {
@@ -1642,7 +1642,7 @@ function MyPortfolio(props: any) {
                   >
                     <div
                       className={clsx(
-                        "cursor-pointer flex items-center md:font-title3-bold font-subtitle4 text-black h-[44px] md:h-[50px] px-[20px] md:px-[32px] bg-primary-500 rounded-xl md:w-[155px]  justify-center",
+                        "cursor-pointer flex items-center md:font-title3-bold font-subtitle4 text-black h-[44px] md:h-[50px] px-[20px] md:px-[32px] bg-primary-red rounded-xl md:w-[155px]  justify-center",
                         (poolsRewards.data?.gaugeAddresses?.length === 0 &&
                           feeClaimData?.length === 0 &&
                           bribesClaimData?.length === 0 &&
@@ -1748,7 +1748,7 @@ function MyPortfolio(props: any) {
                       <p
                         id="backToTop"
                         className={clsx(
-                          " flex items-center md:font-title3-bold font-subtitle4 text-primary-500 ml-auto h-[50px] px-[22px] md:px-[26px] bg-primary-500/[0.1] rounded-xl w-[155px]  justify-center animate__animated animate__zoomIn animate__faster",
+                          " flex items-center md:font-title3-bold font-subtitle4 text-primary-white ml-auto h-[50px] px-[22px] md:px-[26px] bg-primary-red rounded-xl w-[155px]  justify-center animate__animated animate__zoomIn animate__faster",
                           poolsRewards.data?.gaugeEmissionsTotal?.isEqualTo(0)
                             ? "cursor-not-allowed"
                             : "cursor-pointer"
@@ -1786,12 +1786,12 @@ function MyPortfolio(props: any) {
                       </div> */}
                     </p>
                     <a
-                      href={"https://objkt.com/collection/plenty-venfts"}
+                      href={"https://objkt.com/collection/kodex-venfts"}
                       target="_blank"
                       rel="noreferrer"
                       className="ml-auto"
                     >
-                      <p className="cursor-pointer flex items-center md:font-title3 font-subtitle4 text-primary-500  h-[50px] px-[15px] md:px-[26px] bg-primary-500/[0.1] rounded-xl w-[155px]  justify-center">
+                      <p className="cursor-pointer flex items-center md:font-title3 font-subtitle4 text-primary-white  h-[50px] px-[15px] md:px-[26px] bg-primary-red rounded-xl w-[155px]  justify-center">
                         Trade locks
                       </p>
                     </a>
@@ -1818,7 +1818,7 @@ function MyPortfolio(props: any) {
                     {(isMobile ? scrollY > 100 : scrollY > 150) && (
                       <p
                         className={clsx(
-                          " flex items-center md:font-title3-bold font-subtitle4 text-black ml-auto h-[50px] px-[22px] md:px-[26px] bg-primary-500 rounded-xl w-[155px]  justify-center animate__animated animate__zoomIn animate__faster",
+                          " flex items-center md:font-title3-bold font-subtitle4 text-black ml-auto h-[50px] px-[22px] md:px-[26px] bg-primary-red rounded-xl w-[155px]  justify-center animate__animated animate__zoomIn animate__faster",
                           bribesClaimData.length === 0 && feeClaimData.length === 0
                             ? "cursor-not-allowed"
                             : "cursor-pointer"

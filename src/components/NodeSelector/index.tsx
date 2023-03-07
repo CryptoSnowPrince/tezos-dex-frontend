@@ -36,7 +36,7 @@ function NodeSelector(props: any) {
       connectedNetwork === "testnet"
         ? "https://ghostnet.smartpy.io/"
         : "https://mainnet.smartpy.io/",
-    PLENTY:
+    KODEX:
       connectedNetwork === "testnet"
         ? process.env.NEXT_PUBLIC_RPC_TESTNET as string
         : process.env.NEXT_PUBLIC_RPC_MAINNET as string,
@@ -45,7 +45,7 @@ function NodeSelector(props: any) {
   const nodeNames = {
     TZKT: "TZKT",
     SmartPY: "SmartPY",
-    PLENTY: "Kodex Node",
+    KODEX: "Kodex Node",
   };
 
   const [rpcNodeDetecting, setRpcNodeDetecting] = useState(false);
@@ -74,9 +74,9 @@ function NodeSelector(props: any) {
     if (!RPCNodeInLS) {
       handleInput("");
 
-      props.setRpcNode(LOCAL_RPC_NODES["PLENTY"]);
-      setCurrentRPC("PLENTY");
-      RPCNodeInLS = LOCAL_RPC_NODES["PLENTY"];
+      props.setRpcNode(LOCAL_RPC_NODES["KODEX"]);
+      setCurrentRPC("KODEX");
+      RPCNodeInLS = LOCAL_RPC_NODES["KODEX"];
     }
 
     const valid = await isValidURL(RPCNodeInLS);
@@ -165,7 +165,7 @@ function NodeSelector(props: any) {
       {
         <>
           <div className=" mt-5 text-text-250 font-body3 px-2 ">
-            The Plenty node can be overloaded sometimes. When your data doesn’t load properly, try
+            The Kodex node can be overloaded sometimes. When your data doesn’t load properly, try
             switching to a different node, or use a custom node.
           </div>
           <div className="px-2">
@@ -182,7 +182,7 @@ function NodeSelector(props: any) {
                 className={clsx(
                   " justify-center border  flex items-center h-[54px] w-[54px] z-10 cursor-pointer font-body4 rounded-2xl mt-4 ",
                   currentRPC === "CUSTOM"
-                    ? "bg-muted-500 border-primary-500  text-primary-500"
+                    ? "bg-muted-500 border-primary-500  text-primary-white"
                     : "text-text-700 bg-card-500 border-text-800"
                 )}
                 onClick={() => {
@@ -200,7 +200,7 @@ function NodeSelector(props: any) {
                 className={clsx(
                   "  px-4 border  flex items-center h-[54px] z-10 w-[343px] cursor-pointer font-body4 rounded-2xl mt-4 ",
                   currentRPC === "CUSTOM"
-                    ? "bg-muted-500 border-primary-500  text-primary-500"
+                    ? "bg-muted-500 border-primary-500  text-primary-white"
                     : "text-text-700 bg-card-500 border-text-800"
                 )}
               >

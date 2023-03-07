@@ -35,7 +35,7 @@ function TransactionSubmitted(props: ITransactionSubmittedProps) {
             {props.content}
           </div>
           <div
-            className="my-3 cursor-pointer font-text-bold flex justify-center text-primary-500"
+            className="my-3 cursor-pointer font-text-bold flex justify-center text-primary-white"
             onClick={props.onBtnClick}
           >
             View on Block Explorer

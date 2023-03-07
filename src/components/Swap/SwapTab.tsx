@@ -450,7 +450,7 @@ function SwapTab(props: ISwapTabProps) {
                 <input
                   type="text"
                   className={clsx(
-                    "text-primary-500 inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
+                    "text-primary-white inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
                   )}
                   placeholder="--"
                   disabled
@@ -463,7 +463,7 @@ function SwapTab(props: ISwapTabProps) {
         <div className="flex -mt-[12px]">
           <div className="text-left cursor-pointer" onClick={onClickAmount}>
             <span className="text-text-600 font-body3">Balance:</span>{" "}
-            <span className="font-body4 cursor-pointer text-primary-500 ">
+            <span className="font-body4 cursor-pointer text-primary-white ">
               {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ? (
                 <ToolTip
                   message={fromExponential(
@@ -510,15 +510,15 @@ function SwapTab(props: ISwapTabProps) {
         }
       >
         <div className="p-[11.5px] bg-card-500 rounded-2xl  w-[68px] h-[68px]">
-          <div className="bg-primary-500 p-2  w-[46px] h-[46px] rounded-lg ">
+          <div className="bg-primary-red p-2  w-[46px] h-[46px] rounded-lg ">
             <Image alt={"alt"} src={switchsvg} height={"32px"} width={"32px"} />
           </div>
         </div>
       </div>
-      <div className=" pt-[41px]  pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-500/[0.04]">
+      <div className=" pt-[41px]  pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-red/[0.04]">
         <div
           className={clsx(
-            "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-500/[0.02]",
+            "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-red/[0.02]",
             isSecondInputFocus && "border-text-700"
           )}
         >
@@ -557,7 +557,7 @@ function SwapTab(props: ISwapTabProps) {
                     <input
                       type="text"
                       className={clsx(
-                        "text-primary-500  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-500 "
+                        "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
                       )}
                       placeholder="0.0"
                       disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
@@ -899,7 +899,7 @@ function SwapTab(props: ISwapTabProps) {
                           </>
                           <div className="mt-3 text-text-50 font-body1">
                             This route optimises your total output by considering all the Volatile
-                            and Flat AMMs on Plenty Network.
+                            and Flat AMMs on Kodex.
                           </div>
                         </div>
                       </div>
@@ -907,7 +907,7 @@ function SwapTab(props: ISwapTabProps) {
                   >
                     <div className="mr-2.5 lg:mr-6 h-[36px] flex justify-center rounded bg-shimmer-100 p-2">
                       <Image alt={"alt"} src={router} width={"20px"} height={"20px"} />
-                      <span className="ml-1 font-bold3 lg:font-subtitle4 text-primary-500">{`${Number(
+                      <span className="ml-1 font-bold3 lg:font-subtitle4 text-primary-white">{`${Number(
                         props.routeDetails.finalFeePerc
                       ).toFixed(2)} %`}</span>
                     </div>

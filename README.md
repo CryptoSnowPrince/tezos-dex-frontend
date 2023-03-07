@@ -1,16 +1,16 @@
-# Plenty network
+# Kodex
 
-An open source interface for Plenty network -- a protocol for decentralized exchange of Tezos tokens.
+An open source interface for Kodex -- a protocol for decentralized exchange of Tezos tokens.
 
-- Website: [Plenty network](https://plenty.network/)
+- Website: [Kodex](https://kodex.finance/)
 - Twitter: [@Plenty_network](https://twitter.com/plenty_network/)
-- Discord: [Plenty](https://discord.gg/9wZ4CuvkuJ)
+- Discord: [Kodex](https://discord.gg/9wZ4CuvkuJ)
 
-## Accessing the Plenty network Interface
+## Accessing the Kodex Interface
 
-To access the Plenty network Interface, use link from the
-[latest release](https://github.com/Plenty-network/plenty-network-frontend/),
-or visit [Plenty network](https://app.plenty.network/).
+To access the Kodex Interface, use link from the
+[latest release](https://github.com/Kodex/kodex-frontend/),
+or visit [Kodex](https://kodex.finance/).
 
 # Project setup
 
@@ -38,10 +38,10 @@ npm run build
 
 For steps on local deployment, development, and code contribution, please see [CONTRIBUTING](./CONTRIBUTING.md).
 
-## Accessing Plenty network
+## Accessing Kodex
 
-- Swap on Plenty network: https://app.plenty.network/swap
-- View and manage pools : https://app.plenty.network/pools
-- Vote on favourite pools with VeNFT: https://app.plenty.network/vote
-- Bribe users to vote on my pool: https://app.plenty.network/bribes
+- Swap on Kodex: https://kodex.finance/swap
+- View and manage pools : https://kodex.finance/pools
+- Vote on favourite pools with VeNFT: https://kodex.finance/vote
+- Bribe users to vote on my pool: https://kodex.finance/bribes
 

@@ -116,7 +116,7 @@ export const exchange = async (
 
     const allBatchOperations: WalletParamsWithKind[] = [];
 
-    if (token === MigrateToken.PLENTY) {
+    if (token === MigrateToken.KODEX) {
       const plentyInstance = await Tezos.wallet.at(TOKEN[token].address as string);
 
       allBatchOperations.push({

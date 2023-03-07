@@ -100,7 +100,7 @@ export function VestedPlyTopbar(props: IVestedPlyTopbarProps) {
               className={clsx(
                 "cursor-pointer h-[50px] flex items-center justify-center w-[100px] md:w-[148px] rounded-xl  font-title3-bold ",
                 props.vestedData.isClaimable
-                  ? "bg-primary-500 text-black"
+                  ? "bg-primary-red text-black"
                   : "bg-blue-200 text-blue-300"
               )}
               onClick={

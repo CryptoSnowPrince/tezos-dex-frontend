@@ -23,7 +23,7 @@ export function NoPoolsPosition(props: IWalletNotConnectedProps) {
       <div className="border-b border-navBarBorder/[0.4] w-[120px] mt-[14px]"></div>
       <div className="cursor-pointer">
         <Link href={props.cta.includes("pools") ? "/pools" : "/vote"}>
-          <div className="border border-primary-500 text-primary-500 font-body4 px-4 bg-primary-500/[0.05] h-[48px] flex items-center mt-5 rounded-lg">
+          <div className="border border-primary-500 text-primary-white font-body4 px-4 bg-primary-red/[0.05] h-[48px] flex items-center mt-5 rounded-lg">
             {props.cta}
           </div>
         </Link>
@@ -42,7 +42,7 @@ export function NoBribesPosition(props: IBribesProps) {
         className="cursor-pointer"
         onClick={() => props.setActiveStateTab(BribesCardHeader.Pools)}
       >
-        <div className="border border-primary-500 text-primary-500 font-body4 px-4 bg-primary-500/[0.05] h-[48px] flex items-center mt-5 rounded-lg">
+        <div className="border border-primary-500 text-primary-white font-body4 px-4 bg-primary-red/[0.05] h-[48px] flex items-center mt-5 rounded-lg">
           {props.cta}
         </div>
       </div>

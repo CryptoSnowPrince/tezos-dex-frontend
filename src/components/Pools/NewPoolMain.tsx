@@ -292,7 +292,7 @@ function NewPoolMain(props: ILiquidityProps) {
                     <Image alt={"alt"} src={wallet} className="walletIcon" />
                   </div>
                   <div
-                    className="ml-1 flex cursor-pointer text-primary-500 font-caption1-small md:font-body2"
+                    className="ml-1 flex cursor-pointer text-primary-white font-caption1-small md:font-body2"
                     onClick={onClickAmount}
                   >
                     {!(
@@ -398,7 +398,7 @@ function NewPoolMain(props: ILiquidityProps) {
                     <Image alt={"alt"} src={wallet} className="walletIcon" />
                   </div>
                   <div
-                    className="ml-1 cursor-pointer flex text-primary-500  font-caption1-small md:font-body2"
+                    className="ml-1 cursor-pointer flex text-primary-white  font-caption1-small md:font-body2"
                     onClick={onClickSecondAmount}
                   >
                     {!(
@@ -450,7 +450,7 @@ function NewPoolMain(props: ILiquidityProps) {
           className={clsx(
             "  px-4 border w-full flex items-center h-[54px] z-10 cursor-pointer font-body4 rounded-2xl ",
             props.pair === Pair.STABLE
-              ? "bg-muted-500 border-primary-500  text-primary-500"
+              ? "bg-muted-500 border-primary-500  text-primary-white"
               : "text-text-700 bg-card-500 border-text-800"
           )}
         >
@@ -466,7 +466,7 @@ function NewPoolMain(props: ILiquidityProps) {
           className={clsx(
             "  px-4 border w-full flex items-center h-[54px] z-10 cursor-pointer font-body4 rounded-2xl ",
             props.pair === Pair.VOLATILE
-              ? "bg-muted-500 border-primary-500  text-primary-500"
+              ? "bg-muted-500 border-primary-500  text-primary-white"
               : "text-text-700 bg-card-500 border-text-800"
           )}
         >

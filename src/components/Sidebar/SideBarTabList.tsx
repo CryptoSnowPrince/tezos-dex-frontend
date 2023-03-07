@@ -31,7 +31,7 @@ export function SingleSideBar(props: ISingleSideBarProps) {
             toolTipChild={
               <TooltipViolet
                 rate1={`1 WRAP = ${Config.EXCHANGE_TOKENS.WRAP.exchangeRate} PLY`}
-                rate2={`1 PLENTY = ${Config.EXCHANGE_TOKENS.PLENTY.exchangeRate} PLY`}
+                rate2={`1 KODEX = ${Config.EXCHANGE_TOKENS.KODEX.exchangeRate} PLY`}
               />
             }
             type={TooltipType.withoutBorder}

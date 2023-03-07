@@ -112,7 +112,7 @@ export function Datepicker(props: IDatePickerProps) {
               Cancel
             </button>
             <button
-              className="bg-primary-500 items-center justify-center flex-grow py-2 rounded-lg hover:opacity-95"
+              className="bg-primary-red items-center justify-center flex-grow py-2 rounded-lg hover:opacity-95"
               onClick={() => handleClick(true)}
             >
               Set Date

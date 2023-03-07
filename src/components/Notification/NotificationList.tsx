@@ -28,11 +28,11 @@ export function NotificationList(props: INotificationListProps) {
       <div className="flex-1 flex flex-col p-5 justify-center items-center">
         <div className="text-f14">You’re all caught up</div>
         <div className="text-center text-f10 ">
-          This is where you’ll see notifications about your Plenty transactions
+          This is where you’ll see notifications about your Kodex transactions
         </div>
         {isMobile && (
           <Link href={"/swap"}>
-            <div className="text-primary-500 font-caption1-small mt-[18px]">Swap your assets</div>
+            <div className="text-primary-white font-caption1-small mt-[18px]">Swap your assets</div>
           </Link>
         )}
       </div>

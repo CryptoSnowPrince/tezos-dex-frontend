@@ -22,7 +22,7 @@ export function BtnWithWalletIcon(props: IWalletBtnWithIconProps) {
       <div>
         <Image alt={"alt"} src={wallet} width={"32px"} height={"32px"} />
       </div>
-      <div className="ml-1 flex text-primary-500 font-body2 cursor-pointer" onClick={props.onClick}>
+      <div className="ml-1 flex text-primary-white font-body2 cursor-pointer" onClick={props.onClick}>
         {!props.text ? (
           <p className=" w-8 mr-2  h-[16px] rounded animate-pulse bg-shimmer-100"></p>
         ) : (
@@ -48,7 +48,7 @@ export function BtnWithWalletIconEnd(props: IWalletBtnWithIconProps) {
           />
         </div>
         <div
-          className="ml-1 flex text-primary-500 font-caption1-small md:font-body2 cursor-pointer"
+          className="ml-1 flex text-primary-white font-caption1-small md:font-body2 cursor-pointer"
           onClick={props.onClick}
         >
           {!props.text ? (
@@ -78,7 +78,7 @@ export function BtnwithBoost(props: IWalletBtnWithIconProps) {
                 height={isMobile ? "20px" : "22px"}
               />
             </div>
-            <div className="mx-1 flex text-primary-500 font-caption1-small md:font-body2 cursor-pointer">
+            <div className="mx-1 flex text-primary-white font-caption1-small md:font-body2 cursor-pointer">
               {!props.text ? (
                 <p className=" w-8 mr-2  h-[16px] rounded animate-pulse bg-shimmer-100"></p>
               ) : (
@@ -110,7 +110,7 @@ export function BtnWithStakeIcon(props: IWalletBtnWithIconProps) {
           />
         </div>
 
-        <div className="ml-1 flex text-primary-500 font-caption1-small md:font-body2">
+        <div className="ml-1 flex text-primary-white font-caption1-small md:font-body2">
           {!props.text ? (
             <p className=" w-8 mr-2  h-[16px] rounded animate-pulse bg-shimmer-100"></p>
           ) : (
@@ -130,7 +130,7 @@ export function BtnWithUnStakeIcon(props: IWalletBtnWithIconProps) {
       <div className="relative top-1">
         <Image alt={"alt"} src={stakeIcon} width={"32px"} height={"32px"} />
       </div>
-      <div className="ml-1 flex text-primary-500 font-body2 cursor-pointer" onClick={props.onClick}>
+      <div className="ml-1 flex text-primary-white font-body2 cursor-pointer" onClick={props.onClick}>
         {!props.text ? (
           <p className=" w-8 mr-2  h-[16px] rounded animate-pulse bg-shimmer-100"></p>
         ) : (

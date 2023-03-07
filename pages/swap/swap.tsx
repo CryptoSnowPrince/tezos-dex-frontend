@@ -612,132 +612,56 @@ export default function SwapBody(props: ISwapProps) {
         }
     }, [tokensListConfig, allBalance.allTokensBalances]);
 
-    let [setting, setSetting] = useState(false);
-
-    let [test, setTest] = useState([
-        {
-            "name": "name1",
-            "value": "value1"
-        },
-        {
-            "name": "name2",
-            "value": "value2"
-        }
-    ]);
-
-
     return (
         <>
             <div className={styles.swap}>
                 <Navbar />
-                <section className="section sec1 swap-main">
-                    <div className="sec-wrapper">
-                        <div className="titles">
-                            <h1 className="title">Swap</h1>
-                            <img className="pointer" src="/images/settings.png" onClick={() => { setSetting(!setting) }} />
-                            {
-                                setting
-                                    ?
-                                    <><Setting /></>
-                                    :
-                                    <></>
-                            }
-                        </div>
-                        <div className="content-box">
-                            <div className="content-box-left content-box-container">
-                                <div className="content-box-top">
-                                    <div className="content-box-number">
-                                        {test[0].name} and {test[0].value}
-                                    </div>
-                                    <div className="content-box-select">
-                                        <SelectToken />
-                                    </div>
-                                </div>
-                                <div className="content-box-bottom">
-                                    balance :
-                                </div>
-
-                            </div>
-                            <div className="content-box-mid pointer" onClick={() => {
-                                let copy = [];
-                                let arr = [];
-
-                                arr = [...test];
-                                copy[0] = arr[1];
-                                copy[1] = arr[0];
-
-                                setTest([...copy]);
-                            }}>
-                                <img src="/images/swap.png" />
-                            </div>
-                            <div className="content-box-right content-box-container">
-                                <div className="content-box-top">
-                                    <div className="content-box-select">
-                                        <SelectToken />
-                                    </div>
-                                    <div className="content-box-number">
-                                        {test[1].name} and {test[1].value}
-                                    </div>
-                                </div>
-                                <div className="content-box-bottom">
-                                    balance :
-                                </div>
-
-                            </div>
-                            <div className="content-box-btn">
-                                <button className="swap-btn">Swap</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </section>
-            </div>
-            <div
-                className={clsx(
-                    "bg-card-500 md:border border-y border-text-800 mt-[70px] lg:mt-[75px] md:rounded-3xl  text-white lg:w-640 pt-5 pb-2 mx-auto fade-in"
-                )}
-            >
-                <SwapTab
-                    walletAddress={props.otherProps.walletAddress}
-                    firstTokenAmount={firstTokenAmount}
-                    secondTokenAmount={secondTokenAmount}
-                    connectWallet={props.otherProps.connectWallet}
-                    tokenIn={tokenIn}
-                    tokenOut={tokenOut}
-                    tokens={tokensListConfig}
-                    handleTokenType={handleTokenType}
-                    setSlippage={setSlippage}
-                    slippage={slippage}
-                    handleClose={handleClose}
-                    changeTokenLocation={changeTokenLocation}
-                    setSecondTokenAmount={setSecondTokenAmount}
-                    setFirstTokenAmount={setFirstTokenAmount}
-                    handleSwapTokenInput={handleSwapTokenInput}
-                    setTokenIn={setTokenIn}
-                    setTokenOut={setTokenOut}
-                    setTokenType={setTokenType}
-                    tokenPrice={tokenPrice}
-                    recepient={recepient}
-                    setRecepient={setRecepient}
-                    setShowConfirmSwap={setShowConfirmSwap}
-                    showConfirmSwap={showConfirmSwap}
-                    setShowConfirmTransaction={setShowConfirmTransaction}
-                    showConfirmTransaction={showConfirmTransaction}
-                    setShowTransactionSubmitModal={setShowTransactionSubmitModal}
-                    showTransactionSubmitModal={showTransactionSubmitModal}
-                    loading={loading.current}
-                    resetAllValues={resetAllValues}
-                    routeDetails={routeDetails.current}
-                    allPath={allPathState}
-                    setErrorMessage={setErrorMessage}
-                    errorMessage={errorMessage}
-                    setEnableMultiHop={setEnableMultiHop}
-                    enableMultiHop={enableMultiHop}
-                    setBalanceUpdate={setBalanceUpdate}
-                    isSwitchClicked={isSwitchClicked.current}
-                    allBalance={allBalance}
-                />
+                {/* <div
+                    className={clsx(
+                        "bg-card-500 md:border border-y border-text-800 mt-[70px] lg:mt-[75px] md:rounded-3xl  text-white lg:w-640 pt-5 pb-2 mx-auto fade-in"
+                    )}
+                > */}
+                    <SwapTab
+                        walletAddress={props.otherProps.walletAddress}
+                        firstTokenAmount={firstTokenAmount}
+                        secondTokenAmount={secondTokenAmount}
+                        connectWallet={props.otherProps.connectWallet}
+                        tokenIn={tokenIn}
+                        tokenOut={tokenOut}
+                        tokens={tokensListConfig}
+                        handleTokenType={handleTokenType}
+                        setSlippage={setSlippage}
+                        slippage={slippage}
+                        handleClose={handleClose}
+                        changeTokenLocation={changeTokenLocation}
+                        setSecondTokenAmount={setSecondTokenAmount}
+                        setFirstTokenAmount={setFirstTokenAmount}
+                        handleSwapTokenInput={handleSwapTokenInput}
+                        setTokenIn={setTokenIn}
+                        setTokenOut={setTokenOut}
+                        setTokenType={setTokenType}
+                        tokenPrice={tokenPrice}
+                        recepient={recepient}
+                        setRecepient={setRecepient}
+                        setShowConfirmSwap={setShowConfirmSwap}
+                        showConfirmSwap={showConfirmSwap}
+                        setShowConfirmTransaction={setShowConfirmTransaction}
+                        showConfirmTransaction={showConfirmTransaction}
+                        setShowTransactionSubmitModal={setShowTransactionSubmitModal}
+                        showTransactionSubmitModal={showTransactionSubmitModal}
+                        loading={loading.current}
+                        resetAllValues={resetAllValues}
+                        routeDetails={routeDetails.current}
+                        allPath={allPathState}
+                        setErrorMessage={setErrorMessage}
+                        errorMessage={errorMessage}
+                        setEnableMultiHop={setEnableMultiHop}
+                        enableMultiHop={enableMultiHop}
+                        setBalanceUpdate={setBalanceUpdate}
+                        isSwitchClicked={isSwitchClicked.current}
+                        allBalance={allBalance}
+                    />
+                {/* </div> */}
             </div>
             <SwapModal
                 tokens={tokensListConfig.filter((e: any) => {

@@ -54,7 +54,7 @@ const Config: IConfig = {
     testnet: "https://ply-indexer.ghostnet.kodex.finance/v1/",
   },
   ANALYTICS_INDEXER: {
-    mainnet: "https://api.analytics.kodex.finance/",
+    mainnet: "https://api.analytics.plenty.network/",
     testnet: "http://3.111.147.231:3000/",//"https://analytics-indexer.ghostnet.kodex.finance/",
   },
 

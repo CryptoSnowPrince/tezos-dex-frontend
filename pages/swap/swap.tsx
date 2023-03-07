@@ -23,6 +23,7 @@ import {
 } from "../../src/api/util/types";
 import { Chain, MigrateToken } from "../../src/config/types";
 import { tEZorCTEZtoUppercase } from "../../src/api/util/helpers";
+import Footer from "../../components/footer";
 
 interface ISwapProps {
     className?: string;
@@ -692,72 +693,73 @@ export default function Swap(props: ISwapProps) {
                     </div>
 
                 </section> */}
-            </div>
-            <div
-                className={clsx(
-                    "bg-card-500 md:border border-y border-text-800 mt-[70px] lg:mt-[75px] md:rounded-3xl  text-white lg:w-640 pt-5 pb-2 mx-auto fade-in"
-                )}
-            >
-                <SwapTab
-                    walletAddress={props.otherProps.walletAddress}
-                    firstTokenAmount={firstTokenAmount}
-                    secondTokenAmount={secondTokenAmount}
-                    connectWallet={props.otherProps.connectWallet}
+                <div
+                    className={clsx(
+                        "bg-card-500 md:border border-y border-text-800 my-[70px] lg:mt-[75px] md:rounded-3xl  text-white lg:w-640 pt-5 pb-2 mx-auto fade-in"
+                    )}
+                >
+                    <SwapTab
+                        walletAddress={props.otherProps.walletAddress}
+                        firstTokenAmount={firstTokenAmount}
+                        secondTokenAmount={secondTokenAmount}
+                        connectWallet={props.otherProps.connectWallet}
+                        tokenIn={tokenIn}
+                        tokenOut={tokenOut}
+                        tokens={tokensListConfig}
+                        handleTokenType={handleTokenType}
+                        setSlippage={setSlippage}
+                        slippage={slippage}
+                        handleClose={handleClose}
+                        changeTokenLocation={changeTokenLocation}
+                        setSecondTokenAmount={setSecondTokenAmount}
+                        setFirstTokenAmount={setFirstTokenAmount}
+                        handleSwapTokenInput={handleSwapTokenInput}
+                        setTokenIn={setTokenIn}
+                        setTokenOut={setTokenOut}
+                        setTokenType={setTokenType}
+                        tokenPrice={tokenPrice}
+                        recepient={recepient}
+                        setRecepient={setRecepient}
+                        setShowConfirmSwap={setShowConfirmSwap}
+                        showConfirmSwap={showConfirmSwap}
+                        setShowConfirmTransaction={setShowConfirmTransaction}
+                        showConfirmTransaction={showConfirmTransaction}
+                        setShowTransactionSubmitModal={setShowTransactionSubmitModal}
+                        showTransactionSubmitModal={showTransactionSubmitModal}
+                        loading={loading.current}
+                        resetAllValues={resetAllValues}
+                        routeDetails={routeDetails.current}
+                        allPath={allPathState}
+                        setErrorMessage={setErrorMessage}
+                        errorMessage={errorMessage}
+                        setEnableMultiHop={setEnableMultiHop}
+                        enableMultiHop={enableMultiHop}
+                        setBalanceUpdate={setBalanceUpdate}
+                        isSwitchClicked={isSwitchClicked.current}
+                        allBalance={allBalance}
+                    />
+                </div>
+                <SwapModal
+                    tokens={tokensListConfig.filter((e: any) => {
+                        return (
+                            e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
+                            e.name.toLowerCase() !== MigrateToken.WRAP.toLowerCase()
+                        );
+                    })}
+                    show={swapModalShow}
+                    isSuccess={allBalance.success}
+                    isLoading={allBalance.success}
+                    allBalance={allBalance.allTokensBalances}
+                    selectToken={selectToken}
+                    onhide={handleClose}
                     tokenIn={tokenIn}
                     tokenOut={tokenOut}
-                    tokens={tokensListConfig}
-                    handleTokenType={handleTokenType}
-                    setSlippage={setSlippage}
-                    slippage={slippage}
-                    handleClose={handleClose}
-                    changeTokenLocation={changeTokenLocation}
-                    setSecondTokenAmount={setSecondTokenAmount}
-                    setFirstTokenAmount={setFirstTokenAmount}
-                    handleSwapTokenInput={handleSwapTokenInput}
-                    setTokenIn={setTokenIn}
-                    setTokenOut={setTokenOut}
-                    setTokenType={setTokenType}
-                    tokenPrice={tokenPrice}
-                    recepient={recepient}
-                    setRecepient={setRecepient}
-                    setShowConfirmSwap={setShowConfirmSwap}
-                    showConfirmSwap={showConfirmSwap}
-                    setShowConfirmTransaction={setShowConfirmTransaction}
-                    showConfirmTransaction={showConfirmTransaction}
-                    setShowTransactionSubmitModal={setShowTransactionSubmitModal}
-                    showTransactionSubmitModal={showTransactionSubmitModal}
-                    loading={loading.current}
-                    resetAllValues={resetAllValues}
-                    routeDetails={routeDetails.current}
-                    allPath={allPathState}
-                    setErrorMessage={setErrorMessage}
-                    errorMessage={errorMessage}
-                    setEnableMultiHop={setEnableMultiHop}
-                    enableMultiHop={enableMultiHop}
-                    setBalanceUpdate={setBalanceUpdate}
-                    isSwitchClicked={isSwitchClicked.current}
-                    allBalance={allBalance}
+                    tokenType={tokenType}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
                 />
+                <Footer />
             </div>
-            <SwapModal
-                tokens={tokensListConfig.filter((e: any) => {
-                    return (
-                        e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
-                        e.name.toLowerCase() !== MigrateToken.WRAP.toLowerCase()
-                    );
-                })}
-                show={swapModalShow}
-                isSuccess={allBalance.success}
-                isLoading={allBalance.success}
-                allBalance={allBalance.allTokensBalances}
-                selectToken={selectToken}
-                onhide={handleClose}
-                tokenIn={tokenIn}
-                tokenOut={tokenOut}
-                tokenType={tokenType}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-            />
         </>
     )
 }

@@ -59,583 +59,583 @@ export default function Liquidity(props: ILiquidityProps) {
 
     const router = useRouter();
 
-    const TOKEN = useAppSelector((state) => state.config.tokens);
-    const tokenPrice = useAppSelector((state) => state.tokenPrice.tokenPrice);
-    const userSettings = useAppSelector((state) =>
-        state.userSettings.settings[
-            props.otherProps.walletAddress ? props.otherProps.walletAddress : ""
-        ]
-            ? state.userSettings.settings[
-            props.otherProps.walletAddress ? props.otherProps.walletAddress : ""
-            ]
-            : state.userSettings.settings[""]
-    );
+    // const TOKEN = useAppSelector((state) => state.config.tokens);
+    // const tokenPrice = useAppSelector((state) => state.tokenPrice.tokenPrice);
+    // const userSettings = useAppSelector((state) =>
+    //     state.userSettings.settings[
+    //         props.otherProps.walletAddress ? props.otherProps.walletAddress : ""
+    //     ]
+    //         ? state.userSettings.settings[
+    //         props.otherProps.walletAddress ? props.otherProps.walletAddress : ""
+    //         ]
+    //         : state.userSettings.settings[""]
+    // );
 
-    const tokens = useAppSelector((state) => state.config.tokens);
-    const walletAddress = useAppSelector((state) => state.wallet.address);
-    const tokensArray = Object.entries(tokens);
-    const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
+    // const tokens = useAppSelector((state) => state.config.tokens);
+    // const walletAddress = useAppSelector((state) => state.wallet.address);
+    // const tokensArray = Object.entries(tokens);
+    // const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
 
-    const [firstTokenAmount, setFirstTokenAmount] = useState<string | number>("");
-    const [secondTokenAmount, setSecondTokenAmount] = useState<number | string>("");
-    const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-    const [showConfirmSwap, setShowConfirmSwap] = useState(false);
-    const [recepient, setRecepient] = useState("");
+    // const [firstTokenAmount, setFirstTokenAmount] = useState<string | number>("");
+    // const [secondTokenAmount, setSecondTokenAmount] = useState<number | string>("");
+    // const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
+    // const [showConfirmSwap, setShowConfirmSwap] = useState(false);
+    // const [recepient, setRecepient] = useState("");
 
-    const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-    const [tokenType, setTokenType] = useState<tokenType>("tokenIn");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [swapModalShow, setSwapModalShow] = useState(false);
-    const [slippage, setSlippage] = useState(Number(userSettings.slippage));
+    // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+    // const [tokenType, setTokenType] = useState<tokenType>("tokenIn");
+    // const [searchQuery, setSearchQuery] = useState("");
+    // const [swapModalShow, setSwapModalShow] = useState(false);
+    // const [slippage, setSlippage] = useState(Number(userSettings.slippage));
 
-    const [balanceUpdate, setBalanceUpdate] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [enableMultiHop, setEnableMultiHop] = useState(userSettings.multiHop);
-    const loading = React.useRef<{
-        isLoadingfirst?: boolean;
-        isLoadingSecond?: boolean;
-    }>({
-        isLoadingfirst: false,
-        isLoadingSecond: false,
-    });
+    // const [balanceUpdate, setBalanceUpdate] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState("");
+    // const [enableMultiHop, setEnableMultiHop] = useState(userSettings.multiHop);
+    // const loading = React.useRef<{
+    //     isLoadingfirst?: boolean;
+    //     isLoadingSecond?: boolean;
+    // }>({
+    //     isLoadingfirst: false,
+    //     isLoadingSecond: false,
+    // });
 
-    const routeDetails = React.useRef<{
-        path: string[];
-        minimumOut: BigNumber;
-        minimumTokenOut: BigNumber[];
-        priceImpact: BigNumber;
-        finalFeePerc: BigNumber;
-        feePerc: BigNumber[];
-        isStable: boolean[];
-        exchangeRate: BigNumber;
-        success: boolean;
-    }>({
-        minimumOut: new BigNumber(0),
-        minimumTokenOut: [],
-        feePerc: [],
-        isStable: [],
-        path: [],
-        finalFeePerc: new BigNumber(0),
-        priceImpact: new BigNumber(0),
-        success: false,
-        exchangeRate: new BigNumber(0),
-    });
+    // const routeDetails = React.useRef<{
+    //     path: string[];
+    //     minimumOut: BigNumber;
+    //     minimumTokenOut: BigNumber[];
+    //     priceImpact: BigNumber;
+    //     finalFeePerc: BigNumber;
+    //     feePerc: BigNumber[];
+    //     isStable: boolean[];
+    //     exchangeRate: BigNumber;
+    //     success: boolean;
+    // }>({
+    //     minimumOut: new BigNumber(0),
+    //     minimumTokenOut: [],
+    //     feePerc: [],
+    //     isStable: [],
+    //     path: [],
+    //     finalFeePerc: new BigNumber(0),
+    //     priceImpact: new BigNumber(0),
+    //     success: false,
+    //     exchangeRate: new BigNumber(0),
+    // });
 
-    const allPath = React.useRef<string[]>([]);
-    const allPath1 = React.useRef<string[]>([]);
-    const [allPathState, setAllPathState] = useState<string[]>([]);
-    const allPathSwapData = React.useRef<any[][]>([]);
-    const allPathSwapData1 = React.useRef<any[][]>([]);
-    const isSwitchClicked = React.useRef<boolean>(false);
+    // const allPath = React.useRef<string[]>([]);
+    // const allPath1 = React.useRef<string[]>([]);
+    // const [allPathState, setAllPathState] = useState<string[]>([]);
+    // const allPathSwapData = React.useRef<any[][]>([]);
+    // const allPathSwapData1 = React.useRef<any[][]>([]);
+    // const isSwitchClicked = React.useRef<boolean>(false);
 
-    const [allBalance, setAllBalance] = useState<IAllTokensBalanceResponse>({
-        success: false,
-        allTokensBalances: {} as IAllTokensBalance,
-    });
+    // const [allBalance, setAllBalance] = useState<IAllTokensBalanceResponse>({
+    //     success: false,
+    //     allTokensBalances: {} as IAllTokensBalance,
+    // });
 
-    useEffect(() => {
-        setAllBalance({
-            success: false,
-            allTokensBalances: {} as IAllTokensBalance,
-        });
+    // useEffect(() => {
+    //     setAllBalance({
+    //         success: false,
+    //         allTokensBalances: {} as IAllTokensBalance,
+    //     });
 
-        if (walletAddress) {
-            getAllTokensBalanceFromTzkt(Object.values(tokens), walletAddress).then(
-                (response: IAllTokensBalanceResponse) => {
-                    setAllBalance(response);
-                }
-            );
-        } else {
-            setAllBalance({
-                success: false,
-                allTokensBalances: {} as IAllTokensBalance,
-            });
-        }
-    }, [walletAddress, tokens, balanceUpdate]);
+    //     if (walletAddress) {
+    //         getAllTokensBalanceFromTzkt(Object.values(tokens), walletAddress).then(
+    //             (response: IAllTokensBalanceResponse) => {
+    //                 setAllBalance(response);
+    //             }
+    //         );
+    //     } else {
+    //         setAllBalance({
+    //             success: false,
+    //             allTokensBalances: {} as IAllTokensBalance,
+    //         });
+    //     }
+    // }, [walletAddress, tokens, balanceUpdate]);
 
-    useEffect(() => {
-        setSlippage(userSettings.slippage);
-        setEnableMultiHop(userSettings.multiHop);
-    }, [props.otherProps.walletAddress, userSettings]);
-    useEffect(() => {
-        if (
-            Object.keys(tokenOut).length !== 0 &&
-            tokenOut.name !== "" &&
-            Object.keys(tokenIn).length !== 0 &&
-            tokenIn.name !== ""
-        ) {
-            tokenPrice[tokenIn.name] || tokenPrice[tokenOut.name]
-                ? (loading.current = {
-                    isLoadingfirst: true,
-                    isLoadingSecond: true,
-                })
-                : (loading.current = {
-                    isLoadingfirst: false,
-                    isLoadingSecond: false,
-                });
-        }
-    }, [tokenPrice]);
+    // useEffect(() => {
+    //     setSlippage(userSettings.slippage);
+    //     setEnableMultiHop(userSettings.multiHop);
+    // }, [props.otherProps.walletAddress, userSettings]);
+    // useEffect(() => {
+    //     if (
+    //         Object.keys(tokenOut).length !== 0 &&
+    //         tokenOut.name !== "" &&
+    //         Object.keys(tokenIn).length !== 0 &&
+    //         tokenIn.name !== ""
+    //     ) {
+    //         tokenPrice[tokenIn.name] || tokenPrice[tokenOut.name]
+    //             ? (loading.current = {
+    //                 isLoadingfirst: true,
+    //                 isLoadingSecond: true,
+    //             })
+    //             : (loading.current = {
+    //                 isLoadingfirst: false,
+    //                 isLoadingSecond: false,
+    //             });
+    //     }
+    // }, [tokenPrice]);
 
-    useEffect(() => {
-        if (
-            Object.prototype.hasOwnProperty.call(tokenIn, "name") &&
-            Object.prototype.hasOwnProperty.call(tokenOut, "name") &&
-            tokenIn.name !== "" &&
-            tokenOut.name !== ""
-        ) {
-            !isSwitchClicked.current && firstTokenAmount === ""
-                ? (loading.current = {
-                    isLoadingfirst: true,
-                    isLoadingSecond: true,
-                })
-                : Number(firstTokenAmount) !== 0 &&
-                (routeDetails.current = {
-                    minimumOut: new BigNumber(0),
-                    minimumTokenOut: [],
-                    feePerc: [],
-                    isStable: [],
-                    path: [],
-                    finalFeePerc: new BigNumber(0),
-                    priceImpact: new BigNumber(0),
-                    success: true,
-                    exchangeRate: new BigNumber(0),
-                });
-            allPaths(tokenIn.name, tokenOut.name, enableMultiHop).then((res) => {
-                if (res) {
-                    loading.current = {
-                        isLoadingfirst: false,
-                        isLoadingSecond: false,
-                    };
-                    allPath.current = res.paths;
-                    if (allPath.current.length !== 0) {
-                        setAllPathState(res.paths);
-                        allPathSwapData.current = res.swapData;
-                        setErrorMessage("");
-                    } else {
-                        setErrorMessage(enableMultiHop ? ERRORMESSAGES.SWAPROUTER : ERRORMESSAGES.SWAPMULTIHOP);
+    // useEffect(() => {
+    //     if (
+    //         Object.prototype.hasOwnProperty.call(tokenIn, "name") &&
+    //         Object.prototype.hasOwnProperty.call(tokenOut, "name") &&
+    //         tokenIn.name !== "" &&
+    //         tokenOut.name !== ""
+    //     ) {
+    //         !isSwitchClicked.current && firstTokenAmount === ""
+    //             ? (loading.current = {
+    //                 isLoadingfirst: true,
+    //                 isLoadingSecond: true,
+    //             })
+    //             : Number(firstTokenAmount) !== 0 &&
+    //             (routeDetails.current = {
+    //                 minimumOut: new BigNumber(0),
+    //                 minimumTokenOut: [],
+    //                 feePerc: [],
+    //                 isStable: [],
+    //                 path: [],
+    //                 finalFeePerc: new BigNumber(0),
+    //                 priceImpact: new BigNumber(0),
+    //                 success: true,
+    //                 exchangeRate: new BigNumber(0),
+    //             });
+    //         allPaths(tokenIn.name, tokenOut.name, enableMultiHop).then((res) => {
+    //             if (res) {
+    //                 loading.current = {
+    //                     isLoadingfirst: false,
+    //                     isLoadingSecond: false,
+    //                 };
+    //                 allPath.current = res.paths;
+    //                 if (allPath.current.length !== 0) {
+    //                     setAllPathState(res.paths);
+    //                     allPathSwapData.current = res.swapData;
+    //                     setErrorMessage("");
+    //                 } else {
+    //                     setErrorMessage(enableMultiHop ? ERRORMESSAGES.SWAPROUTER : ERRORMESSAGES.SWAPMULTIHOP);
 
-                        setAllPathState([]);
-                        allPathSwapData.current = [];
-                        routeDetails.current = {
-                            minimumOut: new BigNumber(0),
-                            minimumTokenOut: [],
-                            feePerc: [],
-                            isStable: [],
-                            path: [],
-                            finalFeePerc: new BigNumber(0),
-                            priceImpact: new BigNumber(0),
-                            success: false,
-                            exchangeRate: new BigNumber(0),
-                        };
+    //                     setAllPathState([]);
+    //                     allPathSwapData.current = [];
+    //                     routeDetails.current = {
+    //                         minimumOut: new BigNumber(0),
+    //                         minimumTokenOut: [],
+    //                         feePerc: [],
+    //                         isStable: [],
+    //                         path: [],
+    //                         finalFeePerc: new BigNumber(0),
+    //                         priceImpact: new BigNumber(0),
+    //                         success: false,
+    //                         exchangeRate: new BigNumber(0),
+    //                     };
 
-                        loading.current = {
-                            isLoadingfirst: false,
-                            isLoadingSecond: false,
-                        };
-                    }
-                    if (firstTokenAmount !== "" || secondTokenAmount !== "") {
-                        loading.current = {
-                            isLoadingfirst: false,
-                            isLoadingSecond: false,
-                        };
-                        !isSwitchClicked.current && setSecondTokenAmount("");
-                        !isSwitchClicked.current && handleSwapTokenInput(firstTokenAmount, "tokenIn");
-                    }
-                    allPaths(tokenOut.name, tokenIn.name, enableMultiHop).then((res) => {
-                        allPath1.current = res.paths;
-                        if (allPath1.current.length !== 0) {
-                            setAllPathState(res.paths);
-                            allPathSwapData1.current = res.swapData;
-                            setErrorMessage("");
-                        } else {
-                            setAllPathState([]);
-                            allPathSwapData1.current = [];
-                        }
-                    });
-                }
-            });
-        }
-    }, [
-        tokenIn,
-        tokenOut,
-        tokenType,
-        enableMultiHop,
-        tokenPrice,
-        isSwitchClicked.current,
-        balanceUpdate,
-    ]);
+    //                     loading.current = {
+    //                         isLoadingfirst: false,
+    //                         isLoadingSecond: false,
+    //                     };
+    //                 }
+    //                 if (firstTokenAmount !== "" || secondTokenAmount !== "") {
+    //                     loading.current = {
+    //                         isLoadingfirst: false,
+    //                         isLoadingSecond: false,
+    //                     };
+    //                     !isSwitchClicked.current && setSecondTokenAmount("");
+    //                     !isSwitchClicked.current && handleSwapTokenInput(firstTokenAmount, "tokenIn");
+    //                 }
+    //                 allPaths(tokenOut.name, tokenIn.name, enableMultiHop).then((res) => {
+    //                     allPath1.current = res.paths;
+    //                     if (allPath1.current.length !== 0) {
+    //                         setAllPathState(res.paths);
+    //                         allPathSwapData1.current = res.swapData;
+    //                         setErrorMessage("");
+    //                     } else {
+    //                         setAllPathState([]);
+    //                         allPathSwapData1.current = [];
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     }
+    // }, [
+    //     tokenIn,
+    //     tokenOut,
+    //     tokenType,
+    //     enableMultiHop,
+    //     tokenPrice,
+    //     isSwitchClicked.current,
+    //     balanceUpdate,
+    // ]);
 
-    const handleSwapTokenInput = (input: string | number, tokenType: "tokenIn" | "tokenOut") => {
-        isSwitchClicked.current = false;
-        var flag = 1;
-        if (input == ".") {
-            if (tokenType === "tokenIn") {
-                setFirstTokenAmount("0.");
-            } else {
-                setSecondTokenAmount("0.");
-            }
-            return;
-        }
-        if (Object.keys(tokenOut).length !== 0) {
-            loading.current = {
-                isLoadingSecond: true,
-                isLoadingfirst: false,
-            };
-        } else {
-            routeDetails.current = {
-                minimumOut: new BigNumber(0),
-                minimumTokenOut: [],
-                feePerc: [],
-                isStable: [],
-                path: [],
-                finalFeePerc: new BigNumber(0),
-                priceImpact: new BigNumber(0),
-                success: false,
-                exchangeRate: new BigNumber(0),
-            };
-        }
+    // const handleSwapTokenInput = (input: string | number, tokenType: "tokenIn" | "tokenOut") => {
+    //     isSwitchClicked.current = false;
+    //     var flag = 1;
+    //     if (input == ".") {
+    //         if (tokenType === "tokenIn") {
+    //             setFirstTokenAmount("0.");
+    //         } else {
+    //             setSecondTokenAmount("0.");
+    //         }
+    //         return;
+    //     }
+    //     if (Object.keys(tokenOut).length !== 0) {
+    //         loading.current = {
+    //             isLoadingSecond: true,
+    //             isLoadingfirst: false,
+    //         };
+    //     } else {
+    //         routeDetails.current = {
+    //             minimumOut: new BigNumber(0),
+    //             minimumTokenOut: [],
+    //             feePerc: [],
+    //             isStable: [],
+    //             path: [],
+    //             finalFeePerc: new BigNumber(0),
+    //             priceImpact: new BigNumber(0),
+    //             success: false,
+    //             exchangeRate: new BigNumber(0),
+    //         };
+    //     }
 
-        if (
-            input === "" ||
-            isNaN(Number(input)) ||
-            (Object.keys(tokenOut).length !== 0 && allPath.current.length === 0)
-        ) {
-            setFirstTokenAmount("");
-            setSecondTokenAmount("");
-            routeDetails.current = {
-                minimumOut: new BigNumber(0),
-                minimumTokenOut: [],
-                feePerc: [],
-                isStable: [],
-                path: [],
-                finalFeePerc: new BigNumber(0),
-                priceImpact: new BigNumber(0),
-                success: false,
-                exchangeRate: new BigNumber(0),
-            };
-            loading.current = {
-                isLoadingSecond: false,
-                isLoadingfirst: false,
-            };
-        } else if (Number(input) === 0) {
-            setFirstTokenAmount(input.toString().trim());
+    //     if (
+    //         input === "" ||
+    //         isNaN(Number(input)) ||
+    //         (Object.keys(tokenOut).length !== 0 && allPath.current.length === 0)
+    //     ) {
+    //         setFirstTokenAmount("");
+    //         setSecondTokenAmount("");
+    //         routeDetails.current = {
+    //             minimumOut: new BigNumber(0),
+    //             minimumTokenOut: [],
+    //             feePerc: [],
+    //             isStable: [],
+    //             path: [],
+    //             finalFeePerc: new BigNumber(0),
+    //             priceImpact: new BigNumber(0),
+    //             success: false,
+    //             exchangeRate: new BigNumber(0),
+    //         };
+    //         loading.current = {
+    //             isLoadingSecond: false,
+    //             isLoadingfirst: false,
+    //         };
+    //     } else if (Number(input) === 0) {
+    //         setFirstTokenAmount(input.toString().trim());
 
-            routeDetails.current = {
-                minimumOut: new BigNumber(0),
-                minimumTokenOut: [],
-                feePerc: [],
-                isStable: [],
-                path: [],
-                finalFeePerc: new BigNumber(0),
-                priceImpact: new BigNumber(0),
-                success: false,
-                exchangeRate: new BigNumber(0),
-            };
-            loading.current = {
-                isLoadingSecond: false,
-                isLoadingfirst: false,
-            };
-            setSecondTokenAmount(input.toString().trim());
-        } else {
-            if (tokenType === "tokenIn") {
-                setFirstTokenAmount(input.toString().trim());
-                const decimal = new BigNumber(input).decimalPlaces();
+    //         routeDetails.current = {
+    //             minimumOut: new BigNumber(0),
+    //             minimumTokenOut: [],
+    //             feePerc: [],
+    //             isStable: [],
+    //             path: [],
+    //             finalFeePerc: new BigNumber(0),
+    //             priceImpact: new BigNumber(0),
+    //             success: false,
+    //             exchangeRate: new BigNumber(0),
+    //         };
+    //         loading.current = {
+    //             isLoadingSecond: false,
+    //             isLoadingfirst: false,
+    //         };
+    //         setSecondTokenAmount(input.toString().trim());
+    //     } else {
+    //         if (tokenType === "tokenIn") {
+    //             setFirstTokenAmount(input.toString().trim());
+    //             const decimal = new BigNumber(input).decimalPlaces();
 
-                if (
-                    input !== null &&
-                    decimal !== null &&
-                    new BigNumber(decimal).isGreaterThan(tokens[tokenIn.name]?.decimals)
-                ) {
-                    flag = 0;
-                    setErrorMessage(
-                        `The Precision of ${tEZorCTEZtoUppercase(tokenIn.name)} token cant be greater than ${tokens[tokenIn.name].decimals
-                        } decimals`
-                    );
-                }
-                // if (flag === 1) {
-                //   setErrorMessage("");
-                // }
+    //             if (
+    //                 input !== null &&
+    //                 decimal !== null &&
+    //                 new BigNumber(decimal).isGreaterThan(tokens[tokenIn.name]?.decimals)
+    //             ) {
+    //                 flag = 0;
+    //                 setErrorMessage(
+    //                     `The Precision of ${tEZorCTEZtoUppercase(tokenIn.name)} token cant be greater than ${tokens[tokenIn.name].decimals
+    //                     } decimals`
+    //                 );
+    //             }
+    //             // if (flag === 1) {
+    //             //   setErrorMessage("");
+    //             // }
 
-                if (Object.keys(tokenOut).length !== 0) {
-                    loading.current = {
-                        isLoadingSecond: true,
-                        isLoadingfirst: false,
-                    };
-                    const res = computeAllPathsWrapper(
-                        allPath.current,
-                        new BigNumber(input),
-                        new BigNumber(slippage),
-                        allPathSwapData.current,
-                        tokenPrice
-                    );
-                    loading.current = {
-                        isLoadingSecond: false,
-                        isLoadingfirst: false,
-                    };
-                    routeDetails.current = {
-                        minimumOut: res.finalMinimumTokenOut,
-                        minimumTokenOut: res.minimumTokenOut,
-                        feePerc: res.feePerc,
-                        isStable: res.isStable,
-                        path: res.path,
-                        finalFeePerc: res.finalFeePerc,
-                        priceImpact: res.finalPriceImpact,
-                        success: true,
-                        exchangeRate: res.exchangeRate,
-                    };
-                    if (res.tokenOutAmount.isLessThan(0)) {
-                        flag = 0;
-                        setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
-                    }
+    //             if (Object.keys(tokenOut).length !== 0) {
+    //                 loading.current = {
+    //                     isLoadingSecond: true,
+    //                     isLoadingfirst: false,
+    //                 };
+    //                 const res = computeAllPathsWrapper(
+    //                     allPath.current,
+    //                     new BigNumber(input),
+    //                     new BigNumber(slippage),
+    //                     allPathSwapData.current,
+    //                     tokenPrice
+    //                 );
+    //                 loading.current = {
+    //                     isLoadingSecond: false,
+    //                     isLoadingfirst: false,
+    //                 };
+    //                 routeDetails.current = {
+    //                     minimumOut: res.finalMinimumTokenOut,
+    //                     minimumTokenOut: res.minimumTokenOut,
+    //                     feePerc: res.feePerc,
+    //                     isStable: res.isStable,
+    //                     path: res.path,
+    //                     finalFeePerc: res.finalFeePerc,
+    //                     priceImpact: res.finalPriceImpact,
+    //                     success: true,
+    //                     exchangeRate: res.exchangeRate,
+    //                 };
+    //                 if (res.tokenOutAmount.isLessThan(0)) {
+    //                     flag = 0;
+    //                     setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
+    //                 }
 
-                    setSecondTokenAmount(
-                        res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
-                    );
-                }
-            } else if (tokenType === "tokenOut") {
-                setSecondTokenAmount(input.toString().trim());
-                const decimal = new BigNumber(input).decimalPlaces();
+    //                 setSecondTokenAmount(
+    //                     res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
+    //                 );
+    //             }
+    //         } else if (tokenType === "tokenOut") {
+    //             setSecondTokenAmount(input.toString().trim());
+    //             const decimal = new BigNumber(input).decimalPlaces();
 
-                if (
-                    input !== null &&
-                    decimal !== null &&
-                    new BigNumber(decimal).isGreaterThan(tokens[tokenOut.name].decimals)
-                ) {
-                    flag = 0;
-                    setErrorMessage(
-                        `The Precision of ${tEZorCTEZtoUppercase(tokenOut.name)} token cant be greater than ${tokens[tokenOut.name].decimals
-                        } decimals`
-                    );
-                }
+    //             if (
+    //                 input !== null &&
+    //                 decimal !== null &&
+    //                 new BigNumber(decimal).isGreaterThan(tokens[tokenOut.name].decimals)
+    //             ) {
+    //                 flag = 0;
+    //                 setErrorMessage(
+    //                     `The Precision of ${tEZorCTEZtoUppercase(tokenOut.name)} token cant be greater than ${tokens[tokenOut.name].decimals
+    //                     } decimals`
+    //                 );
+    //             }
 
-                if (Object.keys(tokenIn).length !== 0) {
-                    loading.current = {
-                        isLoadingfirst: true,
-                        isLoadingSecond: false,
-                    };
-                    const res = computeReverseCalculationWrapper(
-                        allPath1.current,
-                        new BigNumber(input),
-                        new BigNumber(slippage),
-                        allPathSwapData1.current,
-                        tokenPrice,
-                        allPath.current,
-                        allPathSwapData.current
-                    );
-                    loading.current = {
-                        isLoadingSecond: false,
-                        isLoadingfirst: false,
-                    };
-                    routeDetails.current = {
-                        minimumOut: res.finalMinimumTokenOut,
-                        minimumTokenOut: res.minimumTokenOut,
-                        feePerc: res.feePerc,
-                        isStable: res.isStable,
-                        path: res.path,
-                        finalFeePerc: res.finalFeePerc,
-                        priceImpact: res.finalPriceImpact,
-                        success: true,
-                        exchangeRate: res.exchangeRate,
-                    };
-                    if (res.tokenOutAmount.isLessThan(0)) {
-                        flag = 0;
-                        setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
-                    }
-                    setFirstTokenAmount(
-                        res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
-                    );
-                }
-            }
-        }
+    //             if (Object.keys(tokenIn).length !== 0) {
+    //                 loading.current = {
+    //                     isLoadingfirst: true,
+    //                     isLoadingSecond: false,
+    //                 };
+    //                 const res = computeReverseCalculationWrapper(
+    //                     allPath1.current,
+    //                     new BigNumber(input),
+    //                     new BigNumber(slippage),
+    //                     allPathSwapData1.current,
+    //                     tokenPrice,
+    //                     allPath.current,
+    //                     allPathSwapData.current
+    //                 );
+    //                 loading.current = {
+    //                     isLoadingSecond: false,
+    //                     isLoadingfirst: false,
+    //                 };
+    //                 routeDetails.current = {
+    //                     minimumOut: res.finalMinimumTokenOut,
+    //                     minimumTokenOut: res.minimumTokenOut,
+    //                     feePerc: res.feePerc,
+    //                     isStable: res.isStable,
+    //                     path: res.path,
+    //                     finalFeePerc: res.finalFeePerc,
+    //                     priceImpact: res.finalPriceImpact,
+    //                     success: true,
+    //                     exchangeRate: res.exchangeRate,
+    //                 };
+    //                 if (res.tokenOutAmount.isLessThan(0)) {
+    //                     flag = 0;
+    //                     setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
+    //                 }
+    //                 setFirstTokenAmount(
+    //                     res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
+    //                 );
+    //             }
+    //         }
+    //     }
 
-        if (flag === 1) {
-            setErrorMessage("");
-        }
-    };
+    //     if (flag === 1) {
+    //         setErrorMessage("");
+    //     }
+    // };
 
-    const handleTokenType = (type: tokenType) => {
-        setBalanceUpdate(false);
-        setSwapModalShow(true);
-        setTokenType(type);
-    };
+    // const handleTokenType = (type: tokenType) => {
+    //     setBalanceUpdate(false);
+    //     setSwapModalShow(true);
+    //     setTokenType(type);
+    // };
 
-    const handleClose = () => {
-        setSwapModalShow(false);
-        setSearchQuery("");
-    };
+    // const handleClose = () => {
+    //     setSwapModalShow(false);
+    //     setSearchQuery("");
+    // };
 
-    const resetAllValues = () => {
-        setFirstTokenAmount("");
-        setSecondTokenAmount("");
-        handleSwapTokenInput("", "tokenIn");
-        routeDetails.current = {
-            minimumOut: new BigNumber(0),
-            minimumTokenOut: [],
-            feePerc: [],
-            isStable: [],
-            path: [],
-            finalFeePerc: new BigNumber(0),
-            priceImpact: new BigNumber(0),
-            success: false,
-            exchangeRate: new BigNumber(0),
-        };
-    };
+    // const resetAllValues = () => {
+    //     setFirstTokenAmount("");
+    //     setSecondTokenAmount("");
+    //     handleSwapTokenInput("", "tokenIn");
+    //     routeDetails.current = {
+    //         minimumOut: new BigNumber(0),
+    //         minimumTokenOut: [],
+    //         feePerc: [],
+    //         isStable: [],
+    //         path: [],
+    //         finalFeePerc: new BigNumber(0),
+    //         priceImpact: new BigNumber(0),
+    //         success: false,
+    //         exchangeRate: new BigNumber(0),
+    //     };
+    // };
 
-    const selectToken = (token: tokensModal) => {
-        isSwitchClicked.current = false;
-        if ((tokenType === "tokenOut" || tokenType === "tokenIn") && firstTokenAmount !== "") {
-            setSecondTokenAmount("");
+    // const selectToken = (token: tokensModal) => {
+    //     isSwitchClicked.current = false;
+    //     if ((tokenType === "tokenOut" || tokenType === "tokenIn") && firstTokenAmount !== "") {
+    //         setSecondTokenAmount("");
 
-            loading.current = {
-                isLoadingfirst: false,
-                isLoadingSecond: true,
-            };
-        }
-        if (tokenType === "tokenIn") {
-            setTokenIn({
-                name: token.name,
-                image: token.image,
-            });
-        } else {
-            setTokenOut({
-                name: token.name,
-                image: token.image,
-            });
-        }
-        handleClose();
-    };
-    const changeTokenLocation = () => {
-        const inputValue = secondTokenAmount;
-        setFirstTokenAmount(inputValue.toString());
+    //         loading.current = {
+    //             isLoadingfirst: false,
+    //             isLoadingSecond: true,
+    //         };
+    //     }
+    //     if (tokenType === "tokenIn") {
+    //         setTokenIn({
+    //             name: token.name,
+    //             image: token.image,
+    //         });
+    //     } else {
+    //         setTokenOut({
+    //             name: token.name,
+    //             image: token.image,
+    //         });
+    //     }
+    //     handleClose();
+    // };
+    // const changeTokenLocation = () => {
+    //     const inputValue = secondTokenAmount;
+    //     setFirstTokenAmount(inputValue.toString());
 
-        isSwitchClicked.current = true;
-        //setSecondTokenAmount(firstTokenAmount);
-        setSecondTokenAmount("");
-        if (
-            Object.prototype.hasOwnProperty.call(tokenIn, "name") &&
-            Object.prototype.hasOwnProperty.call(tokenOut, "name") &&
-            tokenIn.name !== "" &&
-            tokenOut.name !== ""
-        ) {
-            loading.current = {
-                isLoadingfirst: false,
-                isLoadingSecond: true,
-            };
-        }
+    //     isSwitchClicked.current = true;
+    //     //setSecondTokenAmount(firstTokenAmount);
+    //     setSecondTokenAmount("");
+    //     if (
+    //         Object.prototype.hasOwnProperty.call(tokenIn, "name") &&
+    //         Object.prototype.hasOwnProperty.call(tokenOut, "name") &&
+    //         tokenIn.name !== "" &&
+    //         tokenOut.name !== ""
+    //     ) {
+    //         loading.current = {
+    //             isLoadingfirst: false,
+    //             isLoadingSecond: true,
+    //         };
+    //     }
 
-        if (tokenOut.name && tokenIn.name) {
-            setTokenIn({
-                name: tokenOut.name,
-                image: tokenOut.image,
-            });
+    //     if (tokenOut.name && tokenIn.name) {
+    //         setTokenIn({
+    //             name: tokenOut.name,
+    //             image: tokenOut.image,
+    //         });
 
-            setTokenOut({
-                name: tokenIn.name,
-                image: tokenIn.image,
-            });
-            if (inputValue > 0) {
-                setTimeout(() => {
-                    routeDetails.current = {
-                        minimumOut: new BigNumber(0),
-                        minimumTokenOut: [],
-                        feePerc: [],
-                        isStable: [],
-                        path: [],
-                        finalFeePerc: new BigNumber(0),
-                        priceImpact: new BigNumber(0),
-                        success: true,
-                        exchangeRate: new BigNumber(0),
-                    };
-                    setAllPathState([]);
+    //         setTokenOut({
+    //             name: tokenIn.name,
+    //             image: tokenIn.image,
+    //         });
+    //         if (inputValue > 0) {
+    //             setTimeout(() => {
+    //                 routeDetails.current = {
+    //                     minimumOut: new BigNumber(0),
+    //                     minimumTokenOut: [],
+    //                     feePerc: [],
+    //                     isStable: [],
+    //                     path: [],
+    //                     finalFeePerc: new BigNumber(0),
+    //                     priceImpact: new BigNumber(0),
+    //                     success: true,
+    //                     exchangeRate: new BigNumber(0),
+    //                 };
+    //                 setAllPathState([]);
 
-                    const res = computeAllPathsWrapper(
-                        allPath.current,
-                        new BigNumber(inputValue),
-                        new BigNumber(slippage),
-                        allPathSwapData.current,
-                        tokenPrice
-                    );
+    //                 const res = computeAllPathsWrapper(
+    //                     allPath.current,
+    //                     new BigNumber(inputValue),
+    //                     new BigNumber(slippage),
+    //                     allPathSwapData.current,
+    //                     tokenPrice
+    //                 );
 
-                    routeDetails.current = {
-                        minimumOut: res.finalMinimumTokenOut,
-                        minimumTokenOut: res.minimumTokenOut,
-                        feePerc: res.feePerc,
-                        isStable: res.isStable,
-                        path: res.path,
-                        finalFeePerc: res.finalFeePerc,
-                        priceImpact: res.finalPriceImpact,
-                        success: true,
-                        exchangeRate: res.exchangeRate,
-                    };
-                    res.tokenOutAmount.isLessThan(0)
-                        ? setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY)
-                        : setErrorMessage("");
-                    setSecondTokenAmount(
-                        res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString()
-                    );
-                    loading.current = {
-                        isLoadingSecond: false,
-                        isLoadingfirst: false,
-                    };
-                    setSecondTokenAmount(
-                        res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString()
-                    );
-                }, 2000);
-            } else {
-                setSecondTokenAmount(0);
-                loading.current = {
-                    isLoadingSecond: false,
-                    isLoadingfirst: false,
-                };
-            }
-        } else if (Object.keys(tokenOut).length === 0) {
-            loading.current = {
-                isLoadingfirst: false,
-                isLoadingSecond: false,
-            };
-            setTokenOut({
-                name: tokenIn.name,
-                image: tokenIn.image,
-            });
-            setTokenIn({} as tokenParameter);
-        } else if (Object.keys(tokenIn).length === 0) {
-            loading.current = {
-                isLoadingfirst: false,
-                isLoadingSecond: false,
-            };
-            setTokenIn({
-                name: tokenOut.name,
-                image: tokenOut.image,
-            });
-            setTokenOut({} as tokenParameter);
-        }
-    };
+    //                 routeDetails.current = {
+    //                     minimumOut: res.finalMinimumTokenOut,
+    //                     minimumTokenOut: res.minimumTokenOut,
+    //                     feePerc: res.feePerc,
+    //                     isStable: res.isStable,
+    //                     path: res.path,
+    //                     finalFeePerc: res.finalFeePerc,
+    //                     priceImpact: res.finalPriceImpact,
+    //                     success: true,
+    //                     exchangeRate: res.exchangeRate,
+    //                 };
+    //                 res.tokenOutAmount.isLessThan(0)
+    //                     ? setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY)
+    //                     : setErrorMessage("");
+    //                 setSecondTokenAmount(
+    //                     res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString()
+    //                 );
+    //                 loading.current = {
+    //                     isLoadingSecond: false,
+    //                     isLoadingfirst: false,
+    //                 };
+    //                 setSecondTokenAmount(
+    //                     res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString()
+    //                 );
+    //             }, 2000);
+    //         } else {
+    //             setSecondTokenAmount(0);
+    //             loading.current = {
+    //                 isLoadingSecond: false,
+    //                 isLoadingfirst: false,
+    //             };
+    //         }
+    //     } else if (Object.keys(tokenOut).length === 0) {
+    //         loading.current = {
+    //             isLoadingfirst: false,
+    //             isLoadingSecond: false,
+    //         };
+    //         setTokenOut({
+    //             name: tokenIn.name,
+    //             image: tokenIn.image,
+    //         });
+    //         setTokenIn({} as tokenParameter);
+    //     } else if (Object.keys(tokenIn).length === 0) {
+    //         loading.current = {
+    //             isLoadingfirst: false,
+    //             isLoadingSecond: false,
+    //         };
+    //         setTokenIn({
+    //             name: tokenOut.name,
+    //             image: tokenOut.image,
+    //         });
+    //         setTokenOut({} as tokenParameter);
+    //     }
+    // };
 
-    const tokensListConfig = useMemo(() => {
-        return tokensArray.map((token) => ({
-            name: token[0],
-            image: `/assets/Tokens/${token[1]?.symbol}.png`,
-            chainType: token[1]?.originChain as Chain,
-            address: token[1].address,
-        }));
-    }, [tokens]);
-    useEffect(() => {
-        if (allBalance.success && Object.keys(allBalance.allTokensBalances).length !== 0) {
-            tokensListConfig.sort(
-                (a, b) =>
-                    Number(
-                        allBalance.allTokensBalances[b.name]?.balance
-                            ? allBalance.allTokensBalances[b.name]?.balance
-                            : 0
-                    ) -
-                    Number(
-                        allBalance.allTokensBalances[a.name]?.balance
-                            ? allBalance.allTokensBalances[a.name]?.balance
-                            : 0
-                    )
-            );
-        }
-    }, [tokensListConfig, allBalance.allTokensBalances]);
+    // const tokensListConfig = useMemo(() => {
+    //     return tokensArray.map((token) => ({
+    //         name: token[0],
+    //         image: `/assets/Tokens/${token[1]?.symbol}.png`,
+    //         chainType: token[1]?.originChain as Chain,
+    //         address: token[1].address,
+    //     }));
+    // }, [tokens]);
+    // useEffect(() => {
+    //     if (allBalance.success && Object.keys(allBalance.allTokensBalances).length !== 0) {
+    //         tokensListConfig.sort(
+    //             (a, b) =>
+    //                 Number(
+    //                     allBalance.allTokensBalances[b.name]?.balance
+    //                         ? allBalance.allTokensBalances[b.name]?.balance
+    //                         : 0
+    //                 ) -
+    //                 Number(
+    //                     allBalance.allTokensBalances[a.name]?.balance
+    //                         ? allBalance.allTokensBalances[a.name]?.balance
+    //                         : 0
+    //                 )
+    //         );
+    //     }
+    // }, [tokensListConfig, allBalance.allTokensBalances]);
 
     return (
         <>
@@ -753,7 +753,7 @@ export default function Liquidity(props: ILiquidityProps) {
                 </section>
 
                 <Footer />
-                <SwapModal
+                {/* <SwapModal
                     tokens={tokensListConfig.filter((e: any) => {
                         return (
                             e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
@@ -771,7 +771,7 @@ export default function Liquidity(props: ILiquidityProps) {
                     tokenType={tokenType}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
-                />
+                /> */}
             </div>
         </>
     )

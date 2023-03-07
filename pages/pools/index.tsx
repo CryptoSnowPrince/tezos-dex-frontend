@@ -5,12 +5,21 @@ import React from "react";
 import Link from "next/link";
 import CryptoSlider from "../../components/cryptoSlider";
 import Footer from "../../components/footer";
-export default function Pools(){
+import { useAppSelector, useAppDispatch } from '../../src/redux';
+import { walletConnection } from '../../src/redux/wallet/wallet';
 
-    return(
+export default function Pools() {
+    const userAddress = useAppSelector((state) => state.wallet.address);
+    const dispatch = useAppDispatch();
+
+    const connectTempleWallet = () => {
+        return dispatch(walletConnection());
+    };
+
+    return (
         <div className={styles.pools}>
 
-            <Navbar/>
+            <Navbar />
             <section className="section sec1 pool-main">
                 <div className="sec-wrapper">
                     <div className="titles">
@@ -18,22 +27,25 @@ export default function Pools(){
                         <div className="extras">
                             <div className="more">
                                 <p>More</p>
-                                <img src="/images/arrow_down.svg"/>
+                                <img src="/images/arrow_down.svg" />
                             </div>
                             <Link href="/liquidity">
-                                <Pinkbtn src="/images/more.svg" type = "withoutBorder" text = "New Position" padding = "small"/>
+                                <Pinkbtn src="/images/more.svg" type="withoutBorder" text="New Position" padding="small" />
                             </Link>
                         </div>
                     </div>
                     <div className="empty"></div>
                     <div className="connect-box">
                         <div className="title">
-                            Your active V3 liquidity positions will appear here.<br/>Connect a wallet
+                            Your active V3 liquidity positions will appear here.<br />Connect a wallet
                         </div>
-                        <img src="/images/pool.svg"/>
-                        <Link href="/">
-                            <button className="connect-btn">Connect to Wallet</button>
-                        </Link>
+                        <img src="/images/pool.svg" />
+                        {
+                            !userAddress ? <button className="connect-btn" onClick={connectTempleWallet}>Connect to Wallet</button> :
+                                <p className="desc">
+                                    There is no your active V3 liquidity yet.
+                                </p>
+                        }
                     </div>
                     <div className="learn-boxes">
                         <div className="learn-box">
@@ -41,7 +53,7 @@ export default function Pools(){
                                 <p className="title">
                                     Learn about providing liquidity
                                 </p>
-                                <img src="/images/right_arrow.png"/>
+                                <img src="/images/right_arrow.png" />
                             </div>
 
                             <p className="desc">
@@ -53,7 +65,7 @@ export default function Pools(){
                                 <p className="title">
                                     Learn about providing liquidity
                                 </p>
-                                <img src="/images/right_arrow.png"/>
+                                <img src="/images/right_arrow.png" />
                             </div>
 
                             <p className="desc">
@@ -62,21 +74,21 @@ export default function Pools(){
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
             <section className="section topPools">
                 <div className="sec-wrapper">
                     <div className="titles">
                         <div className="title">Top Pools</div>
                         <div className="explore">
                             <div className="explore-text">Explore Kodex Analytics</div>
-                            <img src="/images/right_arrow.png"/>
+                            <img src="/images/right_arrow.png" />
                         </div>
                     </div>
-                    <CryptoSlider pools={[]}/>
+                    <CryptoSlider pools={[]} />
                 </div>
             </section>
 
-            <Footer/>
-        </div>
+            <Footer />
+        </div >
     )
 }

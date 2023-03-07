@@ -48,8 +48,6 @@ import { IAllTokensBalanceResponse } from "../../api/util/types";
 import { Chain } from "../../config/types";
 import { tokenIcons } from "../../constants/tokensList";
 import { tzktExplorer } from "../../common/walletconnect";
-import SelectToken from "../../../components/selectToken";
-import Setting from "../../../components/setting";
 
 interface ISwapTabProps {
   className?: string;
@@ -292,13 +290,13 @@ function SwapTab(props: ISwapTabProps) {
     if (props.walletAddress) {
       if (Object.keys(props.tokenOut).length === 0) {
         return (
-          <Button color="disabled">
+          <Button color="disabled" width="w-full">
             Select a token
           </Button>
         );
       } else if (props.errorMessage !== "") {
         return (
-          <Button color="disabled">
+          <Button color="disabled" width="w-full">
             Swap
           </Button>
         );
@@ -307,7 +305,7 @@ function SwapTab(props: ISwapTabProps) {
         Number(props.firstTokenAmount) === 0
       ) {
         return (
-          <Button color="disabled">
+          <Button color="disabled" width="w-full">
             Enter an amount
           </Button>
         );
@@ -316,26 +314,26 @@ function SwapTab(props: ISwapTabProps) {
         Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance)
       ) {
         return (
-          <Button color="disabled">
+          <Button color="disabled" width="w-full">
             Insufficient balance
           </Button>
         );
       } else if (expertMode && Number(props.routeDetails.priceImpact) > 3) {
         return (
-          <Button color="error" onClick={handleSwap}>
+          <Button color="error" width="w-full" onClick={handleSwap}>
             Swap Anyway
           </Button>
         );
       } else {
         return (
-          <Button color="primary" onClick={handleSwap}>
+          <Button color="primary" width="w-full" onClick={handleSwap}>
             Swap
           </Button>
         );
       }
     } else {
       return (
-        <Button color="primary" onClick={props.connectWallet}>
+        <Button color="primary" onClick={props.connectWallet} width="w-full">
           Connect wallet
         </Button>
       );
@@ -347,727 +345,515 @@ function SwapTab(props: ISwapTabProps) {
 
     props.tokenIn.name === "tez"
       ? props.handleSwapTokenInput(
-        Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) - 0.02,
-        "tokenIn"
-      )
+          Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) - 0.02,
+          "tokenIn"
+        )
       : props.handleSwapTokenInput(
-        props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString(),
-        "tokenIn"
-      );
+          props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString(),
+          "tokenIn"
+        );
   };
-
-  let [setting, setSetting] = useState(false);
-
-  let [test, setTest] = useState([
-    {
-      "name": "name1",
-      "value": "value1"
-    },
-    {
-      "name": "name2",
-      "value": "value2"
-    }
-  ]);
 
   return (
     <>
-      <section className="section sec1 swap-main">
-        <div className="sec-wrapper">
-          <div className="titles">
-            <h1 className="title">Swap</h1>
-            <div className="flex items-center flex-row px-5 lg:px-9 relative">
-              <div
-                className="py-1 cursor-pointer px-15 h-8 border border-text-700 rounded-[21px] ml-auto"
-                onClick={() => refreshAllData(true)}
-              >
-                <Lottie
-                  animationData={refresh}
-                  loop={isRefresh ? true : false}
-                  style={{ height: "20px", width: "20px" }}
-                />
-                {/* <Image alt={"alt"} src={refresh} height={"14px"} width={"15px"} /> */}
-              </div>
-              <div
-                ref={refSettingTab}
-                className="py-1 px-2 h-8 border border-text-700 cursor-pointer rounded-[12px] ml-2"
-                onClick={() => setSettingsShow(!settingsShow)}
-              >
-                <Image alt={"alt"} src={settings} height={"20px"} width={"20px"} />
-                <span className="text-white font-body4 ml-2 relative -top-[3px]">
-                  {props.slippage ? props.slippage : "0.5"}%
-                </span>
-              </div>
-              <TransactionSettings
-                show={settingsShow}
-                setSlippage={props.setSlippage}
-                slippage={props.slippage}
-                setSettingsShow={setSettingsShow}
-                setShowRecepient={setShowRecepient}
-                setExpertMode={setExpertMode}
-                expertMode={expertMode}
-                setShowExpertPopup={setShowExpertPopup}
-                setEnableMultiHop={props.setEnableMultiHop}
-                enableMultiHop={props.enableMultiHop}
+      <div className="flex items-center flex-row px-5 lg:px-9 relative">
+        <div className="font-title2">Swap</div>
+        <div
+          className="py-1 cursor-pointer px-15 h-8 border border-text-700 rounded-[21px] ml-auto"
+          onClick={() => refreshAllData(true)}
+        >
+          <Lottie
+            animationData={refresh}
+            loop={isRefresh ? true : false}
+            style={{ height: "20px", width: "20px" }}
+          />
+          {/* <Image alt={"alt"} src={refresh} height={"14px"} width={"15px"} /> */}
+        </div>
+        <div
+          ref={refSettingTab}
+          className="py-1 px-2 h-8 border border-text-700 cursor-pointer rounded-[12px] ml-2"
+          onClick={() => setSettingsShow(!settingsShow)}
+        >
+          <Image alt={"alt"} src={settings} height={"20px"} width={"20px"} />
+          <span className="text-white font-body4 ml-2 relative -top-[3px]">
+            {props.slippage ? props.slippage : "0.5"}%
+          </span>
+        </div>
+        <TransactionSettings
+          show={settingsShow}
+          setSlippage={props.setSlippage}
+          slippage={props.slippage}
+          setSettingsShow={setSettingsShow}
+          setShowRecepient={setShowRecepient}
+          setExpertMode={setExpertMode}
+          expertMode={expertMode}
+          setShowExpertPopup={setShowExpertPopup}
+          setEnableMultiHop={props.setEnableMultiHop}
+          enableMultiHop={props.enableMultiHop}
+        />
+      </div>
+      <div
+        className={clsx(
+          "lg:w-580 mt-4 h-[102px] border bg-muted-200/[0.1]  mx-5 lg:mx-[30px] rounded-2xl px-4 hover:border-text-700",
+          (props.firstTokenAmount >
+            Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) ||
+            props.errorMessage) &&
+            "border-errorBorder hover:border-errorBorder bg-errorBg",
+          isFirstInputFocus ? "border-text-700" : "border-text-800 "
+        )}
+      >
+        <div className="flex ">
+          <div
+            className={clsx(
+              " mt-4",
+              "flex-none"
+              // Object.keys(props.tokenIn).length !== 0 ? "flex-[0_0_38%]" : "flex-[0_0_45%]"
+            )}
+          >
+            {Object.keys(props.tokenIn).length !== 0 ? (
+              <TokenDropdown
+                onClick={() => props.handleTokenType("tokenIn")}
+                tokenIcon={`/assets/tokens/${props.tokenIn.name.toLowerCase()}.png`}
+                tokenName={tEZorCTEZtoUppercase(props.tokenIn.name)}
+                tokenSymbol={props.tokenIn.name}
               />
-            </div>
+            ) : (
+              <TokenDropdown
+                tokenName="Select a token"
+                onClick={() => props.handleTokenType("tokenIn")}
+                tokenSymbol=""
+              />
+            )}
           </div>
-          <div className="content-box">
-            {/* <div className="content-box-left content-box-container">
-              <div className="flex ">
-                <div
-                  className={clsx(
-                    " mt-4",
-                    "flex-none"
-                    // Object.keys(props.tokenIn).length !== 0 ? "flex-[0_0_38%]" : "flex-[0_0_45%]"
-                  )}
-                >
-                  {Object.keys(props.tokenIn).length !== 0 ? (
-                    <TokenDropdown
-                      onClick={() => props.handleTokenType("tokenIn")}
-                      tokenIcon={`/assets/tokens/${props.tokenIn.name.toLowerCase()}.png`}
-                      tokenName={tEZorCTEZtoUppercase(props.tokenIn.name)}
-                      tokenSymbol={props.tokenIn.name}
-                    />
-                  ) : (
-                    <TokenDropdown
-                      tokenName="Select a token"
-                      onClick={() => props.handleTokenType("tokenIn")}
-                      tokenSymbol=""
-                    />
-                  )}
-                </div>
-                <div className="flex-auto my-3 ">
-                  <div className="text-right font-body1 text-text-400">YOU PAY</div>
-                  <div>
-                    {Object.keys(props.tokenIn).length !== 0 ? (
-                      props.loading.isLoadingfirst ? (
-                        <p className=" my-[4px] ml-auto w-[100px] h-[32px] rounded animate-pulse bg-shimmer-100"></p>
-                      ) : (
-                        <input
-                          type="text"
-                          className={clsx(
-                            "text-white bg-card-500 text-right border-0 font-medium2  lg:font-medium1 outline-none w-[100%] placeholder:text-text-500"
-                          )}
-                          placeholder="0.0"
-                          lang="en"
-                          disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
-                          onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenIn")}
-                          value={props.firstTokenAmount}
-                          onFocus={() => setIsFirstInputFocus(true)}
-                          onBlur={() => setIsFirstInputFocus(false)}
-                        />
-                      )
-                    ) : (
-                      <input
-                        type="text"
-                        className={clsx(
-                          "text-primary-white inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
-                        )}
-                        placeholder="--"
-                        disabled
-                        value={"--"}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex -mt-[12px]">
-                <div className="text-left cursor-pointer" onClick={onClickAmount}>
-                  <span className="text-text-600 font-body3">Balance:</span>{" "}
-                  <span className="font-body4 cursor-pointer text-primary-white ">
-                    {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ? (
-                      <ToolTip
-                        message={fromExponential(
-                          props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString()
-                        )}
-                        disable={
-                          Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
-                            ? false
-                            : true
-                        }
-                        id="tooltip8"
-                        position={Position.right}
-                      >
-                        {nFormatterWithLesserNumber(
-                          new BigNumber(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance)
-                        )}
-                      </ToolTip>
-                    ) : (
-                      "--"
-                    )}
-                  </span>
-                </div>
-                <div className="text-right ml-auto font-body2 text-text-400">
-                  ~$
-                  {props.firstTokenAmount && props.tokenPrice[props.tokenIn.name]
-                    ? Number(
-                      Number(props.firstTokenAmount) * Number(props.tokenPrice[props.tokenIn.name])
-                    ).toFixed(2)
-                    : "0.00"}
-                </div>
-              </div>
-              <div className="content-box-top">
-                <div className="content-box-number">
-                  {test[0].name} and {test[0].value}
-                </div>
-                <div className="content-box-select">
-                  <SelectToken />
-                </div>
-              </div>
-              <div className="content-box-bottom">
-                balance :
-              </div>
-
-            </div>
-            {props.errorMessage !== "" && (
-              <div className="mt-3 mx-5 lg:mr-[30px] lg:ml-[50px] font-body2 lg:font-body3 text-error-500">
-                {props.errorMessage}
-              </div>
-            )}
-            <div className="content-box-mid pointer" onClick={
-              Object.keys(props.tokenOut).length !== 0
-                ? () => props.changeTokenLocation()
-                : () => props.changeTokenLocation()
-            }>
-              <img src="/images/swap.png" />
-            </div>
-            <div className="content-box-right content-box-container">
-              <div className=" flex ">
-                <div
-                  className={clsx(
-                    " mt-4",
-                    "flex-none"
-                    // Object.keys(props.tokenOut).length !== 0 ? "flex-[0_0_38%]" : "flex-[0_0_45%]"
-                  )}
-                >
-                  {Object.keys(props.tokenOut).length !== 0 ? (
-                    <TokenDropdown
-                      onClick={() => props.handleTokenType("tokenOut")}
-                      tokenIcon={`/assets/tokens/${props.tokenOut?.name?.toLowerCase()}.png`}
-                      tokenName={tEZorCTEZtoUppercase(props.tokenOut.name)}
-                      tokenSymbol={props.tokenOut.name}
-                    />
-                  ) : (
-                    <TokenDropdown
-                      tokenName="Select a token"
-                      onClick={() => props.handleTokenType("tokenOut")}
-                      tokenSymbol=""
-                    />
-                  )}
-                </div>
-                <div className=" my-3 flex-auto">
-                  <div className="text-right font-body1 text-text-400">YOU RECEIVE</div>
-                  <div>
-                    {Object.keys(props.tokenOut).length !== 0 ? (
-                      isRefresh ||
-                        props.loading.isLoadingSecond ||
-                        (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                        <p className="ml-auto my-[4px] w-[100px]  h-[32px] rounded animate-pulse bg-shimmer-100"></p>
-                      ) : (
-                        <input
-                          type="text"
-                          className={clsx(
-                            "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
-                          )}
-                          placeholder="0.0"
-                          disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
-                          onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenOut")}
-                          value={fromExponential(props.secondTokenAmount)}
-                          onFocus={() => setIsSecondInputFocus(true)}
-                          onBlur={() => setIsSecondInputFocus(false)}
-                        />
-                      )
-                    ) : (
-                      <input
-                        type="text"
-                        className={clsx(
-                          "text-primary-700 inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
-                        )}
-                        placeholder="--"
-                        disabled
-                        value={"--"}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex -mt-[12px]">
-                <div className="text-left">
-                  <span className="text-text-600 font-body3">Balance:</span>{" "}
-                  <span className="font-body4 cursor-pointer text-text-500 ">
-                    {Object.keys(props.tokenOut).length !== 0 &&
-                      Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ? (
-                      <ToolTip
-                        message={fromExponential(
-                          props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance.toString()
-                        )}
-                        disable={
-                          Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) > 0
-                            ? false
-                            : true
-                        }
-                        id="tooltip9"
-                        position={Position.right}
-                      >
-                        {nFormatterWithLesserNumber(
-                          new BigNumber(
-                            props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance
-                          )
-                        )}
-                      </ToolTip>
-                    ) : (
-                      "--"
-                    )}
-                  </span>
-                </div>
-                <div className="text-right ml-auto font-body2 text-text-400">
-                  {Number(priceDiff) !== 0 && (
-                    <span
-                      className={clsx(
-                        "mr-1",
-                        Number(priceDiff) < 0 ? "text-error-500" : "text-success-500"
-                      )}
-                    >
-                      ({priceDiff}%)
-                    </span>
-                  )}
-                  ~$
-                  {Object.keys(props.tokenOut).length !== 0 &&
-                    props.secondTokenAmount &&
-                    props.tokenPrice[props.tokenOut.name]
-                    ? Number(
-                      Number(props.secondTokenAmount) * Number(props.tokenPrice[props.tokenOut.name])
-                    ).toFixed(2)
-                    : "0.00"}
-                </div>
-              </div>
-              <div className="content-box-top">
-                <div className="content-box-select">
-                  <SelectToken />
-                </div>
-                <div className="content-box-number">
-                  {test[1].name} and {test[1].value}
-                </div>
-              </div>
-              <div className="content-box-bottom">
-                balance :
-              </div>
-
-            </div> */}
-            {/* ================== */}
-            <div
-              className={clsx(
-                "lg:w-500 mt-4 h-[140px] border bg-muted-200/[0.1]  mx-5 lg:mx-[30px] lg:mt-[30px] rounded-2xl px-4 hover:border-text-700",
-                (props.firstTokenAmount >
-                  Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) ||
-                  props.errorMessage) &&
-                "border-errorBorder hover:border-errorBorder bg-errorBg",
-                isFirstInputFocus ? "border-text-700" : "border-text-800 "
-              )}
-            >
-              <div className="flex">
-                <div
-                  className={clsx(
-                    "mt-4",
-                    "flex-none"
-                    // Object.keys(props.tokenIn).length !== 0 ? "flex-[0_0_38%]" : "flex-[0_0_45%]"
-                  )}
-                >
-                  {Object.keys(props.tokenIn).length !== 0 ? (
-                    <TokenDropdown
-                      onClick={() => props.handleTokenType("tokenIn")}
-                      tokenIcon={`/assets/tokens/${props.tokenIn.name.toLowerCase()}.png`}
-                      tokenName={tEZorCTEZtoUppercase(props.tokenIn.name)}
-                      tokenSymbol={props.tokenIn.name}
-                    />
-                  ) : (
-                    <TokenDropdown
-                      tokenName="Select a token"
-                      onClick={() => props.handleTokenType("tokenIn")}
-                      tokenSymbol=""
-                    />
-                  )}
-                </div>
-                <div className="flex-auto my-3 ">
-                  <div className="text-right font-body1 text-text-400">YOU PAY</div>
-                  <div>
-                    {Object.keys(props.tokenIn).length !== 0 ? (
-                      props.loading.isLoadingfirst ? (
-                        <p className=" my-[4px] ml-auto w-[100px] h-[32px] rounded animate-pulse bg-shimmer-100"></p>
-                      ) : (
-                        <input
-                          type="text"
-                          className={clsx(
-                            "text-white bg-card-500 text-right border-0 font-medium2  lg:font-medium1 outline-none w-[100%] placeholder:text-text-500"
-                          )}
-                          placeholder="0.0"
-                          lang="en"
-                          disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
-                          onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenIn")}
-                          value={props.firstTokenAmount}
-                          onFocus={() => setIsFirstInputFocus(true)}
-                          onBlur={() => setIsFirstInputFocus(false)}
-                        />
-                      )
-                    ) : (
-                      <input
-                        type="text"
-                        className={clsx(
-                          "text-primary-white inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
-                        )}
-                        placeholder="--"
-                        disabled
-                        value={"--"}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex -mt-[12px]">
-                <div className="text-left cursor-pointer" onClick={onClickAmount}>
-                  <span className="text-text-600 font-body3">Balance:</span>{" "}
-                  <span className="font-body4 cursor-pointer text-primary-white ">
-                    {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ? (
-                      <ToolTip
-                        message={fromExponential(
-                          props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString()
-                        )}
-                        disable={
-                          Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
-                            ? false
-                            : true
-                        }
-                        id="tooltip8"
-                        position={Position.right}
-                      >
-                        {nFormatterWithLesserNumber(
-                          new BigNumber(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance)
-                        )}
-                      </ToolTip>
-                    ) : (
-                      "--"
-                    )}
-                  </span>
-                </div>
-                <div className="text-right ml-auto font-body2 text-text-400">
-                  ~$
-                  {props.firstTokenAmount && props.tokenPrice[props.tokenIn.name]
-                    ? Number(
-                      Number(props.firstTokenAmount) * Number(props.tokenPrice[props.tokenIn.name])
-                    ).toFixed(2)
-                    : "0.00"}
-                </div>
-              </div>
-            </div>
-            {props.errorMessage !== "" && (
-              <div className="mt-3 mx-5 lg:mr-[30px] lg:ml-[50px] font-body2 lg:font-body3 text-error-500">
-                {props.errorMessage}
-              </div>
-            )}
-            {/* ================== */}
-            <div
-              className="cursor-pointer relative top-[26px] bg-switchBorder w-[70px] h-[70px] p-px mx-auto rounded-2xl"
-              onClick={
-                Object.keys(props.tokenOut).length !== 0
-                  ? () => props.changeTokenLocation()
-                  : () => props.changeTokenLocation()
-              }
-            >
-              <div className="p-[11.5px] bg-card-500 rounded-2xl  w-[68px] h-[68px] lg:mt-[30px]">
-                <div className="bg-primary-red p-2  w-[46px] h-[46px] rounded-lg ">
-                  <Image alt={"alt"} src="/images/swap.png" height={"32px"} width={"32px"} />
-                </div>
-              </div>
-            </div>
-            {/* ================== */}
-            <div
-              className={clsx(
-                "lg:w-500 secondtoken h-[140px] border bg-muted-200/[0.1]  mx-5 lg:mx-[30px] lg:mt-[30px] rounded-2xl px-4 hover:border-text-700",
-                isSecondInputFocus ? "border-text-700" : "border-text-800 "
-              )}
-            >
-              <div className="flex">
-                <div
-                  className={clsx(
-                    "mt-4",
-                    "flex-none"
-                    // Object.keys(props.tokenOut).length !== 0 ? "flex-[0_0_38%]" : "flex-[0_0_45%]"
-                  )}
-                >
-                  {Object.keys(props.tokenOut).length !== 0 ? (
-                    <TokenDropdown
-                      onClick={() => props.handleTokenType("tokenOut")}
-                      tokenIcon={`/assets/tokens/${props.tokenOut?.name?.toLowerCase()}.png`}
-                      tokenName={tEZorCTEZtoUppercase(props.tokenOut.name)}
-                      tokenSymbol={props.tokenOut.name}
-                    />
-                  ) : (
-                    <TokenDropdown
-                      tokenName="Select a token"
-                      onClick={() => props.handleTokenType("tokenOut")}
-                      tokenSymbol=""
-                    />
-                  )}
-                </div>
-                <div className=" my-3 flex-auto">
-                  <div className="text-right font-body1 text-text-400">YOU RECEIVE</div>
-                  <div>
-                    {Object.keys(props.tokenOut).length !== 0 ? (
-                      isRefresh ||
-                        props.loading.isLoadingSecond ||
-                        (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                        <p className="ml-auto my-[4px] w-[100px]  h-[32px] rounded animate-pulse bg-shimmer-100"></p>
-                      ) : (
-                        <input
-                          type="text"
-                          className={clsx(
-                            "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
-                          )}
-                          placeholder="0.0"
-                          disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
-                          onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenOut")}
-                          value={fromExponential(props.secondTokenAmount)}
-                          onFocus={() => setIsSecondInputFocus(true)}
-                          onBlur={() => setIsSecondInputFocus(false)}
-                        />
-                      )
-                    ) : (
-                      <input
-                        type="text"
-                        className={clsx(
-                          "text-primary-700 inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
-                        )}
-                        placeholder="--"
-                        disabled
-                        value={"--"}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex -mt-[12px]">
-                <div className="text-left">
-                  <span className="text-text-600 font-body3">Balance:</span>{" "}
-                  <span className="font-body4 cursor-pointer text-text-500 ">
-                    {Object.keys(props.tokenOut).length !== 0 &&
-                      Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ? (
-                      <ToolTip
-                        message={fromExponential(
-                          props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance.toString()
-                        )}
-                        disable={
-                          Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) > 0
-                            ? false
-                            : true
-                        }
-                        id="tooltip9"
-                        position={Position.right}
-                      >
-                        {nFormatterWithLesserNumber(
-                          new BigNumber(
-                            props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance
-                          )
-                        )}
-                      </ToolTip>
-                    ) : (
-                      "--"
-                    )}
-                  </span>
-                </div>
-                <div className="text-right ml-auto font-body2 text-text-400">
-                  {Number(priceDiff) !== 0 && (
-                    <span
-                      className={clsx(
-                        "mr-1",
-                        Number(priceDiff) < 0 ? "text-error-500" : "text-success-500"
-                      )}
-                    >
-                      ({priceDiff}%)
-                    </span>
-                  )}
-                  ~$
-                  {Object.keys(props.tokenOut).length !== 0 &&
-                    props.secondTokenAmount &&
-                    props.tokenPrice[props.tokenOut.name]
-                    ? Number(
-                      Number(props.secondTokenAmount) * Number(props.tokenPrice[props.tokenOut.name])
-                    ).toFixed(2)
-                    : "0.00"}
-                </div>
-              </div>
-            </div>
-            {showRecepient && (
-              <div className="bg-card-500/[0.02] mt-2.5 rounded-2xl border border-primary-500/[0.2] h-[78px] py-3 px-[18px]">
-                <div className="font-caption1 text-text-400">Send</div>
-                <div>
+          <div className="flex-auto my-3 ">
+            <div className="text-right font-body1 text-text-400">YOU PAY</div>
+            <div>
+              {Object.keys(props.tokenIn).length !== 0 ? (
+                props.loading.isLoadingfirst ? (
+                  <p className=" my-[4px] ml-auto w-[100px] h-[32px] rounded animate-pulse bg-shimmer-100"></p>
+                ) : (
                   <input
                     type="text"
                     className={clsx(
-                      "text-white  bg-card-500/[0.02] border-0 font-title1  outline-none w-[100%] placeholder:text-text-800/[0.8] "
+                      "text-white bg-card-500 text-right border-0 font-medium2  lg:font-medium1 outline-none w-[100%] placeholder:text-text-500"
                     )}
-                    placeholder="Receipient address"
-                    onChange={(e) => props.setRecepient(e.target.value)}
-                    value={props.recepient}
+                    placeholder="0.0"
+                    lang="en"
+                    disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
+                    onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenIn")}
+                    value={props.firstTokenAmount}
+                    onFocus={() => setIsFirstInputFocus(true)}
+                    onBlur={() => setIsFirstInputFocus(false)}
                   />
-                </div>
-              </div>
-            )}
-
-            {props.routeDetails.success && (
-              <div
-                className="h-12 mt-3 cursor-pointer px-4 pt-[13px] pb-[15px] rounded-2xl bg-muted-600 border border-primary-500/[0.2] items-center flex "
-                onClick={() => setOpenSwapDetails(!openSwapDetails)}
-              >
-                {isRefresh ||
+                )
+              ) : (
+                <input
+                  type="text"
+                  className={clsx(
+                    "text-primary-white inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
+                  )}
+                  placeholder="--"
+                  disabled
+                  value={"--"}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex -mt-[12px]">
+          <div className="text-left cursor-pointer" onClick={onClickAmount}>
+            <span className="text-text-600 font-body3">Balance:</span>{" "}
+            <span className="font-body4 cursor-pointer text-primary-white ">
+              {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ? (
+                <ToolTip
+                  message={fromExponential(
+                    props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString()
+                  )}
+                  disable={
+                    Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
+                      ? false
+                      : true
+                  }
+                  id="tooltip8"
+                  position={Position.right}
+                >
+                  {nFormatterWithLesserNumber(
+                    new BigNumber(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance)
+                  )}
+                </ToolTip>
+              ) : (
+                "--"
+              )}
+            </span>
+          </div>
+          <div className="text-right ml-auto font-body2 text-text-400">
+            ~$
+            {props.firstTokenAmount && props.tokenPrice[props.tokenIn.name]
+              ? Number(
+                  Number(props.firstTokenAmount) * Number(props.tokenPrice[props.tokenIn.name])
+                ).toFixed(2)
+              : "0.00"}
+          </div>
+        </div>
+      </div>
+      {props.errorMessage !== "" && (
+        <div className="mt-3 mx-5 lg:mr-[30px] lg:ml-[50px] font-body2 lg:font-body3 text-error-500">
+          {props.errorMessage}
+        </div>
+      )}
+      <div
+        className=" -mt-[25px] cursor-pointer relative top-[26px] bg-switchBorder w-[70px] h-[70px] p-px  mx-auto rounded-2xl "
+        onClick={
+          Object.keys(props.tokenOut).length !== 0
+            ? () => props.changeTokenLocation()
+            : () => props.changeTokenLocation()
+        }
+      >
+        <div className="p-[11.5px] bg-card-500 rounded-2xl  w-[68px] h-[68px]">
+          <div className="bg-primary-red p-2  w-[46px] h-[46px] rounded-lg ">
+            <Image alt={"alt"} src={switchsvg} height={"32px"} width={"32px"} />
+          </div>
+        </div>
+      </div>
+      <div className=" pt-[41px]  pb-5 border border-primary-500/[0.2] mx-px md:mx-2 lg:mx-2  px-5 lg:px-[22px] rounded-3xl bg-primary-red/[0.04]">
+        <div
+          className={clsx(
+            "lg:w-580 secondtoken h-[102px] border border-text-800 rounded-2xl  px-4 border-primary-500/[0.2] hover:border-primary-500/[0.6] bg-card-500 hover:bg-primary-red/[0.02]",
+            isSecondInputFocus && "border-text-700"
+          )}
+        >
+          <div className=" flex ">
+            <div
+              className={clsx(
+                " mt-4",
+                "flex-none"
+                // Object.keys(props.tokenOut).length !== 0 ? "flex-[0_0_38%]" : "flex-[0_0_45%]"
+              )}
+            >
+              {Object.keys(props.tokenOut).length !== 0 ? (
+                <TokenDropdown
+                  onClick={() => props.handleTokenType("tokenOut")}
+                  tokenIcon={`/assets/tokens/${props.tokenOut?.name?.toLowerCase()}.png`}
+                  tokenName={tEZorCTEZtoUppercase(props.tokenOut.name)}
+                  tokenSymbol={props.tokenOut.name}
+                />
+              ) : (
+                <TokenDropdown
+                  tokenName="Select a token"
+                  onClick={() => props.handleTokenType("tokenOut")}
+                  tokenSymbol=""
+                />
+              )}
+            </div>
+            <div className=" my-3 flex-auto">
+              <div className="text-right font-body1 text-text-400">YOU RECEIVE</div>
+              <div>
+                {Object.keys(props.tokenOut).length !== 0 ? (
+                  isRefresh ||
                   props.loading.isLoadingSecond ||
                   (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                  <div className="flex relative top-[8px]">
-                    <span className="ml-[6px] font-text-bold mr-[7px]"> Fetching best price</span>
-                    <span className="relative -top-[5px]">
-                      <Lottie
-                        animationData={loader}
-                        loop={true}
-                        style={{ height: "32px", width: "32px" }}
-                      />
-                    </span>
-                  </div>
+                    <p className="ml-auto my-[4px] w-[100px]  h-[32px] rounded animate-pulse bg-shimmer-100"></p>
+                  ) : (
+                    <input
+                      type="text"
+                      className={clsx(
+                        "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
+                      )}
+                      placeholder="0.0"
+                      disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
+                      onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenOut")}
+                      value={fromExponential(props.secondTokenAmount)}
+                      onFocus={() => setIsSecondInputFocus(true)}
+                      onBlur={() => setIsSecondInputFocus(false)}
+                    />
+                  )
                 ) : (
-                  <>
-                    <div>
-                      <span className="relative top-0.5">
-                        <ToolTip
-                          id="tooltip1"
-                          position={isMobile ? Position.right : Position.top}
-                          toolTipChild={
-                            <p>
-                              <div
-                                className={`w-[277px]   rounded-3xl 
-                            }`}
-                              >
-                                <div className="flex mt-2">
-                                  <div className="font-body1  md:font-body3 ">
-                                    <span className="mr-[5px]">Minimum received</span>
-                                  </div>
+                  <input
+                    type="text"
+                    className={clsx(
+                      "text-primary-700 inputSecond  text-right border-0 w-[100%]  font-input-text lg:font-medium1 outline-none "
+                    )}
+                    placeholder="--"
+                    disabled
+                    value={"--"}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex -mt-[12px]">
+            <div className="text-left">
+              <span className="text-text-600 font-body3">Balance:</span>{" "}
+              <span className="font-body4 cursor-pointer text-text-500 ">
+                {Object.keys(props.tokenOut).length !== 0 &&
+                Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ? (
+                  <ToolTip
+                    message={fromExponential(
+                      props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance.toString()
+                    )}
+                    disable={
+                      Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) > 0
+                        ? false
+                        : true
+                    }
+                    id="tooltip9"
+                    position={Position.right}
+                  >
+                    {nFormatterWithLesserNumber(
+                      new BigNumber(
+                        props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance
+                      )
+                    )}
+                  </ToolTip>
+                ) : (
+                  "--"
+                )}
+              </span>
+            </div>
+            <div className="text-right ml-auto font-body2 text-text-400">
+              {Number(priceDiff) !== 0 && (
+                <span
+                  className={clsx(
+                    "mr-1",
+                    Number(priceDiff) < 0 ? "text-error-500" : "text-success-500"
+                  )}
+                >
+                  ({priceDiff}%)
+                </span>
+              )}
+              ~$
+              {Object.keys(props.tokenOut).length !== 0 &&
+              props.secondTokenAmount &&
+              props.tokenPrice[props.tokenOut.name]
+                ? Number(
+                    Number(props.secondTokenAmount) * Number(props.tokenPrice[props.tokenOut.name])
+                  ).toFixed(2)
+                : "0.00"}
+            </div>
+          </div>
+        </div>
+        {showRecepient && (
+          <div className="bg-card-500/[0.02] mt-2.5 rounded-2xl border border-primary-500/[0.2] h-[78px] py-3 px-[18px]">
+            <div className="font-caption1 text-text-400">Send</div>
+            <div>
+              <input
+                type="text"
+                className={clsx(
+                  "text-white  bg-card-500/[0.02] border-0 font-title1  outline-none w-[100%] placeholder:text-text-800/[0.8] "
+                )}
+                placeholder="Receipient address"
+                onChange={(e) => props.setRecepient(e.target.value)}
+                value={props.recepient}
+              />
+            </div>
+          </div>
+        )}
 
-                                  <div className="ml-auto font-body2 md:font-subtitle4">
-                                    {` ${Number(props.routeDetails.minimumOut).toFixed(
-                                      4
-                                    )} ${tEZorCTEZtoUppercase(props.tokenOut.name)}`}
-                                  </div>
-                                </div>
-
-                                <div className="flex mt-3">
-                                  <div className="font-body1 md:font-body3 ">
-                                    <span className="mr-[5px]">Price impact</span>
-                                  </div>
-
-                                  <div
-                                    className={clsx(
-                                      "ml-auto font-body2 md:font-subtitle4",
-                                      Number(props.routeDetails.priceImpact) > 3 && "text-error-500"
-                                    )}
-                                  >
-                                    {`${props.routeDetails.priceImpact.toFixed(4)} %`}
-                                  </div>
-                                </div>
-                                <div className="flex mt-3 mb-2">
-                                  <div className="font-body1 md:font-body3 ">
-                                    <span className="mr-[5px]">Fee</span>
-                                  </div>
-
-                                  <div className="ml-auto font-body2 md:font-subtitle4">
-                                    {`${props.routeDetails.finalFeePerc.toFixed(2)}  %`}
-                                  </div>
-                                </div>
-                              </div>
-                            </p>
-                          }
-                        >
-                          <Image
-                            alt={"alt"}
-                            src={info}
-                            className="cursor-pointer"
-                            width={"15px"}
-                            height={"15px"}
-                          />
-                        </ToolTip>
-                      </span>
-                      <span className="ml-[9.25px] font-bold3 lg:font-text-bold mr-[7px] cursor-pointer">
-                        1{" "}
-                        {!isConvert
-                          ? tEZorCTEZtoUppercase(props.tokenIn.name)
-                          : tEZorCTEZtoUppercase(props.tokenOut.name)}{" "}
-                        =
-                        <ToolTip
-                          message={
-                            !isConvert
-                              ? fromExponential(props.routeDetails.exchangeRate.toString())
-                              : fromExponential(1 / Number(props.routeDetails.exchangeRate)).toString()
-                          }
-                          id="tooltip7"
-                          position={Position.top}
-                        >
-                          {!isConvert
-                            ? ` ${nFormatterWithLesserNumber(
-                              new BigNumber(props.routeDetails.exchangeRate)
-                            )} 
-                            ${tEZorCTEZtoUppercase(props.tokenOut.name)}`
-                            : `${nFormatterWithLesserNumber(
-                              new BigNumber(
-                                new BigNumber(1).dividedBy(props.routeDetails.exchangeRate)
-                              )
-                            )} ${tEZorCTEZtoUppercase(props.tokenIn.name)}`}
-                        </ToolTip>
-                      </span>
-                      <span className="relative top-px">
-                        <Image alt={"alt"} src={ratesrefresh} onClick={(e) => convertRates(e)} />
-                      </span>
-                    </div>
-                    <div className="ml-auto cursor-pointer">
-                      <ToolTip
-                        id="tooltip9"
-                        type={isMobile ? TooltipType.swapRoute : TooltipType.swap}
-                        position={Position.top}
-                        toolTipChild={
+        {props.routeDetails.success && (
+          <div
+            className="h-12 mt-3 cursor-pointer px-4 pt-[13px] pb-[15px] rounded-2xl bg-muted-600 border border-primary-500/[0.2] items-center flex "
+            onClick={() => setOpenSwapDetails(!openSwapDetails)}
+          >
+            {isRefresh ||
+            props.loading.isLoadingSecond ||
+            (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+              <div className="flex relative top-[8px]">
+                <span className="ml-[6px] font-text-bold mr-[7px]"> Fetching best price</span>
+                <span className="relative -top-[5px]">
+                  <Lottie
+                    animationData={loader}
+                    loop={true}
+                    style={{ height: "32px", width: "32px" }}
+                  />
+                </span>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <span className="relative top-0.5">
+                    <ToolTip
+                      id="tooltip1"
+                      position={isMobile ? Position.right : Position.top}
+                      toolTipChild={
+                        <p>
                           <div
-                            className={clsx(
-                              swapRoute && swapRoute?.length > 3
-                                ? "w-[360px] md:w-auto"
-                                : "w-[360px] md:w-[400px]"
-                            )}
+                            className={`w-[277px]   rounded-3xl 
+                            }`}
                           >
-                            <div className="mt-2 ">
-                              <div className="font-subtitle2 md:font-subtitle4">
-                                {" "}
-                                <span className="mr-[5px]">Route</span>
+                            <div className="flex mt-2">
+                              <div className="font-body1  md:font-body3 ">
+                                <span className="mr-[5px]">Minimum received</span>
                               </div>
 
-                              <>
-                                <div className="border-dashed relative top-[20px] md:top-[24px]   border-t-2 border-muted-50 mx-2"></div>
-                                <div
-                                  className={clsx(
-                                    isMobile && "max-w-[375px] overflow-x-auto",
-                                    "mt-2 flex justify-between "
-                                  )}
-                                >
-                                  {swapRoute?.map((token, idx) => {
-                                    const index = idx + 1;
-                                    return (
-                                      <>
-                                        {(idx === 0 || idx === swapRoute.length - 1) && (
-                                          <div className="flex items-center " key={token?.name}>
-                                            {idx === swapRoute.length - 1 && (
-                                              <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
+                              <div className="ml-auto font-body2 md:font-subtitle4">
+                                {` ${Number(props.routeDetails.minimumOut).toFixed(
+                                  4
+                                )} ${tEZorCTEZtoUppercase(props.tokenOut.name)}`}
+                              </div>
+                            </div>
+
+                            <div className="flex mt-3">
+                              <div className="font-body1 md:font-body3 ">
+                                <span className="mr-[5px]">Price impact</span>
+                              </div>
+
+                              <div
+                                className={clsx(
+                                  "ml-auto font-body2 md:font-subtitle4",
+                                  Number(props.routeDetails.priceImpact) > 3 && "text-error-500"
+                                )}
+                              >
+                                {`${props.routeDetails.priceImpact.toFixed(4)} %`}
+                              </div>
+                            </div>
+                            <div className="flex mt-3 mb-2">
+                              <div className="font-body1 md:font-body3 ">
+                                <span className="mr-[5px]">Fee</span>
+                              </div>
+
+                              <div className="ml-auto font-body2 md:font-subtitle4">
+                                {`${props.routeDetails.finalFeePerc.toFixed(2)}  %`}
+                              </div>
+                            </div>
+                          </div>
+                        </p>
+                      }
+                    >
+                      <Image
+                        alt={"alt"}
+                        src={info}
+                        className="cursor-pointer"
+                        width={"15px"}
+                        height={"15px"}
+                      />
+                    </ToolTip>
+                  </span>
+                  <span className="ml-[9.25px] font-bold3 lg:font-text-bold mr-[7px] cursor-pointer">
+                    1{" "}
+                    {!isConvert
+                      ? tEZorCTEZtoUppercase(props.tokenIn.name)
+                      : tEZorCTEZtoUppercase(props.tokenOut.name)}{" "}
+                    =
+                    <ToolTip
+                      message={
+                        !isConvert
+                          ? fromExponential(props.routeDetails.exchangeRate.toString())
+                          : fromExponential(1 / Number(props.routeDetails.exchangeRate)).toString()
+                      }
+                      id="tooltip7"
+                      position={Position.top}
+                    >
+                      {!isConvert
+                        ? ` ${nFormatterWithLesserNumber(
+                            new BigNumber(props.routeDetails.exchangeRate)
+                          )} 
+                            ${tEZorCTEZtoUppercase(props.tokenOut.name)}`
+                        : `${nFormatterWithLesserNumber(
+                            new BigNumber(
+                              new BigNumber(1).dividedBy(props.routeDetails.exchangeRate)
+                            )
+                          )} ${tEZorCTEZtoUppercase(props.tokenIn.name)}`}
+                    </ToolTip>
+                  </span>
+                  <span className="relative top-px">
+                    <Image alt={"alt"} src={ratesrefresh} onClick={(e) => convertRates(e)} />
+                  </span>
+                </div>
+                <div className="ml-auto cursor-pointer">
+                  <ToolTip
+                    id="tooltip9"
+                    type={isMobile ? TooltipType.swapRoute : TooltipType.swap}
+                    position={Position.top}
+                    toolTipChild={
+                      <div
+                        className={clsx(
+                          swapRoute && swapRoute?.length > 3
+                            ? "w-[360px] md:w-auto"
+                            : "w-[360px] md:w-[400px]"
+                        )}
+                      >
+                        <div className="mt-2 ">
+                          <div className="font-subtitle2 md:font-subtitle4">
+                            {" "}
+                            <span className="mr-[5px]">Route</span>
+                          </div>
+
+                          <>
+                            <div className="border-dashed relative top-[20px] md:top-[24px]   border-t-2 border-muted-50 mx-2"></div>
+                            <div
+                              className={clsx(
+                                isMobile && "max-w-[375px] overflow-x-auto",
+                                "mt-2 flex justify-between "
+                              )}
+                            >
+                              {swapRoute?.map((token, idx) => {
+                                const index = idx + 1;
+                                return (
+                                  <>
+                                    {(idx === 0 || idx === swapRoute.length - 1) && (
+                                      <div className="flex items-center " key={token?.name}>
+                                        {idx === swapRoute.length - 1 && (
+                                          <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
+                                        )}
+                                        <div className="relative  z-100 w-[24px]  h-[24px] md:w-[32px] md:h-[32px]  p-0.5 bg-card-600 rounded-full">
+                                          <span className="w-[24px] md:w-[28px] h-[28px] md:h-[28px]">
+                                            <img
+                                              src={
+                                                tokenIcons[token?.name as string]
+                                                  ? tokenIcons[token?.name as string].src
+                                                  : tokens[token?.name as string]?.iconUrl
+                                                  ? tokens[token?.name as string].iconUrl
+                                                  : `/assets/Tokens/fallback.png`
+                                              }
+                                              width={isMobile ? "21px" : "28px"}
+                                              height={isMobile ? "21px" : "28px"}
+                                              onError={changeSource}
+                                            />
+                                          </span>
+                                        </div>
+                                        {idx === 0 && (
+                                          <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
+                                        )}
+                                      </div>
+                                    )}
+
+                                    {idx !== swapRoute.length - 1 && (
+                                      <div className="flex items-center">
+                                        <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
+                                        <div
+                                          className={clsx(
+                                            "relative  rounded-2xl h-[24px] md:h-[32px] bg-card-600 p-px flex",
+                                            props.routeDetails.isStable[idx]
+                                              ? "w-[91px] md:w-[130px]"
+                                              : "w-[81px] md:w-[114px]"
+                                          )}
+                                        >
+                                          <span className=" flex items-center">
+                                            {props.routeDetails.isStable[idx] && (
+                                              <div className="border-1 md:border-2 border-primary-500/[0.2] z-50 w-[21px] md:w-[28px] h-[21px] md:h-[28px]  flex justify-center items-center bg-card-600 rounded-full">
+                                                <span className="w-[15px] md:w-[18px] h-[15px] md:h-[18px]">
+                                                  <Image
+                                                    src={stableSwap}
+                                                    width={isMobile ? "15px" : "18px"}
+                                                    height={isMobile ? "15px" : "18px"}
+                                                  />
+                                                </span>
+                                              </div>
                                             )}
-                                            <div className="relative  z-100 w-[24px]  h-[24px] md:w-[32px] md:h-[32px]  p-0.5 bg-card-600 rounded-full">
+                                            <div
+                                              className={clsx(
+                                                "relative   z-40 w-[24px]  h-[24px] md:w-[32px] md:h-[32px]   p-0.5 bg-card-600 rounded-full",
+                                                props.routeDetails.isStable[idx] && "right-[10px]"
+                                              )}
+                                            >
                                               <span className="w-[24px] md:w-[28px] h-[28px] md:h-[28px]">
                                                 <img
                                                   src={
                                                     tokenIcons[token?.name as string]
                                                       ? tokenIcons[token?.name as string].src
                                                       : tokens[token?.name as string]?.iconUrl
-                                                        ? tokens[token?.name as string].iconUrl
-                                                        : `/assets/Tokens/fallback.png`
+                                                      ? tokens[token?.name as string].iconUrl
+                                                      : `/assets/Tokens/fallback.png`
                                                   }
                                                   width={isMobile ? "21px" : "28px"}
                                                   height={isMobile ? "21px" : "28px"}
@@ -1075,279 +861,277 @@ function SwapTab(props: ISwapTabProps) {
                                                 />
                                               </span>
                                             </div>
-                                            {idx === 0 && (
-                                              <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
-                                            )}
-                                          </div>
-                                        )}
-
-                                        {idx !== swapRoute.length - 1 && (
-                                          <div className="flex items-center">
-                                            <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
                                             <div
                                               className={clsx(
-                                                "relative  rounded-2xl h-[24px] md:h-[32px] bg-card-600 p-px flex",
+                                                "relative  z-30 w-[24px]  h-[24px] md:w-[32px] md:h-[32px]   p-0.5 bg-card-600 rounded-full",
                                                 props.routeDetails.isStable[idx]
-                                                  ? "w-[91px] md:w-[130px]"
-                                                  : "w-[81px] md:w-[114px]"
+                                                  ? "right-5"
+                                                  : "right-[10px]"
                                               )}
                                             >
-                                              <span className=" flex items-center">
-                                                {props.routeDetails.isStable[idx] && (
-                                                  <div className="border-1 md:border-2 border-primary-500/[0.2] z-50 w-[21px] md:w-[28px] h-[21px] md:h-[28px]  flex justify-center items-center bg-card-600 rounded-full">
-                                                    <span className="w-[15px] md:w-[18px] h-[15px] md:h-[18px]">
-                                                      <Image
-                                                        src={stableSwap}
-                                                        width={isMobile ? "15px" : "18px"}
-                                                        height={isMobile ? "15px" : "18px"}
-                                                      />
-                                                    </span>
-                                                  </div>
-                                                )}
-                                                <div
-                                                  className={clsx(
-                                                    "relative   z-40 w-[24px]  h-[24px] md:w-[32px] md:h-[32px]   p-0.5 bg-card-600 rounded-full",
-                                                    props.routeDetails.isStable[idx] && "right-[10px]"
-                                                  )}
-                                                >
-                                                  <span className="w-[24px] md:w-[28px] h-[28px] md:h-[28px]">
-                                                    <img
-                                                      src={
-                                                        tokenIcons[token?.name as string]
-                                                          ? tokenIcons[token?.name as string].src
-                                                          : tokens[token?.name as string]?.iconUrl
-                                                            ? tokens[token?.name as string].iconUrl
-                                                            : `/assets/Tokens/fallback.png`
-                                                      }
-                                                      width={isMobile ? "21px" : "28px"}
-                                                      height={isMobile ? "21px" : "28px"}
-                                                      onError={changeSource}
-                                                    />
-                                                  </span>
-                                                </div>
-                                                <div
-                                                  className={clsx(
-                                                    "relative  z-30 w-[24px]  h-[24px] md:w-[32px] md:h-[32px]   p-0.5 bg-card-600 rounded-full",
-                                                    props.routeDetails.isStable[idx]
-                                                      ? "right-5"
-                                                      : "right-[10px]"
-                                                  )}
-                                                >
-                                                  <span className="w-[24px] md:w-[28px] h-[28px] md:h-[28px]">
-                                                    <Image
-                                                      src={`/assets/tokens/${swapRoute[index]?.name}.png`}
-                                                      width={isMobile ? "21px" : "28px"}
-                                                      height={isMobile ? "21px" : "28px"}
-                                                    />
-                                                  </span>
-                                                </div>
-                                                <div
-                                                  className={clsx(
-                                                    "relative right-[22px] ml-[2px] md:ml-[5px] h-6 px-[4.5px] pt-[5px] md:pt-[3px] bg-muted-100 rounded-xl font-mobile-700 md:font-subtitle4",
-                                                    props.routeDetails.isStable[idx]
-                                                      ? "right-[22px]"
-                                                      : "right-[12px]"
-                                                  )}
-                                                >
-                                                  {Number(props.routeDetails.feePerc[idx]).toFixed(2)}%
-                                                </div>
+                                              <span className="w-[24px] md:w-[28px] h-[28px] md:h-[28px]">
+                                                <Image
+                                                  src={`/assets/tokens/${swapRoute[index]?.name}.png`}
+                                                  width={isMobile ? "21px" : "28px"}
+                                                  height={isMobile ? "21px" : "28px"}
+                                                />
                                               </span>
                                             </div>
-                                            <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
-                                          </div>
-                                        )}
-                                      </>
-                                    );
-                                  })}
-                                </div>
-                              </>
-                              <div className="mt-3 text-text-50 font-body1">
-                                This route optimises your total output by considering all the Volatile
-                                and Flat AMMs on Kodex.
-                              </div>
+                                            <div
+                                              className={clsx(
+                                                "relative right-[22px] ml-[2px] md:ml-[5px] h-6 px-[4.5px] pt-[5px] md:pt-[3px] bg-muted-100 rounded-xl font-mobile-700 md:font-subtitle4",
+                                                props.routeDetails.isStable[idx]
+                                                  ? "right-[22px]"
+                                                  : "right-[12px]"
+                                              )}
+                                            >
+                                              {Number(props.routeDetails.feePerc[idx]).toFixed(2)}%
+                                            </div>
+                                          </span>
+                                        </div>
+                                        <div className="w-0.5 md:w-1.5 h-2 bg-primary-750 z-50"></div>
+                                      </div>
+                                    )}
+                                  </>
+                                );
+                              })}
                             </div>
+                          </>
+                          <div className="mt-3 text-text-50 font-body1">
+                            This route optimises your total output by considering all the Volatile
+                            and Flat AMMs on Kodex.
                           </div>
-                        }
-                      >
-                        <div className="mr-2.5 lg:mr-6 h-[36px] flex justify-center rounded bg-shimmer-100 p-2">
-                          <Image alt={"alt"} src={router} width={"20px"} height={"20px"} />
-                          <span className="ml-1 font-bold3 lg:font-subtitle4 text-primary-white">{`${Number(
-                            props.routeDetails.finalFeePerc
-                          ).toFixed(2)} %`}</span>
                         </div>
-                      </ToolTip>
+                      </div>
+                    }
+                  >
+                    <div className="mr-2.5 lg:mr-6 h-[36px] flex justify-center rounded bg-shimmer-100 p-2">
+                      <Image alt={"alt"} src={router} width={"20px"} height={"20px"} />
+                      <span className="ml-1 font-bold3 lg:font-subtitle4 text-primary-white">{`${Number(
+                        props.routeDetails.finalFeePerc
+                      ).toFixed(2)} %`}</span>
                     </div>
-                    <div className=" relative top-[3px] ">
-                      <Image
-                        src={arrowDown}
-                        className={animateOpenSwapDetails ? "rotate-180" : "rotate-0"}
-                        width={"24px"}
-                        height={"24px"}
-                      />
-                    </div>
-                  </>
+                  </ToolTip>
+                </div>
+                <div className=" relative top-[3px] ">
+                  <Image
+                    src={arrowDown}
+                    className={animateOpenSwapDetails ? "rotate-180" : "rotate-0"}
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {openSwapDetails && props.routeDetails.success && (
+          <div
+            className={`bg-card-500 border border-text-700/[0.5] py-[14px] lg:py-5 px-[15px] lg:px-[22px] h-[218px] rounded-3xl mt-2 animate__animated `}
+          >
+            <div className="scale-in-animation">
+              <div className="flex">
+                <div className="font-mobile-400 md:font-body3 ">
+                  <span className="mr-[5px]">Minimum received</span>
+                  <span className="relative top-1 lg:top-0.5">
+                    <ToolTip
+                      position={Position.top}
+                      id="tooltip2"
+                      toolTipChild={
+                        <div className="w-[200px] md:w-[323px]">
+                          The minimum amount you are guaranteed to receive. If the price slips any
+                          further, your transaction will revert.
+                        </div>
+                      }
+                    >
+                      <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
+                    </ToolTip>
+                  </span>
+                </div>
+                {isRefresh ||
+                props.loading.isLoadingSecond ||
+                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
+                    999999999999
+                  </div>
+                ) : (
+                  <div className="ml-auto font-mobile-700 md:font-subtitle4 cursor-pointer">
+                    <ToolTip
+                      message={fromExponential(props.routeDetails.minimumOut.toNumber())}
+                      id="tooltip6"
+                      disable={Number(props.routeDetails.minimumOut) < 0}
+                      position={isMobile ? Position.left : Position.top}
+                    >
+                      {Number(props.routeDetails.minimumOut) < 0
+                        ? `0 ${tEZorCTEZtoUppercase(props.tokenOut.name)}`
+                        : ` ${Number(props.routeDetails.minimumOut).toFixed(
+                            4
+                          )} ${tEZorCTEZtoUppercase(props.tokenOut.name)}`}
+                    </ToolTip>
+                  </div>
                 )}
               </div>
-            )}
 
-            {openSwapDetails && props.routeDetails.success && (
-              <div
-                className={`bg-card-500 border border-text-700/[0.5] py-[14px] lg:py-5 px-[15px] lg:px-[22px] h-[218px] rounded-3xl mt-2 animate__animated `}
-              >
-                <div className="scale-in-animation">
-                  <div className="flex">
-                    <div className="font-mobile-400 md:font-body3 ">
-                      <span className="mr-[5px]">Minimum received</span>
-                      <span className="relative top-1 lg:top-0.5">
-                        <ToolTip
-                          position={Position.top}
-                          id="tooltip2"
-                          toolTipChild={
-                            <div className="w-[200px] md:w-[323px]">
-                              The minimum amount you are guaranteed to receive. If the price slips any
-                              further, your transaction will revert.
-                            </div>
-                          }
-                        >
-                          <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
-                        </ToolTip>
-                      </span>
-                    </div>
-                    {isRefresh ||
-                      props.loading.isLoadingSecond ||
-                      (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                      <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
-                        999999999999
-                      </div>
-                    ) : (
-                      <div className="ml-auto font-mobile-700 md:font-subtitle4 cursor-pointer">
-                        <ToolTip
-                          message={fromExponential(props.routeDetails.minimumOut.toNumber())}
-                          id="tooltip6"
-                          disable={Number(props.routeDetails.minimumOut) < 0}
-                          position={isMobile ? Position.left : Position.top}
-                        >
-                          {Number(props.routeDetails.minimumOut) < 0
-                            ? `0 ${tEZorCTEZtoUppercase(props.tokenOut.name)}`
-                            : ` ${Number(props.routeDetails.minimumOut).toFixed(
-                              4
-                            )} ${tEZorCTEZtoUppercase(props.tokenOut.name)}`}
-                        </ToolTip>
-                      </div>
-                    )}
+              <div className="flex mt-2">
+                <div className="font-mobile-400 md:font-body3 ">
+                  <span className="mr-[5px]">Price impact</span>
+                  <span className="relative top-1 lg:top-0.5">
+                    <ToolTip
+                      id="tooltip4"
+                      position={isMobile ? Position.right : Position.top}
+                      toolTipChild={
+                        <div className="w-[200px]  md:w-[323px]">
+                          The difference between the market price and estimated price due to trade
+                          size.
+                        </div>
+                      }
+                    >
+                      <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
+                    </ToolTip>
+                  </span>
+                </div>
+                {isRefresh ||
+                props.loading.isLoadingSecond ||
+                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
+                    99999999
                   </div>
+                ) : (
+                  <div
+                    className={clsx(
+                      "ml-auto cursor-pointer font-mobile-700 md:font-subtitle4",
+                      Number(props.routeDetails.priceImpact) > 5 && "text-error-500"
+                    )}
+                  >
+                    <ToolTip
+                      message={fromExponential(props.routeDetails.priceImpact.toString())}
+                      id="tooltip5"
+                      position={isMobile ? Position.left : Position.top}
+                    >
+                      {`${props.routeDetails.priceImpact.toFixed(4)} %`}{" "}
+                    </ToolTip>
+                  </div>
+                )}
+              </div>
+              <div className="flex mt-2">
+                <div className="font-mobile-400 md:font-body3 ">
+                  <span className="mr-[5px]">Fee</span>
+                  <span className="relative top-1 lg:top-0.5">
+                    <ToolTip
+                      id="tooltip3"
+                      position={isMobile ? Position.right : Position.top}
+                      toolTipChild={
+                        <div className="w-[200px] md:w-[323px]">
+                          Fees is 0.05% for both volatile and stable swap
+                        </div>
+                      }
+                    >
+                      <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
+                    </ToolTip>
+                  </span>
+                </div>
+                {isRefresh ||
+                props.loading.isLoadingSecond ||
+                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
+                    999999999999
+                  </div>
+                ) : (
+                  <div className="ml-auto font-mobile-700 md:font-subtitle4">
+                    {`${props.routeDetails.finalFeePerc.toFixed(2)}  %`}
+                  </div>
+                )}
+              </div>
+              <div className="border-t border-text-800 mt-[18px]"></div>
 
-                  <div className="flex mt-2">
-                    <div className="font-mobile-400 md:font-body3 ">
-                      <span className="mr-[5px]">Price impact</span>
-                      <span className="relative top-1 lg:top-0.5">
-                        <ToolTip
-                          id="tooltip4"
-                          position={isMobile ? Position.right : Position.top}
-                          toolTipChild={
-                            <div className="w-[200px]  md:w-[323px]">
-                              The difference between the market price and estimated price due to trade
-                              size.
-                            </div>
-                          }
-                        >
-                          <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
-                        </ToolTip>
-                      </span>
-                    </div>
-                    {isRefresh ||
-                      props.loading.isLoadingSecond ||
-                      (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                      <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
-                        99999999
-                      </div>
-                    ) : (
-                      <div
-                        className={clsx(
-                          "ml-auto cursor-pointer font-mobile-700 md:font-subtitle4",
-                          Number(props.routeDetails.priceImpact) > 5 && "text-error-500"
-                        )}
-                      >
-                        <ToolTip
-                          message={fromExponential(props.routeDetails.priceImpact.toString())}
-                          id="tooltip5"
-                          position={isMobile ? Position.left : Position.top}
-                        >
-                          {`${props.routeDetails.priceImpact.toFixed(4)} %`}{" "}
-                        </ToolTip>
-                      </div>
-                    )}
+              <div className="mt-4 ">
+                <div className="font-subtitle2 md:font-subtitle4">
+                  {" "}
+                  <span className="mr-[5px]">Route</span>
+                  <span className="relative top-1 lg:top-0.5">
+                    <ToolTip
+                      id="tooltip4"
+                      position={isMobile ? Position.right : Position.top}
+                      toolTipChild={
+                        <div className="w-[200px] md:w-[323px]">
+                          Routing through these tokens results in the best price for your trade.
+                        </div>
+                      }
+                    >
+                      <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
+                    </ToolTip>
+                  </span>
+                </div>
+                {isRefresh ||
+                props.loading.isLoadingSecond ||
+                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  <div className=" w-[110px] mt-2 h-[35px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
+                    99999999
                   </div>
-                  <div className="flex mt-2">
-                    <div className="font-mobile-400 md:font-body3 ">
-                      <span className="mr-[5px]">Fee</span>
-                      <span className="relative top-1 lg:top-0.5">
-                        <ToolTip
-                          id="tooltip3"
-                          position={isMobile ? Position.right : Position.top}
-                          toolTipChild={
-                            <div className="w-[200px] md:w-[323px]">
-                              Fees is 0.05% for both volatile and stable swap
-                            </div>
-                          }
-                        >
-                          <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
-                        </ToolTip>
-                      </span>
-                    </div>
-                    {isRefresh ||
-                      props.loading.isLoadingSecond ||
-                      (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                      <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
-                        999999999999
-                      </div>
-                    ) : (
-                      <div className="ml-auto font-mobile-700 md:font-subtitle4">
-                        {`${props.routeDetails.finalFeePerc.toFixed(2)}  %`}
-                      </div>
-                    )}
-                  </div>
-                  <div className="border-t border-text-800 mt-[18px]"></div>
+                ) : (
+                  <div className="">
+                    <div className="swap overflow-x-auto pb-2 min-w-[305px] md:min-w-[338px]">
+                      <div className="border-dashed relative top-[24px]   border-t-2 border-muted-50 mx-2"></div>
+                      <div className="mt-2 flex justify-between ">
+                        {swapRoute?.map((token, idx) => {
+                          const index = idx + 1;
+                          return (
+                            <>
+                              {(idx === 0 || idx === swapRoute.length - 1) && (
+                                <div className="flex items-center " key={token?.name}>
+                                  {idx === swapRoute.length - 1 && (
+                                    <div className="w-1.5 h-2 bg-card-500 z-50"></div>
+                                  )}
+                                  <div className="relative  z-100 w-[32px] h-[32px]  p-0.5 bg-card-600 rounded-full">
+                                    <span className="w-[28px] h-[28px]">
+                                      <img
+                                        alt={"alt"}
+                                        src={
+                                          tokenIcons[token?.name as string]
+                                            ? tokenIcons[token?.name as string].src
+                                            : tokens[token?.name as string]?.iconUrl
+                                            ? tokens[token?.name as string].iconUrl
+                                            : `/assets/Tokens/fallback.png`
+                                        }
+                                        width={"28px"}
+                                        height={"28px"}
+                                        onError={changeSource}
+                                      />
+                                    </span>
+                                  </div>
+                                  {idx === 0 && <div className="w-1.5 h-2 bg-card-500 z-50"></div>}
+                                </div>
+                              )}
 
-                  <div className="mt-4 ">
-                    <div className="font-subtitle2 md:font-subtitle4">
-                      {" "}
-                      <span className="mr-[5px]">Route</span>
-                      <span className="relative top-1 lg:top-0.5">
-                        <ToolTip
-                          id="tooltip4"
-                          position={isMobile ? Position.right : Position.top}
-                          toolTipChild={
-                            <div className="w-[200px] md:w-[323px]">
-                              Routing through these tokens results in the best price for your trade.
-                            </div>
-                          }
-                        >
-                          <Image alt={"alt"} src={info} className="infoIcon cursor-pointer" />
-                        </ToolTip>
-                      </span>
-                    </div>
-                    {isRefresh ||
-                      props.loading.isLoadingSecond ||
-                      (props.isSwitchClicked && props.secondTokenAmount === "") ? (
-                      <div className=" w-[110px] mt-2 h-[35px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
-                        99999999
-                      </div>
-                    ) : (
-                      <div className="">
-                        <div className="swap overflow-x-auto pb-2 min-w-[305px] md:min-w-[338px]">
-                          <div className="border-dashed relative top-[24px]   border-t-2 border-muted-50 mx-2"></div>
-                          <div className="mt-2 flex justify-between ">
-                            {swapRoute?.map((token, idx) => {
-                              const index = idx + 1;
-                              return (
-                                <>
-                                  {(idx === 0 || idx === swapRoute.length - 1) && (
-                                    <div className="flex items-center " key={token?.name}>
-                                      {idx === swapRoute.length - 1 && (
-                                        <div className="w-1.5 h-2 bg-card-500 z-50"></div>
+                              {idx !== swapRoute.length - 1 && (
+                                <div className="flex items-center">
+                                  <div className="w-1.5 h-2 bg-card-500 z-50"></div>
+                                  <div
+                                    className={clsx(
+                                      "relative  rounded-2xl h-[32px] bg-card-600 p-px flex",
+                                      props.routeDetails.isStable[idx] ? "w-[130px]" : "w-[114px]"
+                                    )}
+                                  >
+                                    <span className=" flex items-center">
+                                      {props.routeDetails.isStable[idx] && (
+                                        <div className="border-2 border-primary-500/[0.2] z-50 w-[28px] h-[28px]  flex justify-center items-center bg-card-600 rounded-full">
+                                          <span className="w-[18px] h-[18px]">
+                                            <Image
+                                              alt={"alt"}
+                                              src={stableSwap}
+                                              width={"18px"}
+                                              height={"18px"}
+                                            />
+                                          </span>
+                                        </div>
                                       )}
-                                      <div className="relative  z-100 w-[32px] h-[32px]  p-0.5 bg-card-600 rounded-full">
+                                      <div
+                                        className={clsx(
+                                          "relative   z-40 w-[32px] h-[32px]  p-0.5 bg-card-600 rounded-full",
+                                          props.routeDetails.isStable[idx] && "right-[10px]"
+                                        )}
+                                      >
                                         <span className="w-[28px] h-[28px]">
                                           <img
                                             alt={"alt"}
@@ -1355,8 +1139,8 @@ function SwapTab(props: ISwapTabProps) {
                                               tokenIcons[token?.name as string]
                                                 ? tokenIcons[token?.name as string].src
                                                 : tokens[token?.name as string]?.iconUrl
-                                                  ? tokens[token?.name as string].iconUrl
-                                                  : `/assets/Tokens/fallback.png`
+                                                ? tokens[token?.name as string].iconUrl
+                                                : `/assets/Tokens/fallback.png`
                                             }
                                             width={"28px"}
                                             height={"28px"}
@@ -1364,151 +1148,98 @@ function SwapTab(props: ISwapTabProps) {
                                           />
                                         </span>
                                       </div>
-                                      {idx === 0 && <div className="w-1.5 h-2 bg-card-500 z-50"></div>}
-                                    </div>
-                                  )}
-
-                                  {idx !== swapRoute.length - 1 && (
-                                    <div className="flex items-center">
-                                      <div className="w-1.5 h-2 bg-card-500 z-50"></div>
                                       <div
                                         className={clsx(
-                                          "relative  rounded-2xl h-[32px] bg-card-600 p-px flex",
-                                          props.routeDetails.isStable[idx] ? "w-[130px]" : "w-[114px]"
+                                          "relative  z-30 w-[32px] h-[32px]  p-0.5 bg-card-600 rounded-full",
+                                          props.routeDetails.isStable[idx]
+                                            ? "right-5"
+                                            : "right-[10px]"
                                         )}
                                       >
-                                        <span className=" flex items-center">
-                                          {props.routeDetails.isStable[idx] && (
-                                            <div className="border-2 border-primary-500/[0.2] z-50 w-[28px] h-[28px]  flex justify-center items-center bg-card-600 rounded-full">
-                                              <span className="w-[18px] h-[18px]">
-                                                <Image
-                                                  alt={"alt"}
-                                                  src={stableSwap}
-                                                  width={"18px"}
-                                                  height={"18px"}
-                                                />
-                                              </span>
-                                            </div>
-                                          )}
-                                          <div
-                                            className={clsx(
-                                              "relative   z-40 w-[32px] h-[32px]  p-0.5 bg-card-600 rounded-full",
-                                              props.routeDetails.isStable[idx] && "right-[10px]"
-                                            )}
-                                          >
-                                            <span className="w-[28px] h-[28px]">
-                                              <img
-                                                alt={"alt"}
-                                                src={
-                                                  tokenIcons[token?.name as string]
-                                                    ? tokenIcons[token?.name as string].src
-                                                    : tokens[token?.name as string]?.iconUrl
-                                                      ? tokens[token?.name as string].iconUrl
-                                                      : `/assets/Tokens/fallback.png`
-                                                }
-                                                width={"28px"}
-                                                height={"28px"}
-                                                onError={changeSource}
-                                              />
-                                            </span>
-                                          </div>
-                                          <div
-                                            className={clsx(
-                                              "relative  z-30 w-[32px] h-[32px]  p-0.5 bg-card-600 rounded-full",
-                                              props.routeDetails.isStable[idx]
-                                                ? "right-5"
-                                                : "right-[10px]"
-                                            )}
-                                          >
-                                            <span className="w-[28px] h-[28px]">
-                                              <img
-                                                src={
-                                                  tokenIcons[swapRoute[index]?.name as string]
-                                                    ? tokenIcons[swapRoute[index]?.name as string].src
-                                                    : tokens[swapRoute[index]?.name as string]?.iconUrl
-                                                      ? tokens[swapRoute[index]?.name as string].iconUrl
-                                                      : `/assets/Tokens/fallback.png`
-                                                }
-                                                width={"28px"}
-                                                height={"28px"}
-                                                onError={changeSource}
-                                              />
-                                            </span>
-                                          </div>
-                                          <div
-                                            className={clsx(
-                                              "relative right-[22px] ml-[5px] h-6 px-[4.5px] pt-[3px] bg-muted-100 rounded-xl font-subtitle4",
-                                              props.routeDetails.isStable[idx]
-                                                ? "right-[22px]"
-                                                : "right-[12px]"
-                                            )}
-                                          >
-                                            {Number(props.routeDetails.feePerc[idx]).toFixed(2)}%
-                                          </div>
+                                        <span className="w-[28px] h-[28px]">
+                                          <img
+                                            src={
+                                              tokenIcons[swapRoute[index]?.name as string]
+                                                ? tokenIcons[swapRoute[index]?.name as string].src
+                                                : tokens[swapRoute[index]?.name as string]?.iconUrl
+                                                ? tokens[swapRoute[index]?.name as string].iconUrl
+                                                : `/assets/Tokens/fallback.png`
+                                            }
+                                            width={"28px"}
+                                            height={"28px"}
+                                            onError={changeSource}
+                                          />
                                         </span>
                                       </div>
-                                      <div className="w-1.5 h-2 bg-card-500 z-50"></div>
-                                    </div>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </div>
-                        </div>
+                                      <div
+                                        className={clsx(
+                                          "relative right-[22px] ml-[5px] h-6 px-[4.5px] pt-[3px] bg-muted-100 rounded-xl font-subtitle4",
+                                          props.routeDetails.isStable[idx]
+                                            ? "right-[22px]"
+                                            : "right-[12px]"
+                                        )}
+                                      >
+                                        {Number(props.routeDetails.feePerc[idx]).toFixed(2)}%
+                                      </div>
+                                    </span>
+                                  </div>
+                                  <div className="w-1.5 h-2 bg-card-500 z-50"></div>
+                                </div>
+                              )}
+                            </>
+                          );
+                        })}
                       </div>
-                    )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
-            )}
-            <div className="content-box-btn">
-              <button className="swap-btn-2">{SwapButton}</button>
             </div>
-            {showExpertPopup && (
-              <ExpertModePopup
-                show={showExpertPopup}
-                setShow={setShowExpertPopup}
-                setExpertMode={setExpertMode}
-              />
-            )}
-            {props.showConfirmSwap && (
-              <ConfirmSwap
-                show={props.showConfirmSwap}
-                tokens={props.tokens}
-                setShow={props.setShowConfirmSwap}
-                tokenIn={props.tokenIn}
-                tokenOut={props.tokenOut}
-                firstTokenAmount={props.firstTokenAmount}
-                secondTokenAmount={props.secondTokenAmount.toString()}
-                routeDetails={props.routeDetails}
-                onClick={handleConfirmSwap}
-              />
-            )}
-            {props.showConfirmTransaction && (
-              <ConfirmTransaction
-                show={props.showConfirmTransaction}
-                setShow={props.setShowConfirmTransaction}
-                content={`Swap ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} ${localStorage.getItem(
-                  TOKEN_A
-                )} for ${localStorage.getItem(SECOND_TOKEN_AMOUNT)} ${localStorage.getItem(TOKEN_B)}`}
-              />
-            )}
-            {props.showTransactionSubmitModal && (
-              <TransactionSubmitted
-                show={props.showTransactionSubmitModal}
-                setShow={props.setShowTransactionSubmitModal}
-                onBtnClick={
-                  transactionId ? () => window.open(`${tzktExplorer}${transactionId}`, "_blank") : null
-                }
-                content={`Swap ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} ${localStorage.getItem(
-                  TOKEN_A
-                )} for ${localStorage.getItem(SECOND_TOKEN_AMOUNT)} ${localStorage.getItem(TOKEN_B)} `}
-              />
-            )}
           </div>
-
-        </div>
-      </section>
+        )}
+        <div className="mt-5">{SwapButton}</div>
+      </div>
+      {showExpertPopup && (
+        <ExpertModePopup
+          show={showExpertPopup}
+          setShow={setShowExpertPopup}
+          setExpertMode={setExpertMode}
+        />
+      )}
+      {props.showConfirmSwap && (
+        <ConfirmSwap
+          show={props.showConfirmSwap}
+          tokens={props.tokens}
+          setShow={props.setShowConfirmSwap}
+          tokenIn={props.tokenIn}
+          tokenOut={props.tokenOut}
+          firstTokenAmount={props.firstTokenAmount}
+          secondTokenAmount={props.secondTokenAmount.toString()}
+          routeDetails={props.routeDetails}
+          onClick={handleConfirmSwap}
+        />
+      )}
+      {props.showConfirmTransaction && (
+        <ConfirmTransaction
+          show={props.showConfirmTransaction}
+          setShow={props.setShowConfirmTransaction}
+          content={`Swap ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} ${localStorage.getItem(
+            TOKEN_A
+          )} for ${localStorage.getItem(SECOND_TOKEN_AMOUNT)} ${localStorage.getItem(TOKEN_B)}`}
+        />
+      )}
+      {props.showTransactionSubmitModal && (
+        <TransactionSubmitted
+          show={props.showTransactionSubmitModal}
+          setShow={props.setShowTransactionSubmitModal}
+          onBtnClick={
+            transactionId ? () => window.open(`${tzktExplorer}${transactionId}`, "_blank") : null
+          }
+          content={`Swap ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} ${localStorage.getItem(
+            TOKEN_A
+          )} for ${localStorage.getItem(SECOND_TOKEN_AMOUNT)} ${localStorage.getItem(TOKEN_B)} `}
+        />
+      )}
     </>
   );
 }

@@ -131,9 +131,10 @@ export default function Pools(props: IIndexProps) {
                                 <p>More</p>
                                 <img src="/images/arrow_down.svg" />
                             </div>
-                            <Link href="/liquidity">
+                            {/* <Link href="/liquidity">
                                 <Pinkbtn src="/images/more.svg" type="withoutBorder" text="New Position" padding="small" />
-                            </Link>
+                            </Link> */}
+                            <Pinkbtn src="/images/more.svg" type="withoutBorder" text="New Position" padding="small" onClick={handleNewPool} />
                         </div>
                     </div>
                     <div className="empty"></div>
@@ -191,7 +192,7 @@ export default function Pools(props: IIndexProps) {
             </section>
 
             <div style={{ width: "100%", paddingLeft: "50px", paddingRight: '50px' }}>
-                <HeadInfo
+                {/* <HeadInfo
                     className="px-2 md:px-3"
                     title="Pools"
                     toolTipContent="Watch how to add liquidity, stake, and earn PLY. "
@@ -217,22 +218,22 @@ export default function Pools(props: IIndexProps) {
                         setSearchValue={setSearchValue}
                     />
                 </div>
-                {/* {isbanner && (
-            <div className="py-1.5 md:h-[42px] mx-4 md:mx-[23px] px-2 rounded-lg mt-3 flex items-center bg-info-500/[0.1]">
-              <p className="relative top-0.5">
-                <Image src={info} />
-              </p>
-              <p className="font-body2 text-info-500 px-3 sm:w-auto w-[280px]">
-                APR for the for the first two epochs will be 0%. Emissions begin on 19th Jan.
-              </p>
-              <p
-                className="ml-auto relative top-[7px] cursor-pointer"
-                onClick={() => setisBanner(false)}
-              >
-                <Image src={close} />
-              </p>
-            </div>
-          )} */}
+                {isbanner && (
+                    <div className="py-1.5 md:h-[42px] mx-4 md:mx-[23px] px-2 rounded-lg mt-3 flex items-center bg-info-500/[0.1]">
+                        <p className="relative top-0.5">
+                            <Image src={info} />
+                        </p>
+                        <p className="font-body2 text-info-500 px-3 sm:w-auto w-[280px]">
+                            APR for the for the first two epochs will be 0%. Emissions begin on 19th Jan.
+                        </p>
+                        <p
+                            className="ml-auto relative top-[7px] cursor-pointer"
+                            onClick={() => setisBanner(false)}
+                        >
+                            <Image src={close} />
+                        </p>
+                    </div>
+                )}
                 {activeStateTab === PoolsCardHeader.All && (
                     <PoolsTable
                         className="md:pl-5 md:py-4  pl-2 py-4"
@@ -291,7 +292,7 @@ export default function Pools(props: IIndexProps) {
                         reFetchPool={reFetchPool}
                         isFetchingMyPool={isFetchingMyPool}
                     />
-                )}
+                )} */}
                 <NewPool
                     show={showNewPoolPopup}
                     setShow={setShowNewPoolPopup}
@@ -301,7 +302,6 @@ export default function Pools(props: IIndexProps) {
                     reFetchPool={reFetchPool}
                     setShowLiquidityModalPopup={setShowLiquidityModal}
                 />
-                {/* poolsTable */}
             </div>
 
             <Footer />

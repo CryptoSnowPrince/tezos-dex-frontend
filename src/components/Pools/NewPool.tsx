@@ -186,7 +186,7 @@ export function NewPool(props: IManageLiquidityProps) {
   useEffect(() => {
     if (
       (Object.keys(allBalance),
-      length !== 0 && allBalance.success && Object.keys(allBalance.allTokensBalances).length !== 0)
+        length !== 0 && allBalance.success && Object.keys(allBalance.allTokensBalances).length !== 0)
     ) {
       tokensListConfig.sort(
         (a, b) =>

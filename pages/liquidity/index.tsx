@@ -35,24 +35,24 @@ import TokenModalPool from "../../src/components/Pools/tokenModalPool";
 import { tzktExplorer } from '../../src/common/walletconnect';
 
 export default function Liquidity() {
-    // let [step1, setStep1] = useState(true);
-    // let [step2, setStep2] = useState(false);
+    const [step1, setStep1] = useState(true);
+    const [step2, setStep2] = useState(false);
     const [step3, setStep3] = useState(false);
 
     // let [token1, setToken1] = useState('');
     // let [token2, setToken2] = useState('');
 
-    // let [isPairsClicked, setIsPairsClicked] = useState([
-    //     {
-    //         "activated": false
-    //     },
-    //     {
-    //         "activated": false
-    //     },
-    //     {
-    //         "activated": false
-    //     }
-    // ])
+    const [isPairsClicked, setIsPairsClicked] = useState([
+        {
+            "activated": false
+        },
+        {
+            "activated": false
+        },
+        {
+            "activated": false
+        }
+    ])
 
     const router = useRouter();
 
@@ -529,123 +529,22 @@ export default function Liquidity() {
                         </div>
                         <div className="content-box">
                             <div className="content-part-wrapper left">
-                                <>
-                                    <div className="flex ">
-                                        <div className="mx-2 text-white font-title3">Add new pool</div>
-                                        <div className="relative top-[2px]">
-                                            <ToolTip
-                                                id="tooltip2"
-                                                position={Position.top}
-                                                toolTipChild={
-                                                    <div className="w-[100px] md:w-[250px]">
-                                                        Create a new liquidity pool for a token pair.
-                                                    </div>
-                                                }
-                                            >
-                                                <Image alt={"alt"} src={info} className="cursor-pointer" />
-                                            </ToolTip>
-                                        </div>
-                                    </div>
-                                    <div className="w-[100%]">
-                                        <NewPoolMain
-                                            setShowConfirmPool={setShowConfirmPool}
-                                            firstTokenAmount={firstTokenAmountLiq}
-                                            secondTokenAmount={secondTokenAmountLiq}
-                                            userBalances={allBalance.allTokensBalances}
-                                            setShowLiquidityModalPopup={setShowLiquidityModalPopup}
-                                            setSecondTokenAmount={setSecondTokenAmountLiq}
-                                            setFirstTokenAmount={setFirstTokenAmountLiq}
-                                            tokenIn={tokenIn}
-                                            tokenOut={tokenOut}
-                                            setIsAddLiquidity={setIsAddLiquidity}
-                                            isAddLiquidity={isAddLiquidity}
-                                            pnlpBalance={pnlpBalance}
-                                            setBurnAmount={setBurnAmount}
-                                            burnAmount={burnAmount}
-                                            setRemoveTokenAmount={setRemoveTokenAmount}
-                                            removeTokenAmount={removeTokenAmount}
-                                            setSlippage={setSlippage}
-                                            slippage={slippage}
-                                            isLoading={isLoading}
-                                            handleTokenType={handleTokenType}
-                                            setPair={setPair}
-                                            pair={pair}
-                                            setShowLiquidityModal={handelshowLiquidityModal}
-                                            showLiquidityModal={showLiquidityModalPopup}
-                                            contractTokenBalance={contractTokenBalance}
-                                        />
-                                    </div>
-                                    {showConfirmPool && (
-                                        <ConfirmAddPool
-                                            show={showConfirmPool}
-                                            pair={pair}
-                                            setShow={setShowConfirmPool}
-                                            tokenIn={tokenIn}
-                                            tokenOut={tokenOut}
-                                            firstTokenAmount={firstTokenAmountLiq}
-                                            secondTokenAmount={secondTokenAmountLiq}
-                                            onClick={handleAddNewPoolOperation}
-                                            routeDetails={
-                                                {} as {
-                                                    path: string[];
-                                                    minimumOut: BigNumber;
-                                                    minimumTokenOut: BigNumber[];
-                                                    priceImpact: BigNumber;
-                                                    finalFeePerc: BigNumber;
-                                                    feePerc: BigNumber[];
-                                                    isStable: boolean[];
-                                                    exchangeRate: BigNumber;
-                                                    success: boolean;
-                                                }
+                                {/* <div className="flex ">
+                                    <div className="mx-2 text-white font-title3">Add new pool</div>
+                                    <div className="relative top-[2px]">
+                                        <ToolTip
+                                            id="tooltip2"
+                                            position={Position.top}
+                                            toolTipChild={
+                                                <div className="w-[100px] md:w-[250px]">
+                                                    Create a new liquidity pool for a token pair.
+                                                </div>
                                             }
-                                        />
-                                    )}
-                                    <TokenModalPool
-                                        tokens={tokensListConfig.filter((e: any) => {
-                                            return (
-                                                e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
-                                                // e.name.toLowerCase() !== "XTZ".toLowerCase() &&
-                                                e.name.toLowerCase() !== MigrateToken.WRAP.toLowerCase()
-                                            );
-                                        })}
-                                        show={swapModalShow}
-                                        isLoading={allBalance.success}
-                                        allBalance={allBalance.allTokensBalances}
-                                        selectToken={selectToken}
-                                        onhide={handleClose}
-                                        tokenIn={tokenIn}
-                                        tokenOut={tokenOut}
-                                        tokenType={tokenType}
-                                        searchQuery={searchQuery}
-                                        setSearchQuery={setSearchQuery}
-                                    />
-                                    {showConfirmTransaction && (
-                                        <ConfirmTransaction
-                                            show={showConfirmTransaction}
-                                            setShow={setShowConfirmTransaction}
-                                            content={`Addition of new ${localStorage.getItem(TOKEN_A)}/${localStorage.getItem(
-                                                TOKEN_B
-                                            )} ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} pool`}
-                                        />
-                                    )}
-                                    {showTransactionSubmitModal && (
-                                        <TransactionSubmitted
-                                            show={showTransactionSubmitModal}
-                                            setShow={setShowTransactionSubmitModal}
-                                            onBtnClick={
-                                                transactionId ? () => window.open(`${tzktExplorer}${transactionId}`, "_blank") : null
-                                            }
-                                            content={`Addition of new ${localStorage.getItem(TOKEN_A)}/${localStorage.getItem(
-                                                TOKEN_B
-                                            )} ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} pool`}
-                                        />
-                                    )}
-                                </>
-                                {/* <div className="content-part content-part1">
-                                    <h2 className="title">Select Pair</h2>
-                                    <SelectToken />
-                                    <SelectToken />
-                                </div>
+                                        >
+                                            <Image alt={"alt"} src={info} className="cursor-pointer" />
+                                        </ToolTip>
+                                    </div>
+                                </div> */}
                                 <div className={step1 ? "content-part content-part2" : "content-part content-part2 greyText"}>
                                     <h2 className="title">Select Fee Tier</h2>
                                     <p className="desc">The % you will earn in fee’s</p>
@@ -655,11 +554,11 @@ export default function Liquidity() {
                                             temp[0].activated = !temp[0].activated;
                                             setIsPairsClicked([...temp]);
                                             setStep2(!step2);
-                                            for (let i = 0; i < temp.length; i++) {
-                                                if (temp[i].activated) {
-                                                    alert("no");
-                                                }
-                                            }
+                                            // for (let i = 0; i < temp.length; i++) {
+                                            //     if (temp[i].activated) {
+                                            //         alert("no");
+                                            //     }
+                                            // }
                                         }}>
                                             <div className="number">0.05%</div>
                                             <div className="text">Best for stable pairs</div>
@@ -684,7 +583,144 @@ export default function Liquidity() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={step2 ? "content-part content-part3" : "content-part content-part3 greyText"}>
+                                <div className="w-[100%]">
+                                    <NewPoolMain
+                                        setShowConfirmPool={setShowConfirmPool}
+                                        firstTokenAmount={firstTokenAmountLiq}
+                                        secondTokenAmount={secondTokenAmountLiq}
+                                        userBalances={allBalance.allTokensBalances}
+                                        setShowLiquidityModalPopup={setShowLiquidityModalPopup}
+                                        setSecondTokenAmount={setSecondTokenAmountLiq}
+                                        setFirstTokenAmount={setFirstTokenAmountLiq}
+                                        tokenIn={tokenIn}
+                                        tokenOut={tokenOut}
+                                        setIsAddLiquidity={setIsAddLiquidity}
+                                        isAddLiquidity={isAddLiquidity}
+                                        pnlpBalance={pnlpBalance}
+                                        setBurnAmount={setBurnAmount}
+                                        burnAmount={burnAmount}
+                                        setRemoveTokenAmount={setRemoveTokenAmount}
+                                        removeTokenAmount={removeTokenAmount}
+                                        setSlippage={setSlippage}
+                                        slippage={slippage}
+                                        isLoading={isLoading}
+                                        handleTokenType={handleTokenType}
+                                        setPair={setPair}
+                                        pair={pair}
+                                        setShowLiquidityModal={handelshowLiquidityModal}
+                                        showLiquidityModal={showLiquidityModalPopup}
+                                        contractTokenBalance={contractTokenBalance}
+                                    />
+                                </div>
+                                {showConfirmPool && (
+                                    <ConfirmAddPool
+                                        show={showConfirmPool}
+                                        pair={pair}
+                                        setShow={setShowConfirmPool}
+                                        tokenIn={tokenIn}
+                                        tokenOut={tokenOut}
+                                        firstTokenAmount={firstTokenAmountLiq}
+                                        secondTokenAmount={secondTokenAmountLiq}
+                                        onClick={handleAddNewPoolOperation}
+                                        routeDetails={
+                                            {} as {
+                                                path: string[];
+                                                minimumOut: BigNumber;
+                                                minimumTokenOut: BigNumber[];
+                                                priceImpact: BigNumber;
+                                                finalFeePerc: BigNumber;
+                                                feePerc: BigNumber[];
+                                                isStable: boolean[];
+                                                exchangeRate: BigNumber;
+                                                success: boolean;
+                                            }
+                                        }
+                                    />
+                                )}
+                                <TokenModalPool
+                                    tokens={tokensListConfig.filter((e: any) => {
+                                        return (
+                                            e.name.toLowerCase() !== MigrateToken.KODEX.toLowerCase() &&
+                                            // e.name.toLowerCase() !== "XTZ".toLowerCase() &&
+                                            e.name.toLowerCase() !== MigrateToken.WRAP.toLowerCase()
+                                        );
+                                    })}
+                                    show={swapModalShow}
+                                    isLoading={allBalance.success}
+                                    allBalance={allBalance.allTokensBalances}
+                                    selectToken={selectToken}
+                                    onhide={handleClose}
+                                    tokenIn={tokenIn}
+                                    tokenOut={tokenOut}
+                                    tokenType={tokenType}
+                                    searchQuery={searchQuery}
+                                    setSearchQuery={setSearchQuery}
+                                />
+                                {showConfirmTransaction && (
+                                    <ConfirmTransaction
+                                        show={showConfirmTransaction}
+                                        setShow={setShowConfirmTransaction}
+                                        content={`Addition of new ${localStorage.getItem(TOKEN_A)}/${localStorage.getItem(
+                                            TOKEN_B
+                                        )} ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} pool`}
+                                    />
+                                )}
+                                {showTransactionSubmitModal && (
+                                    <TransactionSubmitted
+                                        show={showTransactionSubmitModal}
+                                        setShow={setShowTransactionSubmitModal}
+                                        onBtnClick={
+                                            transactionId ? () => window.open(`${tzktExplorer}${transactionId}`, "_blank") : null
+                                        }
+                                        content={`Addition of new ${localStorage.getItem(TOKEN_A)}/${localStorage.getItem(
+                                            TOKEN_B
+                                        )} ${localStorage.getItem(FIRST_TOKEN_AMOUNT)} pool`}
+                                    />
+                                )}
+                                {/* <div className="content-part content-part1">
+                                    <h2 className="title">Select Pair</h2>
+                                    <SelectToken />
+                                    <SelectToken />
+                                </div> */}
+                                {/* <div className={step1 ? "content-part content-part2" : "content-part content-part2 greyText"}>
+                                    <h2 className="title">Select Fee Tier</h2>
+                                    <p className="desc">The % you will earn in fee’s</p>
+                                    <div className="pairs-wrapper">
+                                        <div className={isPairsClicked[0].activated ? "pairs pairs-activated" : "pairs"} onClick={() => {
+                                            let temp = [...isPairsClicked];
+                                            temp[0].activated = !temp[0].activated;
+                                            setIsPairsClicked([...temp]);
+                                            setStep2(!step2);
+                                            // for (let i = 0; i < temp.length; i++) {
+                                            //     if (temp[i].activated) {
+                                            //         alert("no");
+                                            //     }
+                                            // }
+                                        }}>
+                                            <div className="number">0.05%</div>
+                                            <div className="text">Best for stable pairs</div>
+                                        </div>
+                                        <div className={isPairsClicked[1].activated ? "pairs pairs-activated" : "pairs"} onClick={() => {
+                                            let temp = [...isPairsClicked];
+                                            temp[1].activated = !temp[1].activated;
+                                            setIsPairsClicked([...temp]);
+                                            setStep2(!step2);
+                                        }}>
+                                            <div className="number">0.3%</div>
+                                            <div className="text">Best for most pairs</div>
+                                        </div>
+                                        <div className={isPairsClicked[2].activated ? "pairs pairs-activated" : "pairs"} onClick={() => {
+                                            let temp = [...isPairsClicked];
+                                            temp[2].activated = !temp[2].activated;
+                                            setIsPairsClicked([...temp]);
+                                            setStep2(!step2);
+                                        }}>
+                                            <div className="number">1%</div>
+                                            <div className="text">Best for exotic pairs</div>
+                                        </div>
+                                    </div>
+                                </div> */}
+                                {/* <div className={step2 ? "content-part content-part3" : "content-part content-part3 greyText"}>
                                     <h2 className="title">Deposit amount</h2>
                                     <div className="deposit-wrapper">
                                         <div className="deposit">

@@ -14,6 +14,143 @@ import { char2Bytes } from "@taquito/utils";
 import { BigNumber } from "bignumber.js";
 import { getBatchOperationsWithLimits } from "../api/util/operations";
 
+export const deployV3Pool = async (
+  token1: IConfigToken,
+  token2: IConfigToken,
+  caller: string,
+  token1Amount: BigNumber,
+  token2Amount: BigNumber,
+  transactionSubmitModal: TTransactionSubmitModal | undefined,
+  resetAllValues: TResetAllValues | undefined,
+  setShowConfirmTransaction: TSetShowConfirmTransaction | undefined,
+  flashMessageContent?: IFlashMessageProps
+): Promise<IOperationsResponse> => {
+  try {
+    const { CheckIfWalletConnected } = dappClient();
+    const WALLET_RESP = await CheckIfWalletConnected();
+    if (!WALLET_RESP.success) {
+      throw new Error("Wallet connection failed");
+    }
+
+    const Tezos = await dappClient().tezos();
+    const factoryInstance = await Tezos.wallet.at(factoryAddress);
+    const token1Instance = await Tezos.wallet.at(token1.address as string);
+    const token2Instance = await Tezos.wallet.at(token2.address as string);
+
+    const allBatch: WalletParamsWithKind[] = [];
+
+    if (token1.standard === TokenStandard.FA12) {
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...token1Instance.methods
+          .transfer(
+            caller,
+            routerAddress,
+            token1Amount.multipliedBy(new BigNumber(10).pow(token1.decimals))
+          )
+          .toTransferParams(),
+      });
+    } else if (token1.standard === TokenStandard.FA2) {
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...token1Instance.methods
+          .transfer([
+            {
+              from_: caller,
+              txs: [
+                {
+                  to_: routerAddress,
+                  token_id: token1.tokenId ?? 0,
+                  amount: token1Amount.multipliedBy(new BigNumber(10).pow(token1.decimals)),
+                },
+              ],
+            },
+          ])
+          .toTransferParams(),
+      });
+    }
+    if (token2.standard === TokenStandard.FA12) {
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...token2Instance.methods
+          .transfer(
+            caller,
+            routerAddress,
+            token2Amount.multipliedBy(new BigNumber(10).pow(token2.decimals))
+          )
+          .toTransferParams(),
+      });
+    } else if (token2.standard === TokenStandard.FA2) {
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...token2Instance.methods
+          .transfer([
+            {
+              from_: caller,
+              txs: [
+                {
+                  to_: routerAddress,
+                  token_id: token2.tokenId ?? 0,
+                  amount: token2Amount.multipliedBy(new BigNumber(10).pow(token2.decimals)),
+                },
+              ],
+            },
+          ])
+          .toTransferParams(),
+      });
+    }
+
+    allBatch.push({
+      kind: OpKind.TRANSACTION,
+      ...factoryInstance.methods
+        .deployVolatilePair(
+          token1.address as string,
+          token1Amount.multipliedBy(new BigNumber(10).pow(token1.decimals)),
+          token1.tokenId ?? 0,
+          token1.standard === TokenStandard.FA2,
+          token2.address as string,
+          token2Amount.multipliedBy(new BigNumber(10).pow(token2.decimals)),
+          token2.tokenId ?? 0,
+          token2.standard === TokenStandard.FA2,
+          char2Bytes(`${token1.symbol}-${token2.symbol} PNLP`),
+          caller
+        )
+        .toTransferParams(),
+    });
+
+    const updatedBatchOperations = await getBatchOperationsWithLimits(allBatch);
+    const batch = Tezos.wallet.batch(updatedBatchOperations);
+    const batchOp = await batch.send();
+    
+    setShowConfirmTransaction && setShowConfirmTransaction(false);
+    resetAllValues && resetAllValues();
+
+    transactionSubmitModal && transactionSubmitModal(batchOp.opHash);
+    if (flashMessageContent) {
+      store.dispatch(setFlashMessage(flashMessageContent));
+    }
+
+    await batchOp.confirmation(1);
+
+    const status = await batchOp.status();
+    if (status === "applied") {
+      return {
+        success: true,
+        operationId: batchOp.opHash,
+      };
+    } else {
+      throw new Error(status);
+    }
+  } catch (error: any) {
+    console.error(error);
+    return {
+      success: false,
+      operationId: undefined,
+      error: error.message,
+    };
+  }
+};
+
 export const deployVolatile = async (
   token1: IConfigToken,
   token2: IConfigToken,

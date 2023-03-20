@@ -140,6 +140,7 @@ export const getBatchOperationsWithLimits = async (
   allBatchOperations: WalletParamsWithKind[]
 ): Promise<WalletParamsWithKind[]> => {
   try {
+    console.log('[prince]: getBatchOperationsWithLimits')
     const Tezos = await dappClient().tezos();
     const limits = await Tezos.estimate
       .batch(allBatchOperations as ParamsWithKind[])
@@ -149,6 +150,8 @@ export const getBatchOperationsWithLimits = async (
         return undefined;
       });
 
+    console.log('[prince]: getBatchOperationsWithLimits: allBatchOperations', allBatchOperations)
+    console.log('[prince]: getBatchOperationsWithLimits: limits', limits)
     const updatedBatchOperations: WalletParamsWithKind[] = [];
     if (limits !== undefined) {
       allBatchOperations.forEach((op, index) => {

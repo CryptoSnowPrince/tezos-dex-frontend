@@ -78,7 +78,7 @@ interface ILiquidityProps {
 export const Pair = {
   VOLATILE: "Volatile pair",
   STABLE: "Stable pair",
-  GENERAL: "General pair",
+  GENERAL: "V3 pair",
 };
 function NewPoolMain(props: ILiquidityProps) {
   const tokenPrice = useAppSelector((state) => state.tokenPrice.tokenPrice);

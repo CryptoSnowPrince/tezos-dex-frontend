@@ -78,6 +78,7 @@ interface ILiquidityProps {
 export const Pair = {
   VOLATILE: "Volatile pair",
   STABLE: "Stable pair",
+  GENERAL: "General pair",
 };
 function NewPoolMain(props: ILiquidityProps) {
   const tokenPrice = useAppSelector((state) => state.tokenPrice.tokenPrice);
@@ -439,7 +440,7 @@ function NewPoolMain(props: ILiquidityProps) {
           </div>
         </>
       </div>
-      <div className="flex gap-2 mb-5">
+      {/* <div className="flex gap-2 mb-5">
         <div
           onClick={
             (props.tokenIn.name === "XTZ" && props.tokenOut.name !== "CTez") ||
@@ -477,7 +478,7 @@ function NewPoolMain(props: ILiquidityProps) {
           )}
           <span className="ml-4">Volatile pair</span>
         </div>
-      </div>
+      </div> */}
       {isExist && (
         <div className="h-[46px]  px-2 rounded-lg my-3 flex items-center bg-info-500/[0.1]">
           <p className="relative top-0.5">

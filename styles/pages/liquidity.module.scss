@@ -1,73 +1,95 @@
 @import "styles/utils/utils.module";
-.liquidity{
-  :global{
+
+.liquidity {
+  :global {
     position: relative;
-    .section{
+
+    .section {
       width: 100%;
       @include display-flex();
-      .sec-wrapper{
+
+      .sec-wrapper {
         @include maxWidth;
       }
     }
-    .liquidity1{
+
+    .liquidity1 {
       padding-bottom: 70px;
-      .sec-wrapper{
-        .titles{
+
+      .sec-wrapper {
+        .titles {
           @include display-flex($justifyContent: space-between);
-          .title-wrapper{
+
+          .title-wrapper {
             @include display-flex();
             column-gap: 30px;
           }
-          .extras{
+
+          .extras {
             @include display-flex();
             column-gap: 27px;
-            .img-setting{
+
+            .img-setting {
               width: 27px;
               height: 28px;
             }
           }
         }
-        .content-box{
+
+        .content-box {
           margin-top: 25px;
           display: grid;
           grid-template-columns: 5.5fr 4.5fr;
           grid-column-gap: 50px;
+
           @media (max-width: 1015px) {
             grid-template-columns: 1fr;
             grid-row-gap: 25px;
           }
-          .content-part-wrapper{
+
+          .content-part-wrapper {
             @include content-box;
             padding: 25px 45px 50px 45px;
-            &.left{
+
+            &.left {
               @include display-flex($flexDirection: column, $alignItems: flex-start);
               row-gap: 32px;
-              .content-part{
+
+              .content-part {
                 @include display-flex($flexDirection: column, $alignItems: flex-start);
                 width: 100%;
-                &.content-part1{
+
+                &.content-part1 {
                   row-gap: 12px;
                 }
-                &.content-part2{
-                  .pairs-wrapper{
+
+                &.content-part2 {
+                  .pairs-wrapper {
                     margin-top: 10px;
                     width: 100%;
                     display: grid;
                     grid-template-columns: repeat(3, 1fr);
                     grid-column-gap: 20px;
-                    .pairs{
+
+                    .pairs {
                       padding: 10px 16px;
                       background: #000B11;
                       border-radius: 20px;
+                      border-width: 1px;
                       cursor: pointer;
-                      &:hover, &:active, &-activated{
-                        border: 2px solid $clr-main2;
+
+                      &:hover,
+                      &:active,
+                      &-activated {
+                        border: 1px solid $clr-main2;
                       }
-                      .number{
+
+                      .number {
                         font-weight: 600;
                         font-size: 18px;
                       }
-                      .text{
+
+                      .text {
                         margin-top: 5px;
                         font-weight: 400;
                         font-size: 14px;
@@ -75,20 +97,23 @@
                     }
                   }
                 }
-                &.content-part3{
-                  .deposit-wrapper{
+
+                &.content-part3 {
+                  .deposit-wrapper {
                     margin-top: 10px;
                     width: 100%;
                     @include display-flex($flexDirection: column);
                     row-gap: 28px;
-                    .deposit{
+
+                    .deposit {
                       width: 100%;
                       background: #000B11;
                       border-radius: 20px;
                       padding: 17px 25px;
-                      @include display-flex($flexDirection: column,$alignItems: flex-start);
+                      @include display-flex($flexDirection: column, $alignItems: flex-start);
                       position: relative;
-                      .deposit-crypto-img{
+
+                      .deposit-crypto-img {
                         position: absolute;
                         width: 32px;
                         height: 32px;
@@ -96,18 +121,21 @@
                         right: 25px;
                         top: -16px;
                       }
-                      .top{
+
+                      .top {
                         width: 100%;
                         @include display-flex($justifyContent: space-between);
                         font-weight: 500;
                         font-size: 24px;
-                        p{
+
+                        p {
                           display: block;
                           font-weight: 600;
                           font-size: 18px;
                         }
                       }
-                      .bottom{
+
+                      .bottom {
                         width: 100%;
                         @include display-flex($justifyContent: flex-end);
                         font-weight: 500;
@@ -118,16 +146,146 @@
                 }
               }
             }
-            &.right{
 
+            &.right {
+              .header {
+                @include display-flex($justifyContent: space-between);
+
+                .title {
+                  font-weight: 600;
+                }
+
+                .buttons {
+                  .button {
+                    width: 30px;
+                    margin-right: 5px;
+                    margin-left: 5px;
+                    border-radius: 20px;
+                    border-color: antiquewhite;
+                    border-width: 1px;
+                  }
+                }
+              }
+
+              .current-price {
+                margin-top: 5px;
+                margin-left: 5px;
+                font-size: 15px;
+              }
+
+              .select {
+                width: 100%;
+
+                .range-selector-graphic {
+                  margin-top: 5px;
+                  width: 100%;
+                  height: 180px;
+                  border-color: rgb(242, 252, 252);
+                  background-color: #000B11;
+                  border-radius: 10px;
+                  border-width: 1px;
+                  cursor: grab;
+                }
+
+                .range-selector-box-pair {
+                  margin-top: 20px;
+                  width: 100%;
+                  @include display-flex($justifyContent: space-between);
+
+                  .price-box {
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    width: 48%;
+                    background: #000B11;
+                    border-radius: 10px;
+                    border-color: rgb(242, 252, 252);
+                    border-width: 1px;
+                    cursor: pointer;
+
+                    &:hover,
+                    &:active,
+                    &-activated {
+                      border: 1px solid $clr-main2;
+                    }
+
+                    .title {
+                      padding-top: 10px;
+                      padding-bottom: 5px;
+                      font-size: 16px;
+                      font-weight: 600;
+                      margin: auto;
+                      text-align: center;
+                    }
+
+                    .body {
+                      @include display-flex($justifyContent: space-between);
+                      margin-top: 5px;
+
+                      .button {
+                        width: 30px;
+                        margin-right: 10px;
+                        margin-left: 10px;
+                        border-radius: 20px;
+                        border-color: antiquewhite;
+                        border-width: 1px;
+                      }
+
+                      .price {
+                        width: 70%;
+                        color: aliceblue;
+                        background-color: transparent;
+                        outline: none;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: 500;
+                      }
+                    }
+
+                    .price-unit {
+                      padding-bottom: 10px;
+                      font-size: 14px;
+                      font-weight: 300;
+                      margin: auto;
+                      text-align: center;
+                    }
+                  }
+                }
+
+                .warning-message {
+                  width: 96%;
+                  height: 80px;
+                  display: none;
+                  margin-left: 2%;
+                  margin-right: 2%;
+                  margin-top: 20px;
+                  outline: none;
+                  color: rgb(221, 82, 82);
+                  opacity: 0.7;
+                  background-color: rgb(197, 197, 166);
+                  border-radius: 5px;
+                }
+
+                .full-range {
+                  width: 96%;
+                  height: 40px;
+                  margin-left: 2%;
+                  margin-right: 2%;
+                  margin-top: 20px;
+                  border-color: azure;
+                  border-radius: 10px;
+                  border-width: 1px;
+
+                  &:hover,
+                  &:active,
+                  &-activated {
+                    border: 1px solid $clr-main2;
+                  }
+                }
+              }
             }
           }
         }
       }
-    }
-    .liquidity2{
-    }
-    .liquidity3{
     }
   }
 

@@ -214,7 +214,7 @@ export default function Liquidity() {
   useEffect(() => {
     if (
       (Object.keys(allBalance),
-      length !== 0 && allBalance.success && Object.keys(allBalance.allTokensBalances).length !== 0)
+        length !== 0 && allBalance.success && Object.keys(allBalance.allTokensBalances).length !== 0)
     ) {
       tokensListConfig.sort(
         (a, b) =>
@@ -611,21 +611,21 @@ export default function Liquidity() {
             <div className="content-box">
               <div className="content-part-wrapper left">
                 {/* <div className="flex ">
-                                    <div className="mx-2 text-white font-title3">Add new pool</div>
-                                    <div className="relative top-[2px]">
-                                        <ToolTip
-                                            id="tooltip2"
-                                            position={Position.top}
-                                            toolTipChild={
-                                                <div className="w-[100px] md:w-[250px]">
-                                                    Create a new liquidity pool for a token pair.
-                                                </div>
-                                            }
-                                        >
-                                            <Image alt={"alt"} src={info} className="cursor-pointer" />
-                                        </ToolTip>
-                                    </div>
-                                </div> */}
+                  <div className="mx-2 text-white font-title3">Add new pool</div>
+                  <div className="relative top-[2px]">
+                    <ToolTip
+                      id="tooltip2"
+                      position={Position.top}
+                      toolTipChild={
+                        <div className="w-[100px] md:w-[250px]">
+                          Create a new liquidity pool for a token pair.
+                        </div>
+                      }
+                    >
+                      <Image alt={"alt"} src={info} className="cursor-pointer" />
+                    </ToolTip>
+                  </div>
+                </div> */}
                 <div
                   className={
                     step1 ? "content-part content-part2" : "content-part content-part2 greyText"
@@ -784,10 +784,43 @@ export default function Liquidity() {
                   step3 ? "content-part-wrapper right" : "content-part-wrapper right greyText"
                 }
               >
-                <h2 className="title">Set Price Range</h2>
+                <div className="header">
+                  <h2 className="title">Set Price Range</h2>
+                  <div className="buttons">
+                    <button className="button">-</button>
+                    <button className="button">+</button>
+                  </div>
+                </div>
+                <h2 className="current-price">
+                  {`Current Price: ${`100`}`}
+                </h2>
                 <div className="select">
-                  <div className="select-token"></div>
-                  <div className="select-token"></div>
+                  <div className="range-selector-graphic"></div>
+
+                  <div className="range-selector-box-pair">
+                    <div className="price-box min-price">
+                      <div className="title">Min Price</div>
+                      <div className="body">
+                        <button className="button">-</button>
+                        <input className="price" />
+                        <button className="button">+</button>
+                      </div>
+                      <div className="price-unit">X per Y</div>
+                    </div>
+                    <div className="price-box max-price">
+                      <div className="title">Max Price</div>
+                      <div className="body">
+                        <button className="button">-</button>
+                        <input className="price" />
+                        <button className="button">+</button>
+                      </div>
+                      <div className="price-unit">X per Y</div>
+                    </div>
+                  </div>
+                  <div className="warning-message" style={{ display: false ? "block" : "none" }}>
+                    err message
+                  </div>
+                  <button className="full-range">Full Range</button>
                 </div>
               </div>
             </div>

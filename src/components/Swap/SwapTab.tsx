@@ -44,7 +44,7 @@ import {
   percentageChange,
   tEZorCTEZtoUppercase,
 } from "../../api/util/helpers";
-import { IAllTokensBalanceResponse } from "../../api/util/types";
+import { IAllTokensBalance, IAllTokensBalanceResponse } from "../../api/util/types";
 import { Chain } from "../../config/types";
 import { tokenIcons } from "../../constants/tokensList";
 import { tzktExplorer } from "../../common/walletconnect";
@@ -116,6 +116,7 @@ interface ISwapTabProps {
   setBalanceUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   allBalance: IAllTokensBalanceResponse;
   isSwitchClicked: boolean;
+  contractTokenBalance: IAllTokensBalance;
 }
 
 function SwapTab(props: ISwapTabProps) {
@@ -464,13 +465,17 @@ function SwapTab(props: ISwapTabProps) {
           <div className="text-left cursor-pointer" onClick={onClickAmount}>
             <span className="text-text-600 font-body3">Balance:</span>{" "}
             <span className="font-body4 cursor-pointer text-primary-white ">
-              {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ? (
+              {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ||
+              Number(props.contractTokenBalance[props.tokenIn.name]?.balance) >= 0 ? (
                 <ToolTip
                   message={fromExponential(
-                    props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString()
+                    Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
+                      ? props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString()
+                      : props.contractTokenBalance[props.tokenIn.name]?.balance.toString()
                   )}
                   disable={
-                    Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
+                    Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0 ||
+                    Number(props.contractTokenBalance[props.tokenIn.name]?.balance) > 0
                       ? false
                       : true
                   }
@@ -478,7 +483,11 @@ function SwapTab(props: ISwapTabProps) {
                   position={Position.right}
                 >
                   {nFormatterWithLesserNumber(
-                    new BigNumber(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance)
+                    new BigNumber(
+                      Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
+                        ? props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance
+                        : props.contractTokenBalance[props.tokenIn.name]?.balance
+                    )
                   )}
                 </ToolTip>
               ) : (
@@ -586,13 +595,19 @@ function SwapTab(props: ISwapTabProps) {
               <span className="text-text-600 font-body3">Balance:</span>{" "}
               <span className="font-body4 cursor-pointer text-text-500 ">
                 {Object.keys(props.tokenOut).length !== 0 &&
-                Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ? (
+                (Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ||
+                  Number(props.contractTokenBalance[props.tokenOut.name]?.balance) >= 0) ? (
                   <ToolTip
                     message={fromExponential(
-                      props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance.toString()
+                      Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) > 0
+                        ? props.allBalance?.allTokensBalances[
+                            props.tokenOut.name
+                          ]?.balance.toString()
+                        : props.contractTokenBalance[props.tokenOut.name]?.balance.toString()
                     )}
                     disable={
-                      Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) > 0
+                      Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >
+                        0 || Number(props.contractTokenBalance[props.tokenOut.name]?.balance) > 0
                         ? false
                         : true
                     }
@@ -601,7 +616,10 @@ function SwapTab(props: ISwapTabProps) {
                   >
                     {nFormatterWithLesserNumber(
                       new BigNumber(
-                        props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance
+                        Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >
+                        0
+                          ? props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance
+                          : props.contractTokenBalance[props.tokenOut.name]?.balance
                       )
                     )}
                   </ToolTip>

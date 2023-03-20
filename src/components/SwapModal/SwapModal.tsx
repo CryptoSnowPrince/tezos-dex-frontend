@@ -1,8 +1,9 @@
 import { PopUpModal } from "../Modal/popupModal";
 import SearchBar from "../SearchBar/SearchBar";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import fromExponential from "from-exponential";
 import infogrey from "../../assets/icon/swap/info-grey.svg";
+import fallbacksvg from "../../assets/icon/pools/fallbacksvg.svg";
 import { tokenParameter, tokensModal, tokenType } from "../../constants/swap";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
@@ -14,11 +15,13 @@ import { IAllTokensBalance } from "../../api/util/types";
 import nFormatter, { changeSource, tEZorCTEZtoUppercase } from "../../api/util/helpers";
 import { tokenIcons } from "../../constants/tokensList";
 import { useAppSelector } from "../../redux";
+import { getTokenDataFromTzkt } from "../../api/util/tokens";
+import { getAllTokensBalanceFromTzkt } from "../../api/util/balance";
 
 interface ISwapModalProps {
   tokens: {
     name: string;
-    image: string;
+    image: string | StaticImageData;
     chainType: Chain;
     address: string | undefined;
   }[];
@@ -35,12 +38,13 @@ interface ISwapModalProps {
   isSuccess: boolean;
 }
 function SwapModal(props: ISwapModalProps) {
+  const userAddress = useAppSelector((state) => state.wallet.address);
   const tokens = useAppSelector((state) => state.config.tokens);
   const searchTokenEl = useRef(null);
   const [tokensToShow, setTokensToShow] = useState<
     | {
         name: string;
-        image: string;
+        image: string | StaticImageData;
         chainType: Chain;
         address: string | undefined;
       }[]
@@ -68,7 +72,7 @@ function SwapModal(props: ISwapModalProps) {
   }, [topTokens]);
 
   const searchHits = useCallback(
-    (token: { name: string; image: string; chainType: Chain; address: string | undefined }) => {
+    (token: { name: string; image: string | StaticImageData; chainType: Chain; address: string | undefined }) => {
       return (
         props.searchQuery.length === 0 ||
         token.name.toLowerCase().includes(props.searchQuery.trim().toLowerCase()) ||
@@ -79,7 +83,82 @@ function SwapModal(props: ISwapModalProps) {
     },
     [props.searchQuery]
   );
-  useEffect(() => {
+  // useEffect(() => {
+  //   const filterTokens = () => {
+  //     const filterTokenslist = props.tokens
+  //       .filter(searchHits)
+
+  //       .map((token) => {
+  //         return { ...token };
+  //       });
+
+  //     setTokensToShow(filterTokenslist);
+  //   };
+  //   filterTokens();
+  // }, [
+  //   props.tokens,
+  //   props.searchQuery,
+
+  //   props.tokenType,
+  //   props.tokenIn.name,
+  //   props.tokenOut.name,
+  //   searchHits,
+  // ]);
+  const [contractTokenBalance, setContractTokenBalance] = useState<IAllTokensBalance>(
+    {} as IAllTokensBalance
+  );
+
+  function getUnion(
+    array1: {
+      name: string;
+      image: string | StaticImageData;
+      address: string;
+      chainType: Chain;
+    }[],
+    array2: {
+      name: string;
+      image: string | StaticImageData;
+      chainType: Chain;
+      address: string | undefined;
+    }[]
+  ) {
+    const res: {
+      name: string;
+      image: string | StaticImageData;
+      address: string | undefined;
+      chainType: Chain;
+    }[] = [];
+    if (array1.length >= array2.length) {
+      array1.filter((token) => {
+        var flag = 0;
+
+        array2.filter((k) => {
+          if (k.name.includes(token.name)) {
+            flag = 1;
+          } else {
+          }
+        });
+        if (flag == 0) {
+          res.push(token);
+        }
+      });
+    } else {
+      array2.filter((token) => {
+        var flag = 0;
+        array1.filter((k) => {
+          if (k.name.includes(token.name)) {
+            flag = 1;
+          } else {
+          }
+        });
+        if (flag == 0) {
+          res.push(token);
+        }
+      });
+    }
+    return res;
+  }
+  useMemo(() => {
     const filterTokens = () => {
       const filterTokenslist = props.tokens
         .filter(searchHits)
@@ -88,13 +167,62 @@ function SwapModal(props: ISwapModalProps) {
           return { ...token };
         });
 
-      setTokensToShow(filterTokenslist);
+      if (filterTokenslist.length === 0) {
+        if (props.searchQuery !== "" && props.searchQuery.length > 8) {
+          props.show &&
+            getTokenDataFromTzkt(props.searchQuery.trim()).then((res) => {
+              if (res.allTokensList.length !== 0) {
+                props.show &&
+                  getAllTokensBalanceFromTzkt(res.allTokensList, userAddress).then((res) => {
+                    setContractTokenBalance(res.allTokensBalances);
+                  });
+                const res1 = res.allTokensList.map((token) => ({
+                  name: token.symbol,
+                  image: token.iconUrl ? token.iconUrl.toString() : fallbacksvg,
+                  address: "",
+                  chainType: Chain.TEZOS,
+                  interface: token,
+                }));
+
+                setTokensToShow(res1);
+              } else {
+                setTokensToShow([]);
+              }
+            });
+        }
+      } else if (props.searchQuery !== "" && props.searchQuery.length > 8) {
+        props.show &&
+          getTokenDataFromTzkt(props.searchQuery.trim()).then((res) => {
+            if (res.allTokensList.length !== 0) {
+              props.show &&
+                getAllTokensBalanceFromTzkt(res.allTokensList, userAddress).then((res) => {
+                  setContractTokenBalance(res.allTokensBalances);
+                });
+              const res1 = res.allTokensList.map((token) => ({
+                name: token.symbol,
+                image: token.iconUrl ? token.iconUrl.toString() : fallbacksvg,
+                address: "",
+                chainType: Chain.TEZOS,
+                interface: token,
+              }));
+
+              const result = Array.from(
+                new Set([...filterTokenslist, ...getUnion(res1, filterTokenslist)])
+              );
+              setTokensToShow(result);
+            } else {
+              setTokensToShow(filterTokenslist);
+            }
+          });
+        //setTokensToShow(filterTokenslist);
+      } else {
+        setTokensToShow(filterTokenslist);
+      }
     };
     filterTokens();
   }, [
     props.tokens,
     props.searchQuery,
-
     props.tokenType,
     props.tokenIn.name,
     props.tokenOut.name,
@@ -221,24 +349,26 @@ function SwapModal(props: ISwapModalProps) {
                         <span>New!</span>
                       </div>
                     )} */}
-                    {props.isSuccess && props.allBalance[token.name] ? (
+                    {props.isSuccess && (contractTokenBalance[token.name] || props.allBalance[token.name]) ? (
                       <div className="font-subtitle4 cursor-pointer ml-auto mt-[7px]">
                         <ToolTip
                           position={Position.top}
                           message={
                             props.allBalance[token.name]?.balance
                               ? fromExponential(props.allBalance[token.name]?.balance.toString())
+                              : contractTokenBalance[token.name]
+                              ? fromExponential(
+                                  contractTokenBalance[token.name]?.balance.toString()
+                                )
                               : "0"
                           }
                           disable={Number(props.allBalance[token.name]?.balance) === 0}
                         >
                           {props.allBalance[token.name]?.balance
-                            ? Number(props.allBalance[token.name]?.balance) > 0
-                              ? props.allBalance[token.name]?.balance.isLessThan(0.01)
-                                ? "<0.01"
-                                : nFormatter(props.allBalance[token.name]?.balance)
-                              : "0.0"
-                            : "0.0"}
+                            ? props.allBalance[token.name]?.balance.toFixed(2)
+                            : contractTokenBalance[token.name]
+                            ? contractTokenBalance[token.name]?.balance.toFixed(2)
+                            : 0.0}
                         </ToolTip>
                       </div>
                     ) : props.isSuccess === false ? (

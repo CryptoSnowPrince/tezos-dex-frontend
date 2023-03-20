@@ -89,12 +89,16 @@ const Config: IConfig = {
 
   CONFIG_LINKS: {
     testnet: {
-      POOL: "https://ghostnet.data-config.kodex.finance/pools",
-      TOKEN: "https://ghostnet.data-config.kodex.finance/tokens",
+      // POOL: "https://ghostnet.data-config.kodex.finance/pools",
+      POOL: "https://ghostnet.data-config.plenty.network/pools",
+      // TOKEN: "https://ghostnet.data-config.kodex.finance/tokens",
+      TOKEN: "https://ghostnet.data-config.plenty.network/tokens",
     },
     mainnet: {
-      POOL: "https://config.mainnet.kodex.finance/pools",
-      TOKEN: "https://config.mainnet.kodex.finance/tokens",
+      // POOL: "https://config.mainnet.kodex.finance/pools",
+      POOL: "https://config.mainnet.plenty.network/pools",
+      // TOKEN: "https://config.mainnet.kodex.finance/tokens",
+      TOKEN: "https://config.mainnet.plenty.network/tokens",
     },
   },
 
@@ -119,11 +123,16 @@ const Config: IConfig = {
     testnet: "KT1CWvM4nLoyHBGKkGBKjnPNTNLzoJ9JpAW3",
   },
 
-  NETWORK: "mainnet",
-  WALLET_NETWORK: NetworkType.MAINNET,
+  // mainnet
+  // NETWORK: "mainnet",
+  // WALLET_NETWORK: NetworkType.MAINNET,
+  
+  // testnet
+  NETWORK: "testnet",
+  WALLET_NETWORK: NetworkType.GHOSTNET,
+  
   ADMIN_ADDRESS: "KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW",
   BURNER: "tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg",
-
 
   EXPLORER_LINKS: {
     RINKEBY: "https://rinkeby.etherscan.io/tx/",

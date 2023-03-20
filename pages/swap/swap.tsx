@@ -24,6 +24,7 @@ import {
 import { Chain, MigrateToken } from "../../src/config/types";
 import { tEZorCTEZtoUppercase } from "../../src/api/util/helpers";
 import Footer from "../../components/footer";
+import { getTokenDataFromTzkt } from "../../src/api/util/tokens";
 
 interface ISwapProps {
     className?: string;
@@ -52,6 +53,10 @@ export default function Swap(props: ISwapProps) {
     const tokensArray = Object.entries(tokens);
     const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
 
+    const [contractTokenBalance, setContractTokenBalance] = useState<IAllTokensBalance>(
+        {} as IAllTokensBalance
+    );
+
     const [firstTokenAmount, setFirstTokenAmount] = useState<string | number>("");
     const [secondTokenAmount, setSecondTokenAmount] = useState<number | string>("");
     const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
@@ -74,6 +79,19 @@ export default function Swap(props: ISwapProps) {
         isLoadingfirst: false,
         isLoadingSecond: false,
     });
+    
+    useEffect(() => {
+        if (searchQuery !== "" && searchQuery.length > 8) {
+            getTokenDataFromTzkt(searchQuery.trim()).then((res) => {
+                if (res.allTokensList.length !== 0) {
+                    getAllTokensBalanceFromTzkt(res.allTokensList, walletAddress).then((res) => {
+                        // contractTokenBalance.push(res.allTokensBalances);
+                        setContractTokenBalance({...contractTokenBalance, ...res.allTokensBalances});
+                    });
+                }
+            });
+        }
+    }, [searchQuery, walletAddress]);
 
     const routeDetails = React.useRef<{
         path: string[];
@@ -737,6 +755,7 @@ export default function Swap(props: ISwapProps) {
                         setBalanceUpdate={setBalanceUpdate}
                         isSwitchClicked={isSwitchClicked.current}
                         allBalance={allBalance}
+                        contractTokenBalance={contractTokenBalance}
                     />
                 </div>
                 <SwapModal

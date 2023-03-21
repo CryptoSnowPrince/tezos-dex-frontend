@@ -148,6 +148,8 @@
             }
 
             &.right {
+              width: 100%;
+
               .header {
                 @include display-flex($justifyContent: space-between);
 
@@ -160,9 +162,16 @@
                     width: 30px;
                     margin-right: 5px;
                     margin-left: 5px;
-                    border-radius: 20px;
+                    border-radius: 30px;
                     border-color: antiquewhite;
                     border-width: 1px;
+                    font-size: 20px;
+
+                    &:hover,
+                    &:active,
+                    &-activated {
+                      border: 1px solid $clr-main2;
+                    }
                   }
                 }
               }
@@ -173,113 +182,168 @@
                 font-size: 15px;
               }
 
-              .select {
+              .range-selector-graphic {
+                margin-top: 5px;
                 width: 100%;
+                height: 180px;
+                border-color: rgb(242, 252, 252);
+                background-color: #000B11;
+                border-radius: 10px;
+                border-width: 1px;
+                cursor: grab;
+              }
 
-                .range-selector-graphic {
-                  margin-top: 5px;
-                  width: 100%;
-                  height: 180px;
+              .range-selector-box-pair {
+                margin-top: 20px;
+                width: 100%;
+                @include display-flex($justifyContent: space-between);
+
+                .price-box {
+                  margin-left: 10px;
+                  margin-right: 10px;
+                  width: 48%;
+                  background: #000B11;
+                  border-radius: 10px;
                   border-color: rgb(242, 252, 252);
-                  background-color: #000B11;
-                  border-radius: 10px;
                   border-width: 1px;
-                  cursor: grab;
-                }
-
-                .range-selector-box-pair {
-                  margin-top: 20px;
-                  width: 100%;
-                  @include display-flex($justifyContent: space-between);
-
-                  .price-box {
-                    margin-left: 10px;
-                    margin-right: 10px;
-                    width: 48%;
-                    background: #000B11;
-                    border-radius: 10px;
-                    border-color: rgb(242, 252, 252);
-                    border-width: 1px;
-                    cursor: pointer;
-
-                    &:hover,
-                    &:active,
-                    &-activated {
-                      border: 1px solid $clr-main2;
-                    }
-
-                    .title {
-                      padding-top: 10px;
-                      padding-bottom: 5px;
-                      font-size: 16px;
-                      font-weight: 600;
-                      margin: auto;
-                      text-align: center;
-                    }
-
-                    .body {
-                      @include display-flex($justifyContent: space-between);
-                      margin-top: 5px;
-
-                      .button {
-                        width: 30px;
-                        margin-right: 10px;
-                        margin-left: 10px;
-                        border-radius: 20px;
-                        border-color: antiquewhite;
-                        border-width: 1px;
-                      }
-
-                      .price {
-                        width: 70%;
-                        color: aliceblue;
-                        background-color: transparent;
-                        outline: none;
-                        text-align: center;
-                        font-size: 18px;
-                        font-weight: 500;
-                      }
-                    }
-
-                    .price-unit {
-                      padding-bottom: 10px;
-                      font-size: 14px;
-                      font-weight: 300;
-                      margin: auto;
-                      text-align: center;
-                    }
-                  }
-                }
-
-                .warning-message {
-                  width: 96%;
-                  height: 80px;
-                  display: none;
-                  margin-left: 2%;
-                  margin-right: 2%;
-                  margin-top: 20px;
-                  outline: none;
-                  color: rgb(221, 82, 82);
-                  opacity: 0.7;
-                  background-color: rgb(197, 197, 166);
-                  border-radius: 5px;
-                }
-
-                .full-range {
-                  width: 96%;
-                  height: 40px;
-                  margin-left: 2%;
-                  margin-right: 2%;
-                  margin-top: 20px;
-                  border-color: azure;
-                  border-radius: 10px;
-                  border-width: 1px;
+                  cursor: pointer;
 
                   &:hover,
                   &:active,
                   &-activated {
                     border: 1px solid $clr-main2;
                   }
+
+                  .title {
+                    padding-top: 10px;
+                    padding-bottom: 5px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin: auto;
+                    text-align: center;
+                  }
+
+                  .body {
+                    @include display-flex($justifyContent: space-between);
+                    margin-top: 5px;
+
+                    .button {
+                      width: 27px;
+                      margin-right: 10px;
+                      margin-left: 10px;
+                      border-radius: 27px;
+                      border-color: antiquewhite;
+                      border-width: 1px;
+                      font-size: 20px;
+
+                      &:hover,
+                      &:active,
+                      &-activated {
+                        border: 1px solid $clr-main2;
+                      }
+                    }
+
+                    .price {
+                      width: 60%;
+                      color: aliceblue;
+                      background-color: transparent;
+                      outline: none;
+                      text-align: center;
+                      font-size: 18px;
+                      font-weight: 500;
+                    }
+                  }
+
+                  .price-unit {
+                    padding-bottom: 10px;
+                    font-size: 14px;
+                    font-weight: 300;
+                    margin: auto;
+                    text-align: center;
+                  }
+                }
+              }
+
+              .warning-message {
+                width: 96%;
+                height: 80px;
+                margin-left: 2%;
+                margin-right: 2%;
+                margin-top: 20px;
+                outline: none;
+                color: rgb(93, 66, 4);
+                opacity: 0.7;
+                background-color: rgba(243, 132, 30, 0.05);
+                border-radius: 5px;
+                padding: 8px 12px;
+                font-weight: 500;
+              }
+
+              .warning-message-new-pool {
+                width: 96%;
+                height: 140px;
+                margin-left: 2%;
+                margin-right: 2%;
+                margin-top: 20px;
+                color: rgb(233, 15, 15);
+                opacity: 0.7;
+                background-color: rgba(243, 132, 30, 0.05);
+                border-color: rgb(242, 252, 252);
+                border-radius: 10px;
+                border-width: 1px;
+                padding: 8px 12px;
+                font-weight: 500;
+              }
+
+              .input-start-price {
+                width: 96%;
+                height: 40px;
+                margin-left: 2%;
+                margin-right: 2%;
+                margin-top: 20px;
+                padding: 8px 12px;
+                background-color: rgba(243, 132, 30, 0.05);
+                border-color: azure;
+                border-radius: 10px;
+                border-width: 1px;
+
+                &:hover,
+                &:active,
+                &-activated {
+                  border: 1px solid $clr-main2;
+                }
+              }
+
+              .current-start-price {
+                width: 96%;
+                height: 40px;
+                margin-left: 2%;
+                margin-right: 2%;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                padding: 8px 12px;
+                background-color: rgba(243, 132, 30, 0.05);
+                border-color: rgb(28, 32, 32);
+                border-radius: 10px;
+                border-width: 1px;
+                font-size: 20px;
+                @include display-flex($justifyContent: space-between);
+              }
+
+              .full-range {
+                width: 96%;
+                height: 40px;
+                margin-left: 2%;
+                margin-right: 2%;
+                margin-top: 20px;
+                border-color: azure;
+                border-radius: 10px;
+                border-width: 1px;
+
+                &:hover,
+                &:active,
+                &-activated {
+                  border: 1px solid $clr-main2;
                 }
               }
             }

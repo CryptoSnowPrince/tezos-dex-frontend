@@ -40,6 +40,7 @@ export default function Liquidity() {
   const [step1, setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
+  const [newPool, setNewPool] = useState(true)
 
   // let [token1, setToken1] = useState('');
   // let [token2, setToken2] = useState('');
@@ -784,44 +785,67 @@ export default function Liquidity() {
                   step3 ? "content-part-wrapper right" : "content-part-wrapper right greyText"
                 }
               >
-                <div className="header">
-                  <h2 className="title">Set Price Range</h2>
-                  <div className="buttons">
-                    <button className="button">-</button>
-                    <button className="button">+</button>
-                  </div>
-                </div>
-                <h2 className="current-price">
-                  {`Current Price: ${`100`}`}
-                </h2>
-                <div className="select">
-                  <div className="range-selector-graphic"></div>
+                {
+                  newPool ? (<>
+                    <div className="header">
+                      <h2 className="title">Set Starting Price</h2>
+                    </div>
+                    <div className="warning-message-new-pool">
+                      This pool must be initialized before you can add liquidity. To initialize, select a starting price for the pool. Then, enter your liquidity price range and deposit amount. Gas fees will be higher than usual due to the initialization transaction.
+                    </div>
+                    <input
+                      className="input-start-price"
+                      type="number"
+                      min="0"
+                    />
+                    <div className="current-start-price">
+                      <div>Current UNKNOWN Price:</div>
+                      <div>12 UNKNOWN</div>
+                    </div>
+                    <div className="header">
+                      <h2 className="title">Set Price Range</h2>
+                    </div>
+                  </>
+                  ) : (<>
+                    <div className="header">
+                      <h2 className="title">Set Price Range</h2>
+                      <div className="buttons">
+                        <button className="button">-</button>
+                        <button className="button">+</button>
+                      </div>
+                    </div>
+                    <h2 className="current-price">
+                      {`Current Price: ${`100`}`}
+                    </h2>
+                    <div className="range-selector-graphic"></div>
+                  </>
+                  )
+                }
 
-                  <div className="range-selector-box-pair">
-                    <div className="price-box min-price">
-                      <div className="title">Min Price</div>
-                      <div className="body">
-                        <button className="button">-</button>
-                        <input className="price" />
-                        <button className="button">+</button>
-                      </div>
-                      <div className="price-unit">X per Y</div>
+                <div className="range-selector-box-pair">
+                  <div className="price-box min-price">
+                    <div className="title">Min Price</div>
+                    <div className="body">
+                      <button className="button">-</button>
+                      <input className="price" />
+                      <button className="button">+</button>
                     </div>
-                    <div className="price-box max-price">
-                      <div className="title">Max Price</div>
-                      <div className="body">
-                        <button className="button">-</button>
-                        <input className="price" />
-                        <button className="button">+</button>
-                      </div>
-                      <div className="price-unit">X per Y</div>
+                    <div className="price-unit">X per Y</div>
+                  </div>
+                  <div className="price-box max-price">
+                    <div className="title">Max Price</div>
+                    <div className="body">
+                      <button className="button">-</button>
+                      <input className="price" />
+                      <button className="button">+</button>
                     </div>
+                    <div className="price-unit">X per Y</div>
                   </div>
-                  <div className="warning-message" style={{ display: false ? "block" : "none" }}>
-                    err message
-                  </div>
-                  <button className="full-range">Full Range</button>
                 </div>
+                <div className="warning-message" style={{ display: false ? "block" : "none" }}>
+                  err message
+                </div>
+                <button className="full-range">Full Range</button>
               </div>
             </div>
           </div>

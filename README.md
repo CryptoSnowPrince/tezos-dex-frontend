@@ -51,15 +51,15 @@ For steps on local deployment, development, and code contribution, please see [C
 
 | Contract Name | Contract Address |
 |-------|----------------|
-| kodexV3MathLibrary | KT1P15iyFY9d4PUqVz49Rm2TnQFqtfeGvRCe |
-| kodexV3Library | KT1KtbzHcike7oQTRgcnKC2fGYRUaHsuq4L6 |
-| kodexV3Factory | KT1H3PMQ4wJuMPiwCP4mCgy4m1knMTUZacZb |
+| kodexV3MathLibrary | KT1T4kymk9SfQiLhGewMvzpwaE1vH26ZttDQ |
+| kodexV3Library | KT1JqqYgRRYYq5kNPqYAUwWTtpuXZCtuAeaY |
+| kodexV3Factory | KT1L7qXzdRgD2tMiYvS2VVFfeob43SKs5a5U |
 
 ### v3-periphery
 
 | Contract Name | Contract Address |
 |-------|----------------|
-| permits | KT1SXp6Jwdy2FSsjmVWjrxzsuBsdtmaqBbsL |
-| NonfungibleTokenPositionDescriptor | KT1CbxqJkB2ArSWZUp84PYqJudWfu3E2K6jN |
-| NonfungiblePositionManager | KT1GpiRKRsMUw8dqdZkmorcH1RusDAHaQnvn |
-| SwapRouter | KT1LKGkpgggHVoMUpNaZ6W3RVmiqyncphtKP |
+| permits | KT1Sy3pMPwXLBSBDsjbmZ4CwAJkPSbUXmTZb |
+| NonfungibleTokenPositionDescriptor | KT1XYLcdXvQCMF4MVfzvjbWe6yX5Um5iJFGJ |
+| NonfungiblePositionManager | KT1LeoXmqZUqaBUkYMUhHrMYkUMaPuTwM8Zg |
+| SwapRouter | KT1KpyYEjy9XEBiAHH1r8YX4zHeV9FyQrcuu |

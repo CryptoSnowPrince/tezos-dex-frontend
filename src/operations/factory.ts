@@ -1,5 +1,11 @@
-import { OpKind, WalletParamsWithKind } from "@taquito/taquito";
-import { dappClient, factoryAddress, routerAddress, tezDeployerAddress} from "../common/walletconnect";
+import { OpKind, StorageConsumingOperation, WalletParamsWithKind } from "@taquito/taquito";
+import {
+  dappClient,
+  factoryAddress,
+  positionManagerAddress,
+  routerAddress,
+  tezDeployerAddress,
+} from "../common/walletconnect";
 import { IConfigToken, TokenStandard } from "../config/types";
 import { store } from "../redux";
 import { setFlashMessage } from "../redux/flashMessage";
@@ -13,10 +19,13 @@ import {
 import { char2Bytes } from "@taquito/utils";
 import { BigNumber } from "bignumber.js";
 import { getBatchOperationsWithLimits } from "../api/util/operations";
+import { FEE_TIER } from "../constants/global";
 
 export const deployV3Pool = async (
   token1: IConfigToken,
   token2: IConfigToken,
+  feeTier: FEE_TIER,
+  isExist: boolean,
   caller: string,
   token1Amount: BigNumber,
   token2Amount: BigNumber,
@@ -33,95 +42,75 @@ export const deployV3Pool = async (
     }
 
     const Tezos = await dappClient().tezos();
-    const factoryInstance = await Tezos.wallet.at(factoryAddress);
+    const positionManagerInstance = await Tezos.wallet.at(positionManagerAddress);
     const token1Instance = await Tezos.wallet.at(token1.address as string);
     const token2Instance = await Tezos.wallet.at(token2.address as string);
 
     const allBatch: WalletParamsWithKind[] = [];
 
-    if (token1.standard === TokenStandard.FA12) {
+    if (!isExist) {
       allBatch.push({
         kind: OpKind.TRANSACTION,
-        ...token1Instance.methods
-          .transfer(
-            caller,
-            routerAddress,
-            token1Amount.multipliedBy(new BigNumber(10).pow(token1.decimals))
-          )
-          .toTransferParams(),
-      });
-    } else if (token1.standard === TokenStandard.FA2) {
-      allBatch.push({
-        kind: OpKind.TRANSACTION,
-        ...token1Instance.methods
-          .transfer([
-            {
-              from_: caller,
-              txs: [
-                {
-                  to_: routerAddress,
-                  token_id: token1.tokenId ?? 0,
-                  amount: token1Amount.multipliedBy(new BigNumber(10).pow(token1.decimals)),
-                },
-              ],
-            },
-          ])
-          .toTransferParams(),
-      });
-    }
-    if (token2.standard === TokenStandard.FA12) {
-      allBatch.push({
-        kind: OpKind.TRANSACTION,
-        ...token2Instance.methods
-          .transfer(
-            caller,
-            routerAddress,
-            token2Amount.multipliedBy(new BigNumber(10).pow(token2.decimals))
-          )
-          .toTransferParams(),
-      });
-    } else if (token2.standard === TokenStandard.FA2) {
-      allBatch.push({
-        kind: OpKind.TRANSACTION,
-        ...token2Instance.methods
-          .transfer([
-            {
-              from_: caller,
-              txs: [
-                {
-                  to_: routerAddress,
-                  token_id: token2.tokenId ?? 0,
-                  amount: token2Amount.multipliedBy(new BigNumber(10).pow(token2.decimals)),
-                },
-              ],
-            },
-          ])
+        ...positionManagerInstance.methods
+          .createPoolIfNecessary("fa12", token1.address, "fa12", token2.address, 500)
           .toTransferParams(),
       });
     }
 
     allBatch.push({
       kind: OpKind.TRANSACTION,
-      ...factoryInstance.methods
-        .deployVolatilePair(
-          token1.address as string,
-          token1Amount.multipliedBy(new BigNumber(10).pow(token1.decimals)),
-          token1.tokenId ?? 0,
-          token1.standard === TokenStandard.FA2,
-          token2.address as string,
-          token2Amount.multipliedBy(new BigNumber(10).pow(token2.decimals)),
-          token2.tokenId ?? 0,
-          token2.standard === TokenStandard.FA2,
-          char2Bytes(`${token1.symbol}-${token2.symbol} PNLP`),
-          caller
+      ...token1Instance.methods.approve(factoryAddress, token1Amount).toTransferParams(),
+    });
+
+    allBatch.push({
+      kind: OpKind.TRANSACTION,
+      ...token2Instance.methods.approve(factoryAddress, token2Amount).toTransferParams(),
+    });
+
+    if (!isExist) {
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...positionManagerInstance.methods
+          .initializePoolIfNecessary("fa12", token1.address, "fa12", token2.address, 500, 2 ** 96)
+          .toTransferParams(),
+      });
+    }
+
+    const priceLower = 0 * 2 ** 96;
+    const priceUpper = 2 ** 192 * 2 ** 96;
+    const tickSpacing = 10;
+    const tickLower = Math.floor(Math.log(priceLower / tickSpacing) / Math.log(Math.sqrt(2)));
+    const tickUpper = Math.ceil(Math.log(priceUpper / tickSpacing) / Math.log(Math.sqrt(2)));
+    console.log("tickLower: ", tickLower);
+    console.log("tickUpper: ", tickUpper);
+
+    allBatch.push({
+      kind: OpKind.TRANSACTION,
+      ...positionManagerInstance.methods
+        .mint(
+          "fa12",
+          token1.address,
+          "fa12",
+          token2.address,
+          feeTier,
+          43820,
+          47880,
+          token1Amount,
+          token2Amount,
+          0,
+          0,
+          caller,
+          new Date(Date.now() + 1000000).toISOString()
         )
         .toTransferParams(),
     });
 
+    // ============
+
     const updatedBatchOperations = await getBatchOperationsWithLimits(allBatch);
     const batch = Tezos.wallet.batch(updatedBatchOperations);
     const batchOp = await batch.send();
-    
+
     setShowConfirmTransaction && setShowConfirmTransaction(false);
     resetAllValues && resetAllValues();
 
@@ -258,7 +247,7 @@ export const deployVolatile = async (
     const updatedBatchOperations = await getBatchOperationsWithLimits(allBatch);
     const batch = Tezos.wallet.batch(updatedBatchOperations);
     const batchOp = await batch.send();
-    
+
     setShowConfirmTransaction && setShowConfirmTransaction(false);
     resetAllValues && resetAllValues();
 
@@ -375,7 +364,7 @@ export const deployStable = async (
           .toTransferParams(),
       });
     }
-    
+
     let token1Precision;
     let token2Precision;
 
@@ -407,7 +396,7 @@ export const deployStable = async (
         .toTransferParams(),
     });
 
-    const updatedBatchOperations = await getBatchOperationsWithLimits(allBatch); 
+    const updatedBatchOperations = await getBatchOperationsWithLimits(allBatch);
     const batch = Tezos.wallet.batch(updatedBatchOperations);
     const batchOp = await batch.send();
 
@@ -439,7 +428,6 @@ export const deployStable = async (
     };
   }
 };
-
 
 export const deployTezPair = async (
   tokenOne: IConfigToken,

@@ -83,6 +83,9 @@
                       &-activated {
                         border: 1px solid $clr-main2;
                       }
+                      &-activated {
+                        box-shadow: inset 0 0 20px $clr-main2;
+                      }
 
                       .number {
                         font-weight: 600;
@@ -168,8 +171,7 @@
                     font-size: 20px;
 
                     &:hover,
-                    &:active,
-                    &-activated {
+                    &:active {
                       border: 1px solid $clr-main2;
                     }
                   }
@@ -209,8 +211,7 @@
                   cursor: pointer;
 
                   &:hover,
-                  &:active,
-                  &-activated {
+                  &:active {
                     border: 1px solid $clr-main2;
                   }
 
@@ -237,8 +238,7 @@
                       font-size: 20px;
 
                       &:hover,
-                      &:active,
-                      &-activated {
+                      &:active {
                         border: 1px solid $clr-main2;
                       }
                     }
@@ -308,8 +308,7 @@
                 border-width: 1px;
 
                 &:hover,
-                &:active,
-                &-activated {
+                &:active {
                   border: 1px solid $clr-main2;
                 }
               }
@@ -341,8 +340,7 @@
                 border-width: 1px;
 
                 &:hover,
-                &:active,
-                &-activated {
+                &:active {
                   border: 1px solid $clr-main2;
                 }
               }

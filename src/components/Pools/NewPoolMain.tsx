@@ -25,7 +25,7 @@ import { tokenParameterLiquidity } from "../Liquidity/types";
 import clsx from "clsx";
 import { tokenType } from "../../constants/swap";
 
-import { getDexAddress } from "../../api/util/fetchConfig";
+import { getDexAddress, getCurPrice, getPoolAddress } from "../../api/util/fetchConfig";
 import { ManageLiquidity } from "./ManageLiquidity";
 import { ActiveLiquidity } from "./ManageLiquidityHeader";
 import nFormatter, {
@@ -36,7 +36,8 @@ import nFormatter, {
 import { IAllTokensBalance } from "../../api/util/types";
 import { tokenIcons } from "../../constants/tokensList";
 import fromExponential from "from-exponential";
-
+import { FEE_TIER, getOtherTokenAmount } from "../../constants/global";
+import { IConfigToken } from "../../config/types";
 interface ILiquidityProps {
   firstTokenAmount: string | number;
   secondTokenAmount: string | number;
@@ -74,13 +75,28 @@ interface ILiquidityProps {
   showLiquidityModal: boolean;
   contractTokenBalance: IAllTokensBalance;
   setShowLiquidityModalPopup: React.Dispatch<React.SetStateAction<boolean>>;
+  isExist: boolean;
+  setIsExist: React.Dispatch<React.SetStateAction<boolean>>;
+  feeTier: FEE_TIER;
+  curPrice: number;
+  userCurPrice: number;
+  userMinPrice: number;
+  userMaxPrice: number;
+  setUserMinPrice: React.Dispatch<React.SetStateAction<number>>;
+  setUserMaxPrice: React.Dispatch<React.SetStateAction<number>>;
+  setCurPrice: React.Dispatch<React.SetStateAction<number>>;
+  tokenInOp: IConfigToken;
+  tokenOutOp: IConfigToken;
 }
 export const Pair = {
   VOLATILE: "Volatile pair",
   STABLE: "Stable pair",
   GENERAL: "V3 pair",
 };
-function NewPoolMain(props: ILiquidityProps) {
+export
+  function NewPoolMain(props: ILiquidityProps) {
+  const isExist = props.isExist
+  const setIsExist = props.setIsExist
   const tokenPrice = useAppSelector((state) => state.tokenPrice.tokenPrice);
   const amm = useAppSelector((state) => state.config.AMMs);
   const TOKEN = useAppSelector((state) => state.config.tokens);
@@ -92,28 +108,36 @@ function NewPoolMain(props: ILiquidityProps) {
   const [activeState, setActiveState] = React.useState<ActiveLiquidity | string>(
     ActiveLiquidity.Liquidity
   );
-  const [isExist, setIsExist] = useState(false);
   const [isGauge, setIsGauge] = useState(false);
   useEffect(() => {
-    if (
-      Object.prototype.hasOwnProperty.call(props.tokenIn, "symbol") &&
-      Object.prototype.hasOwnProperty.call(props.tokenOut, "symbol")
-    ) {
-      const res = getDexAddress(props.tokenIn.symbol, props.tokenOut.symbol);
+    const fetchData = async () => {
+      if (
+        Object.prototype.hasOwnProperty.call(props.tokenIn, "symbol") &&
+        Object.prototype.hasOwnProperty.call(props.tokenOut, "symbol")
+      ) {
+        const res = await getPoolAddress(props.tokenInOp, props.tokenOutOp, props.feeTier);
+        console.log('[prince]: getPoolAddress', res)
 
-      if (res !== "false") {
-        setIsExist(true);
-        if (amm[res]?.gauge !== undefined) {
-          setIsGauge(true);
+        if (res !== "false") {
+          setIsExist(true);
+          const _curPriceRaw = await getCurPrice(res, props.tokenInOp, props.tokenOutOp)
+          const _curPrice: number = parseFloat(_curPriceRaw)
+          props.setCurPrice(_curPrice);
+          props.setUserMinPrice(_curPrice / 2)
+          props.setUserMaxPrice(_curPrice * 2)
+          if (amm[res]?.gauge !== undefined) {
+            setIsGauge(true);
+          } else {
+            setIsGauge(false);
+          }
         } else {
+          setIsExist(false);
           setIsGauge(false);
         }
-      } else {
-        setIsExist(false);
-        setIsGauge(false);
       }
     }
-  }, [props.tokenIn, props.tokenOut]);
+    fetchData();
+  }, [props.tokenIn, props.tokenOut, props.feeTier]);
 
   const AddButton = useMemo(() => {
     if (!walletAddress) {
@@ -125,10 +149,10 @@ function NewPoolMain(props: ILiquidityProps) {
     } else if (
       !props.tokenIn.name ||
       !props.tokenOut.name ||
+      !props.feeTier ||
       Number(props.firstTokenAmount) <= 0 ||
       Number(props.secondTokenAmount) <= 0 ||
-      props.pair === "" ||
-      isExist
+      props.pair === ""
     ) {
       return (
         <Button onClick={() => null} color={"disabled"}>
@@ -152,7 +176,7 @@ function NewPoolMain(props: ILiquidityProps) {
       ((props.firstTokenAmount &&
         props.firstTokenAmount > Number(props.userBalances[props.tokenIn.name]?.balance)) ||
         (props.secondTokenAmount && props.secondTokenAmount) >
-          Number(props.userBalances[props.tokenOut.name]?.balance))
+        Number(props.userBalances[props.tokenOut.name]?.balance))
     ) {
       return (
         <Button onClick={() => null} color={"disabled"}>
@@ -170,16 +194,25 @@ function NewPoolMain(props: ILiquidityProps) {
     props.pair,
     props.tokenIn,
     props.tokenOut,
+    props.feeTier,
     props.firstTokenAmount,
     props.secondTokenAmount,
     props.userBalances,
-    isExist,
   ]);
 
   const handleLiquidityInput = async (
     input: string | number,
     tokenType: "tokenIn" | "tokenOut"
   ) => {
+    if (props.feeTier === FEE_TIER.NONE || !props.userMinPrice || !props.userMaxPrice || (!props.curPrice && !props.userCurPrice)) {
+      window.alert('please select range!')
+      return;
+    }
+    const _curPrice = props.curPrice ? props.curPrice : props.userCurPrice;
+    if (_curPrice <= props.userMinPrice || _curPrice >= props.userMaxPrice || props.userMinPrice > props.userMaxPrice) {
+      window.alert('please select range correctly!')
+      return;
+    }
     if (input == ".") {
       props.setSecondTokenAmount("0.");
       props.setFirstTokenAmount("0.");
@@ -197,31 +230,41 @@ function NewPoolMain(props: ILiquidityProps) {
       const decimal = new BigNumber(input).decimalPlaces();
 
       props.setFirstTokenAmount(input);
+      const output = getOtherTokenAmount(props.tokenInOp, props.tokenOutOp, input, props.userMinPrice, props.userMaxPrice, props.curPrice, props.userCurPrice);
+      props.setSecondTokenAmount(output)
     } else if (tokenType === "tokenOut") {
       const decimal = new BigNumber(input).decimalPlaces();
 
       props.setSecondTokenAmount(input.toString().trim());
+      const output = getOtherTokenAmount(
+        props.tokenOutOp, props.tokenInOp,
+        input.toString().trim(),
+        props.userMinPrice > 0 ? 1 / props.userMinPrice : 0,
+        props.userMaxPrice > 0 ? 1 / props.userMaxPrice : 0,
+        props.curPrice > 0 ? 1 / props.curPrice : 0,
+        props.userCurPrice > 0 ? 1 / props.userCurPrice : 0);
+      props.setFirstTokenAmount(output)
     }
   };
   const onClickAmount = () => {
     props.tokenIn.name === "tez"
       ? handleLiquidityInput(
-          Number(props.userBalances[props.tokenIn.name]?.balance) - 0.02,
-          "tokenIn"
-        )
+        Number(props.userBalances[props.tokenIn.name]?.balance) - 0.02,
+        "tokenIn"
+      )
       : handleLiquidityInput(props.userBalances[props.tokenIn.name]?.balance.toNumber(), "tokenIn");
   };
 
   const onClickSecondAmount = () => {
     props.tokenOut.name === "tez"
       ? handleLiquidityInput(
-          Number(props.userBalances[props.tokenOut.name]?.balance) - 0.02,
-          "tokenOut"
-        )
+        Number(props.userBalances[props.tokenOut.name]?.balance) - 0.02,
+        "tokenOut"
+      )
       : handleLiquidityInput(
-          props.userBalances[props.tokenOut.name]?.balance.toNumber(),
-          "tokenOut"
-        );
+        props.userBalances[props.tokenOut.name]?.balance.toNumber(),
+        "tokenOut"
+      );
   };
 
   return (
@@ -240,8 +283,8 @@ function NewPoolMain(props: ILiquidityProps) {
                       ? tokenIcons[props.tokenIn.name]
                         ? tokenIcons[props.tokenIn.name].src
                         : TOKEN[props.tokenIn.name.toString()]?.iconUrl
-                        ? TOKEN[props.tokenIn.name.toString()].iconUrl
-                        : `/assets/Tokens/fallback.png`
+                          ? TOKEN[props.tokenIn.name.toString()].iconUrl
+                          : `/assets/Tokens/fallback.png`
                       : `/assets/icon/emptyIcon.svg`
                   }
                   className="tokenIconLiq"
@@ -281,8 +324,8 @@ function NewPoolMain(props: ILiquidityProps) {
                     ~$
                     {props.firstTokenAmount && tokenPrice[props.tokenIn.name]
                       ? Number(
-                          Number(props.firstTokenAmount) * Number(tokenPrice[props.tokenIn.name])
-                        ).toFixed(2)
+                        Number(props.firstTokenAmount) * Number(tokenPrice[props.tokenIn.name])
+                      ).toFixed(2)
                       : "0.00"}
                   </span>
                 </p>
@@ -305,25 +348,25 @@ function NewPoolMain(props: ILiquidityProps) {
                       <span className="mr-1">
                         {Number(props.userBalances[props.tokenIn.name]?.balance) > 0
                           ? new BigNumber(
-                              props.userBalances[props.tokenIn.name]?.balance
-                            ).isLessThan(0.01)
+                            props.userBalances[props.tokenIn.name]?.balance
+                          ).isLessThan(0.01)
                             ? "<0.01"
                             : nFormatter(
-                                new BigNumber(props.userBalances[props.tokenIn.name]?.balance)
-                              )
+                              new BigNumber(props.userBalances[props.tokenIn.name]?.balance)
+                            )
                           : props.contractTokenBalance[props.tokenIn.name]
-                          ? Number(props.contractTokenBalance[props.tokenIn.name]?.balance) > 0
-                            ? new BigNumber(
+                            ? Number(props.contractTokenBalance[props.tokenIn.name]?.balance) > 0
+                              ? new BigNumber(
                                 props.contractTokenBalance[props.tokenIn.name]?.balance
                               ).isLessThan(0.01)
-                              ? "<0.01"
-                              : nFormatter(
+                                ? "<0.01"
+                                : nFormatter(
                                   new BigNumber(
                                     props.contractTokenBalance[props.tokenIn.name]?.balance
                                   )
                                 )
-                            : "0.0"
-                          : "0.0"}{" "}
+                              : "0.0"
+                            : "0.0"}{" "}
                       </span>
                     )}
                     {tEZorCTEZtoUppercase(props.tokenIn.name)}
@@ -347,8 +390,8 @@ function NewPoolMain(props: ILiquidityProps) {
                       ? tokenIcons[props.tokenOut.name]
                         ? tokenIcons[props.tokenOut.name].src
                         : TOKEN[props.tokenOut.name.toString()]?.iconUrl
-                        ? TOKEN[props.tokenOut.name.toString()].iconUrl
-                        : `/assets/Tokens/fallback.png`
+                          ? TOKEN[props.tokenOut.name.toString()].iconUrl
+                          : `/assets/Tokens/fallback.png`
                       : `/assets/icon/emptyIcon.svg`
                   }
                   className="tokenIconLiq"
@@ -387,8 +430,8 @@ function NewPoolMain(props: ILiquidityProps) {
                     ~$
                     {props.secondTokenAmount && tokenPrice[props.tokenOut.name]
                       ? Number(
-                          Number(props.secondTokenAmount) * Number(tokenPrice[props.tokenOut.name])
-                        ).toFixed(2)
+                        Number(props.secondTokenAmount) * Number(tokenPrice[props.tokenOut.name])
+                      ).toFixed(2)
                       : "0.00"}
                   </span>
                 </p>
@@ -411,25 +454,25 @@ function NewPoolMain(props: ILiquidityProps) {
                       <span className="mr-1">
                         {Number(props.userBalances[props.tokenOut.name]?.balance) > 0
                           ? new BigNumber(
-                              props.userBalances[props.tokenOut.name]?.balance
-                            ).isLessThan(0.01)
+                            props.userBalances[props.tokenOut.name]?.balance
+                          ).isLessThan(0.01)
                             ? "<0.01"
                             : nFormatter(
-                                new BigNumber(props.userBalances[props.tokenOut.name]?.balance)
-                              )
+                              new BigNumber(props.userBalances[props.tokenOut.name]?.balance)
+                            )
                           : props.contractTokenBalance[props.tokenOut.name]
-                          ? Number(props.contractTokenBalance[props.tokenOut.name]?.balance) > 0
-                            ? new BigNumber(
+                            ? Number(props.contractTokenBalance[props.tokenOut.name]?.balance) > 0
+                              ? new BigNumber(
                                 props.contractTokenBalance[props.tokenOut.name]?.balance
                               ).isLessThan(0.01)
-                              ? "<0.01"
-                              : nFormatter(
+                                ? "<0.01"
+                                : nFormatter(
                                   new BigNumber(
                                     props.contractTokenBalance[props.tokenOut.name]?.balance
                                   )
                                 )
-                            : "0.0"
-                          : "0.0"}{" "}
+                              : "0.0"
+                            : "0.0"}{" "}
                       </span>
                     )}
                     {tEZorCTEZtoUppercase(props.tokenOut.name)}

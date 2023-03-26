@@ -38,7 +38,12 @@ const Config: IConfig = {
   },
   FACTORY: {
     mainnet: "KT1ECkj846eLwRSexCKagq8FfkBBxqhsNhkD",
-    testnet: "KT1UmJmgNvy7sGztaFkr598Lj7JxiWbTFbQp",
+    // testnet: "KT1UmJmgNvy7sGztaFkr598Lj7JxiWbTFbQp",
+    testnet: "KT1L7qXzdRgD2tMiYvS2VVFfeob43SKs5a5U",
+  },
+  POSITION_MANAGER: {
+    mainnet: "//temp",
+    testnet: "KT1LeoXmqZUqaBUkYMUhHrMYkUMaPuTwM8Zg",
   },
   TEZ_DEPLOYER: {
     mainnet: "KT1JnpY4fUQ9DurUhb7uCQtKkunLiamgdzyc",

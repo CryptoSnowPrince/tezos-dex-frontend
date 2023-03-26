@@ -226,7 +226,7 @@ function TokenModalPool(props: ISwapModalProps) {
   ]);
 
   return props.show ? (
-    <PopUpModal title="Select Token" onhide={props.onhide}>
+    <PopUpModal title="Select Tokenaaa" onhide={props.onhide}>
       {
         <>
           <div className="mt-5">

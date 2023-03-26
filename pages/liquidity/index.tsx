@@ -12,7 +12,7 @@ import { getAllTokensBalanceFromTzkt, getPnlpBalance } from "../../src/api/util/
 import { tEZorCTEZtoUppercase } from "../../src/api/util/helpers";
 import { getTokenDataFromTzkt } from "../../src/api/util/tokens";
 import { IAllTokensBalance, IAllTokensBalanceResponse } from "../../src/api/util/types";
-import { Chain, IConfigToken, MigrateToken } from "../../src/config/types";
+import { Chain, IConfigToken, MigrateToken, TokenStandard } from "../../src/config/types";
 import { FIRST_TOKEN_AMOUNT, TOKEN_A, TOKEN_B } from "../../src/constants/localStorage";
 import { tokensModalNewPool, tokenType } from "../../src/constants/swap";
 import {
@@ -35,27 +35,21 @@ import ConfirmAddPool from "../../src/components/Pools/ConfirmAddPool";
 import NewPoolMain, { Pair } from "../../src/components/Pools/NewPoolMain";
 import TokenModalPool from "../../src/components/Pools/tokenModalPool";
 import { tzktExplorer } from "../../src/common/walletconnect";
+import { FEE_TIER } from "../../src/constants/global";
 
 export default function Liquidity() {
   const [step1, setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
-  const [newPool, setNewPool] = useState(true)
+  const [isExist, setIsExist] = useState(false);
 
-  // let [token1, setToken1] = useState('');
-  // let [token2, setToken2] = useState('');
+  const [feeTier, setFeeTier] = useState(FEE_TIER.NONE);
 
-  const [isPairsClicked, setIsPairsClicked] = useState([
-    {
-      activated: false,
-    },
-    {
-      activated: false,
-    },
-    {
-      activated: false,
-    },
-  ]);
+  const [userCurPrice, setUserCurPrice] = useState(0)
+  const [userMinPrice, setUserMinPrice] = useState(0)
+  const [userMaxPrice, setUserMaxPrice] = useState(0)
+  
+  const [curPrice, setCurPrice] = useState(0)
 
   const router = useRouter();
 
@@ -120,6 +114,10 @@ export default function Liquidity() {
 
   const [tokenType, setTokenType] = useState<tokenType>("tokenIn");
   const selectToken = (token: tokensModalNewPool) => {
+    if (token.interface.standard !== TokenStandard.FA12) {
+      window.alert("now support FA1.2")
+      return;
+    }
     if ((tokenType === "tokenOut" || tokenType === "tokenIn") && firstTokenAmountLiq !== "") {
       setSecondTokenAmountLiq("");
     }
@@ -267,9 +265,12 @@ export default function Liquidity() {
     setReFetchPool(false);
     setRefetch(false);
     setShowConfirmTransaction(true);
+    console.log('[prince]: hey wake up')
     deployV3Pool(
       tokenInOp,
       tokenOutOp,
+      feeTier,
+      isExist,
       userAddress,
       new BigNumber(firstTokenAmountLiq),
       new BigNumber(secondTokenAmountLiq),
@@ -587,7 +588,6 @@ export default function Liquidity() {
     //     });
     // }
   };
-  //
 
   return (
     <>
@@ -636,28 +636,27 @@ export default function Liquidity() {
                   <p className="desc">The % you will earn in fee’s</p>
                   <div className="pairs-wrapper">
                     <div
-                      className={isPairsClicked[0].activated ? "pairs pairs-activated" : "pairs"}
+                      className={feeTier === FEE_TIER.TIER1 ? "pairs pairs-activated" : "pairs"}
                       onClick={() => {
-                        let temp = [...isPairsClicked];
-                        temp[0].activated = !temp[0].activated;
-                        setIsPairsClicked([...temp]);
+                        if (feeTier === FEE_TIER.TIER1) {
+                          setFeeTier(FEE_TIER.NONE);
+                        } else {
+                          setFeeTier(FEE_TIER.TIER1);
+                        }
                         setStep2(!step2);
-                        // for (let i = 0; i < temp.length; i++) {
-                        //     if (temp[i].activated) {
-                        //         alert("no");
-                        //     }
-                        // }
                       }}
                     >
                       <div className="number">0.05%</div>
                       <div className="text">Best for stable pairs</div>
                     </div>
                     <div
-                      className={isPairsClicked[1].activated ? "pairs pairs-activated" : "pairs"}
+                      className={feeTier === FEE_TIER.TIER2 ? "pairs pairs-activated" : "pairs"}
                       onClick={() => {
-                        let temp = [...isPairsClicked];
-                        temp[1].activated = !temp[1].activated;
-                        setIsPairsClicked([...temp]);
+                        if (feeTier === FEE_TIER.TIER2) {
+                          setFeeTier(FEE_TIER.NONE);
+                        } else {
+                          setFeeTier(FEE_TIER.TIER2);
+                        }
                         setStep2(!step2);
                       }}
                     >
@@ -665,11 +664,13 @@ export default function Liquidity() {
                       <div className="text">Best for most pairs</div>
                     </div>
                     <div
-                      className={isPairsClicked[2].activated ? "pairs pairs-activated" : "pairs"}
+                      className={feeTier === FEE_TIER.TIER3 ? "pairs pairs-activated" : "pairs"}
                       onClick={() => {
-                        let temp = [...isPairsClicked];
-                        temp[2].activated = !temp[2].activated;
-                        setIsPairsClicked([...temp]);
+                        if (feeTier === FEE_TIER.TIER3) {
+                          setFeeTier(FEE_TIER.NONE);
+                        } else {
+                          setFeeTier(FEE_TIER.TIER3);
+                        }
                         setStep2(!step2);
                       }}
                     >
@@ -689,6 +690,16 @@ export default function Liquidity() {
                     setFirstTokenAmount={setFirstTokenAmountLiq}
                     tokenIn={tokenIn}
                     tokenOut={tokenOut}
+                    tokenInOp={tokenInOp}
+                    tokenOutOp={tokenOutOp}
+                    feeTier={feeTier}
+                    curPrice={curPrice}
+                    userMinPrice={userMinPrice}
+                    userMaxPrice={userMaxPrice}
+                    userCurPrice={userCurPrice}
+                    setUserMinPrice={setUserMinPrice}
+                    setUserMaxPrice={setUserMaxPrice}
+                    setCurPrice={setCurPrice}
                     setIsAddLiquidity={setIsAddLiquidity}
                     isAddLiquidity={isAddLiquidity}
                     pnlpBalance={pnlpBalance}
@@ -705,6 +716,8 @@ export default function Liquidity() {
                     setShowLiquidityModal={handelshowLiquidityModal}
                     showLiquidityModal={showLiquidityModalPopup}
                     contractTokenBalance={contractTokenBalance}
+                    isExist={isExist}
+                    setIsExist={setIsExist}
                   />
                 </div>
                 {showConfirmPool && (
@@ -786,7 +799,7 @@ export default function Liquidity() {
                 }
               >
                 {
-                  newPool ? (<>
+                  !isExist || !curPrice ? (<>
                     <div className="header">
                       <h2 className="title">Set Starting Price</h2>
                     </div>
@@ -797,11 +810,14 @@ export default function Liquidity() {
                       className="input-start-price"
                       type="number"
                       min="0"
+                      value={userCurPrice}
+                      onChange={(e) => setUserCurPrice(parseFloat(e.target.value))}
                     />
-                    <div className="current-start-price">
-                      <div>Current UNKNOWN Price:</div>
-                      <div>12 UNKNOWN</div>
-                    </div>
+                    <br></br>
+                    {tokenIn.symbol && tokenOut.symbol && <div className="current-start-price">
+                      <div>{`Current ${tokenIn.symbol} Price:`}</div>
+                      <div>{`${userCurPrice} ${tokenOut.symbol}`}</div>
+                    </div>}
                     <div className="header">
                       <h2 className="title">Set Price Range</h2>
                     </div>
@@ -815,7 +831,7 @@ export default function Liquidity() {
                       </div>
                     </div>
                     <h2 className="current-price">
-                      {`Current Price: ${`100`}`}
+                      {`Current Price: ${curPrice}`}
                     </h2>
                     <div className="range-selector-graphic"></div>
                   </>
@@ -827,7 +843,7 @@ export default function Liquidity() {
                     <div className="title">Min Price</div>
                     <div className="body">
                       <button className="button">-</button>
-                      <input className="price" />
+                      <input className="price" type='number' value={userMinPrice} onChange={(e) => setUserMinPrice(parseFloat(e.target.value))} />
                       <button className="button">+</button>
                     </div>
                     <div className="price-unit">X per Y</div>
@@ -836,7 +852,7 @@ export default function Liquidity() {
                     <div className="title">Max Price</div>
                     <div className="body">
                       <button className="button">-</button>
-                      <input className="price" />
+                      <input className="price" type='number' value={userMaxPrice} onChange={(e) => setUserMaxPrice(parseFloat(e.target.value))} />
                       <button className="button">+</button>
                     </div>
                     <div className="price-unit">X per Y</div>

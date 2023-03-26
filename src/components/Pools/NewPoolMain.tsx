@@ -230,19 +230,13 @@ export
       const decimal = new BigNumber(input).decimalPlaces();
 
       props.setFirstTokenAmount(input);
-      const output = getOtherTokenAmount(props.tokenInOp, props.tokenOutOp, input, props.userMinPrice, props.userMaxPrice, props.curPrice, props.userCurPrice);
+      const output = getOtherTokenAmount(props.tokenInOp, props.tokenOutOp, input, true, props.userMinPrice, props.userMaxPrice, props.curPrice, props.userCurPrice);
       props.setSecondTokenAmount(output)
     } else if (tokenType === "tokenOut") {
       const decimal = new BigNumber(input).decimalPlaces();
 
       props.setSecondTokenAmount(input.toString().trim());
-      const output = getOtherTokenAmount(
-        props.tokenOutOp, props.tokenInOp,
-        input.toString().trim(),
-        props.userMinPrice > 0 ? 1 / props.userMinPrice : 0,
-        props.userMaxPrice > 0 ? 1 / props.userMaxPrice : 0,
-        props.curPrice > 0 ? 1 / props.curPrice : 0,
-        props.userCurPrice > 0 ? 1 / props.userCurPrice : 0);
+      const output = getOtherTokenAmount(props.tokenInOp, props.tokenOutOp, input, false, props.userMinPrice, props.userMaxPrice, props.curPrice, props.userCurPrice);
       props.setFirstTokenAmount(output)
     }
   };

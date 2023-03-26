@@ -376,18 +376,18 @@ export function priceToClosestTick (
   tokenOut: IConfigToken
 ): number | null {
   const sorted = tokenCompare(tokenIn, tokenOut);
-  if (sorted === 0 || sorted === 2) return null;
+  if (sorted === 0 || sorted === 2 || price <= 0) return null;
 
   let priceX192: JSBI;
-  if (sorted === -1) {
+  if (sorted === 1) {
     priceX192 = JSBI.divide(
-      JSBI.multiply(Q192, JSBI.BigInt(10 ** tokenIn.decimals)),
-      JSBI.BigInt(Math.floor(price * 10 ** tokenOut.decimals))
+      JSBI.multiply(JSBI.BigInt(Math.floor(price * 10 ** tokenOut.decimals)), Q192),
+      JSBI.BigInt(10 ** tokenIn.decimals)
     );
   } else {
     priceX192 = JSBI.divide(
-      JSBI.multiply(JSBI.BigInt(Math.floor(price * 10 ** tokenIn.decimals)), Q192),
-      JSBI.BigInt(10 ** tokenOut.decimals)
+      JSBI.multiply(Q192, JSBI.BigInt(10 ** tokenIn.decimals)),
+      JSBI.BigInt(Math.floor(price * 10 ** tokenOut.decimals))
     );
   }
 
@@ -397,17 +397,17 @@ export function priceToClosestTick (
   let tick = getTickAtSqrtRatio(sqrtRatioX96);
   console.log("[prince] priceToClosestTick: tick", tick);
   const nextTickPrice = tickToPrice(tick + 1);
-  if (sorted === -1) {
-    const nextTickPriceBN = new BigNumber(Q192.toString())
-      .div(nextTickPrice.ratioX192.toString())
+  if (sorted === 1) {
+    const nextTickPriceBN = new BigNumber(nextTickPrice.ratioX192.toString())
+      .div(new BigNumber(Q192.toString()))
       .multipliedBy(10 ** (tokenIn.decimals - tokenOut.decimals));
     if (!(price < parseFloat(nextTickPriceBN.toString()))) {
       tick++;
     }
   } else {
-    const nextTickPriceBN = new BigNumber(nextTickPrice.ratioX192.toString())
-      .div(new BigNumber(Q192.toString()))
-      .multipliedBy(10 ** (tokenOut.decimals - tokenIn.decimals));
+    const nextTickPriceBN = new BigNumber(Q192.toString())
+      .div(nextTickPrice.ratioX192.toString())
+      .multipliedBy(10 ** (tokenIn.decimals - tokenOut.decimals));
     if (!(price > parseFloat(nextTickPriceBN.toString()))) {
       tick++;
     }
@@ -544,6 +544,7 @@ export function amount0 (
       liquidity,
       false
     );
+    console.log("[prince] amount0 0", _token0Amount);
   } else if (tickCurrent < tickUpper) {
     _token0Amount = SqrtPriceMath.getAmount0Delta(
       sqrtRatioX96,
@@ -551,8 +552,10 @@ export function amount0 (
       liquidity,
       false
     );
+    console.log("[prince] amount0 1", _token0Amount);
   } else {
     _token0Amount = ZERO;
+    console.log("[prince] amount0 2", _token0Amount);
   }
   return _token0Amount;
 }
@@ -570,6 +573,7 @@ export function amount1 (
   let _token1Amount;
   if (tickCurrent < tickLower) {
     _token1Amount = ZERO;
+    console.log("[prince] amount1 0", _token1Amount);
   } else if (tickCurrent < tickUpper) {
     _token1Amount = SqrtPriceMath.getAmount1Delta(
       getSqrtRatioAtTick(tickLower),
@@ -577,6 +581,7 @@ export function amount1 (
       liquidity,
       false
     );
+    console.log("[prince] amount1 1", _token1Amount);
   } else {
     _token1Amount = SqrtPriceMath.getAmount1Delta(
       getSqrtRatioAtTick(tickLower),
@@ -584,6 +589,7 @@ export function amount1 (
       liquidity,
       false
     );
+    console.log("[prince] amount1 2", _token1Amount);
   }
   return _token1Amount;
 }
@@ -591,23 +597,24 @@ export function amount1 (
 export const getOtherTokenAmount = (
   tokenA: IConfigToken,
   tokenB: IConfigToken,
-  tokenAAmount: string | number,
+  tokenAmount: string | number,
+  isTokenA: boolean,
   userMinPrice: number,
   userMaxPrice: number,
   curPrice: number,
   userCurPrice: number
 ): string | number => {
   const cond = tokenCompare(tokenA, tokenB);
+  const _curPrice = curPrice && curPrice > 0 ? curPrice : userCurPrice;
 
   if (cond === 0 || cond === 2) return 0;
 
   const tickLower = priceToClosestTick(userMinPrice, tokenA, tokenB);
+  console.log("[prince] getOtherTokenAmount: tickLower", tickLower);
   const tickUpper = priceToClosestTick(userMaxPrice, tokenA, tokenB);
-  const tickCurrent = priceToClosestTick(
-    curPrice && curPrice > 0 ? curPrice : userCurPrice,
-    tokenA,
-    tokenB
-  );
+  console.log("[prince] getOtherTokenAmount: tickUpper", tickUpper);
+  const tickCurrent = priceToClosestTick(_curPrice, tokenA, tokenB);
+  console.log("[prince] getOtherTokenAmount: tickCurrent", tickCurrent);
   const currentSqrt = getSqrtRatioAtTick(tickCurrent as number);
   const sqrtRatioAX96 = getSqrtRatioAtTick(tickLower as number);
   const sqrtRatioBX96 = getSqrtRatioAtTick(tickUpper as number);
@@ -620,44 +627,62 @@ export const getOtherTokenAmount = (
     currentSqrt,
     sqrtRatioAX96,
     sqrtRatioBX96,
-    cond
+    cond,
+    tokenA,
+    tokenB
   );
 
-  let otherTokenAmount: JSBI;
-  if (cond === 1) {
-    const liquidity = maxLiquidityForAmounts(
-      currentSqrt,
-      sqrtRatioAX96,
-      sqrtRatioBX96,
-      MaxUint256,
-      JSBI.multiply(JSBI.BigInt(tokenAAmount), JSBI.BigInt(10 ** tokenA.decimals)),
-      true
-    );
-    otherTokenAmount = amount0(
-      tickCurrent as number,
-      tickLower as number,
-      tickUpper as number,
-      currentSqrt,
-      liquidity
+  let amount0Param = MaxUint256;
+  let amount1Param = MaxUint256;
+  let getTokenAmount = amount0;
+  if (cond === -1) {
+    if (isTokenA) {
+      amount0Param = JSBI.BigInt(Math.floor(Number(tokenAmount) * 10 ** tokenA.decimals));
+      amount1Param = MaxUint256;
+      getTokenAmount = amount1;
+    } else {
+      amount0Param = MaxUint256;
+      amount1Param = JSBI.BigInt(Math.floor(Number(tokenAmount) * 10 ** tokenB.decimals));
+    }
+  } else {
+    if (isTokenA) {
+      amount0Param = MaxUint256;
+      amount1Param = JSBI.BigInt(Math.floor(Number(tokenAmount) * 10 ** tokenA.decimals));
+    } else {
+      amount0Param = JSBI.BigInt(Math.floor(Number(tokenAmount) * 10 ** tokenB.decimals));
+      amount1Param = MaxUint256;
+      getTokenAmount = amount1;
+    }
+  }
+  console.log("[prince] getOtherTokenAmount: amount0Param", amount0Param);
+  console.log("[prince] getOtherTokenAmount: amount1Param", amount1Param);
+  const liquidity = maxLiquidityForAmounts(
+    currentSqrt,
+    sqrtRatioAX96,
+    sqrtRatioBX96,
+    amount0Param,
+    amount1Param,
+    true
+  );
+  console.log("[prince] getOtherTokenAmount: liquidity", liquidity);
+  console.log("[prince] getOtherTokenAmount: getTokenAmount", getTokenAmount);
+  const otherTokenAmount = getTokenAmount(
+    tickCurrent as number,
+    tickLower as number,
+    tickUpper as number,
+    currentSqrt,
+    liquidity
+  );
+  console.log("[prince] getOtherTokenAmount: otherTokenAmount", otherTokenAmount);
+  if (isTokenA) {
+    return (
+      (JSBI.toNumber(otherTokenAmount) * _curPrice ** 2 * 100 ** (tokenB.decimals - tokenA.decimals)) /
+      10 ** (isTokenA ? tokenB.decimals : tokenA.decimals)
     );
   } else {
-    const liquidity = maxLiquidityForAmounts(
-      currentSqrt,
-      sqrtRatioAX96,
-      sqrtRatioBX96,
-      JSBI.multiply(JSBI.BigInt(tokenAAmount), JSBI.BigInt(10 ** tokenA.decimals)),
-      MaxUint256,
-      true
-    );
-    otherTokenAmount = amount1(
-      tickCurrent as number,
-      tickLower as number,
-      tickUpper as number,
-      currentSqrt,
-      liquidity
+    return (
+      JSBI.toNumber(otherTokenAmount) * 100 ** (tokenA.decimals - tokenB.decimals) /
+      (_curPrice ** 2 * 10 ** (isTokenA ? tokenB.decimals : tokenA.decimals))
     );
   }
-  console.log("[prince] getOtherTokenAmount: return", otherTokenAmount);
-  console.log("[prince] getOtherTokenAmount: return", JSBI.toNumber(otherTokenAmount) / 10 ** tokenB.decimals);
-  return JSBI.toNumber(otherTokenAmount) / 10 ** tokenB.decimals;
 };

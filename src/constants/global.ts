@@ -379,7 +379,7 @@ export function priceToClosestTick (
   if (sorted === 0 || sorted === 2 || price <= 0) return null;
 
   let priceX192: JSBI;
-  if (sorted === 1) {
+  if (sorted === -1) {
     priceX192 = JSBI.divide(
       JSBI.multiply(JSBI.BigInt(Math.floor(price * 10 ** tokenOut.decimals)), Q192),
       JSBI.BigInt(10 ** tokenIn.decimals)

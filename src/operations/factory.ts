@@ -113,8 +113,10 @@ export const deployV3Pool = async (
           tickUpper,
           new BigNumber(token1Amount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
           new BigNumber(token2Amount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
-          new BigNumber(token1MinAmount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
-          new BigNumber(token2MinAmount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
+          0,
+          0,
+          // new BigNumber(token1MinAmount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
+          // new BigNumber(token2MinAmount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
           caller,
           new Date(Date.now() + 1000000).toISOString()
         )

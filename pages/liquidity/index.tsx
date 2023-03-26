@@ -46,9 +46,12 @@ export default function Liquidity() {
   const [feeTier, setFeeTier] = useState(FEE_TIER.NONE);
 
   const [userCurPrice, setUserCurPrice] = useState(0)
+  const [tickUpper, setTickUpper] = useState(0)
+  const [tickLower, setTickLower] = useState(0)
+  const [curSqrt, setCurSqrt] = useState<BigNumber>(new BigNumber(0))
   const [userMinPrice, setUserMinPrice] = useState(0)
   const [userMaxPrice, setUserMaxPrice] = useState(0)
-  
+
   const [curPrice, setCurPrice] = useState(0)
 
   const router = useRouter();
@@ -271,9 +274,14 @@ export default function Liquidity() {
       tokenOutOp,
       feeTier,
       isExist,
+      tickLower,
+      tickUpper,
       userAddress,
-      new BigNumber(firstTokenAmountLiq),
-      new BigNumber(secondTokenAmountLiq),
+      Number(firstTokenAmountLiq).toString(),
+      Number(secondTokenAmountLiq).toString(),
+      (Number(firstTokenAmountLiq) * 0.95).toString(),
+      (Number(secondTokenAmountLiq) * 0.95).toString(),
+      curSqrt,
       transactionSubmitModal,
       resetAllValues,
       setShowConfirmTransaction,
@@ -699,6 +707,11 @@ export default function Liquidity() {
                     userCurPrice={userCurPrice}
                     setUserMinPrice={setUserMinPrice}
                     setUserMaxPrice={setUserMaxPrice}
+                    tickUpper={tickUpper}
+                    tickLower={tickLower}
+                    setTickUpper={setTickUpper}
+                    setTickLower={setTickLower}
+                    setCurSqrt={setCurSqrt}
                     setCurPrice={setCurPrice}
                     setIsAddLiquidity={setIsAddLiquidity}
                     isAddLiquidity={isAddLiquidity}

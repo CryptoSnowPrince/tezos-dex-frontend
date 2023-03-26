@@ -397,7 +397,7 @@ export function priceToClosestTick (
   let tick = getTickAtSqrtRatio(sqrtRatioX96);
   console.log("[prince] priceToClosestTick: tick", tick);
   const nextTickPrice = tickToPrice(tick + 1);
-  if (sorted === 1) {
+  if (sorted === -1) {
     const nextTickPriceBN = new BigNumber(nextTickPrice.ratioX192.toString())
       .div(new BigNumber(Q192.toString()))
       .multipliedBy(10 ** (tokenIn.decimals - tokenOut.decimals));
@@ -603,11 +603,22 @@ export const getOtherTokenAmount = (
   userMaxPrice: number,
   curPrice: number,
   userCurPrice: number
-): string | number => {
+): {
+  output: string | number | null;
+  tickLower: number | null;
+  tickUpper: number | null;
+  currentSqrt: JSBI | null;
+} => {
   const cond = tokenCompare(tokenA, tokenB);
   const _curPrice = curPrice && curPrice > 0 ? curPrice : userCurPrice;
 
-  if (cond === 0 || cond === 2) return 0;
+  if (cond === 0 || cond === 2)
+    return {
+      output: null,
+      tickLower: null,
+      tickUpper: null,
+      currentSqrt: null,
+    };
 
   const tickLower = priceToClosestTick(userMinPrice, tokenA, tokenB);
   console.log("[prince] getOtherTokenAmount: tickLower", tickLower);
@@ -676,14 +687,24 @@ export const getOtherTokenAmount = (
   console.log("[prince] getOtherTokenAmount: otherTokenAmount", otherTokenAmount);
   // fix as temp to skip
   if (isTokenA) {
-    return (
-      (JSBI.toNumber(otherTokenAmount) * _curPrice ** 2 * 100 ** (tokenB.decimals - tokenA.decimals)) /
-      10 ** (isTokenA ? tokenB.decimals : tokenA.decimals)
-    );
+    return {
+      output:
+        JSBI.toNumber(otherTokenAmount) / 10 ** (isTokenA ? tokenB.decimals : tokenA.decimals),
+      // (JSBI.toNumber(otherTokenAmount) *
+      //   _curPrice ** 2 *
+      //   100 ** (tokenB.decimals - tokenA.decimals)) /
+      // 10 ** (isTokenA ? tokenB.decimals : tokenA.decimals),
+      tickLower: tickLower,
+      tickUpper: tickUpper,
+      currentSqrt: currentSqrt,
+    };
   } else {
-    return (
-      JSBI.toNumber(otherTokenAmount) * 100 ** (tokenA.decimals - tokenB.decimals) /
-      (_curPrice ** 2 * 10 ** (isTokenA ? tokenB.decimals : tokenA.decimals))
-    );
+    return {
+      output:
+        JSBI.toNumber(otherTokenAmount) / 10 ** (isTokenA ? tokenB.decimals : tokenA.decimals),
+      tickLower: tickLower,
+      tickUpper: tickUpper,
+      currentSqrt: currentSqrt,
+    };
   }
 };

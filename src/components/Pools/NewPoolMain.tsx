@@ -38,6 +38,7 @@ import { tokenIcons } from "../../constants/tokensList";
 import fromExponential from "from-exponential";
 import { FEE_TIER, getOtherTokenAmount } from "../../constants/global";
 import { IConfigToken } from "../../config/types";
+import JSBI from "jsbi";
 interface ILiquidityProps {
   firstTokenAmount: string | number;
   secondTokenAmount: string | number;
@@ -82,9 +83,14 @@ interface ILiquidityProps {
   userCurPrice: number;
   userMinPrice: number;
   userMaxPrice: number;
+  tickUpper: number
+  tickLower: number
+  setTickUpper: React.Dispatch<React.SetStateAction<number>>;
+  setTickLower: React.Dispatch<React.SetStateAction<number>>;
   setUserMinPrice: React.Dispatch<React.SetStateAction<number>>;
   setUserMaxPrice: React.Dispatch<React.SetStateAction<number>>;
   setCurPrice: React.Dispatch<React.SetStateAction<number>>;
+  setCurSqrt: React.Dispatch<React.SetStateAction<BigNumber>>;
   tokenInOp: IConfigToken;
   tokenOutOp: IConfigToken;
 }
@@ -93,8 +99,7 @@ export const Pair = {
   STABLE: "Stable pair",
   GENERAL: "V3 pair",
 };
-export
-  function NewPoolMain(props: ILiquidityProps) {
+export const NewPoolMain = (props: ILiquidityProps) => {
   const isExist = props.isExist
   const setIsExist = props.setIsExist
   const tokenPrice = useAppSelector((state) => state.tokenPrice.tokenPrice);
@@ -231,13 +236,19 @@ export
 
       props.setFirstTokenAmount(input);
       const output = getOtherTokenAmount(props.tokenInOp, props.tokenOutOp, input, true, props.userMinPrice, props.userMaxPrice, props.curPrice, props.userCurPrice);
-      props.setSecondTokenAmount(output)
+      props.setSecondTokenAmount(output.output as string | number)
+      props.setTickLower(output.tickLower as number)
+      props.setTickUpper(output.tickUpper as number)
+      props.setCurSqrt(new BigNumber((output.currentSqrt as JSBI).toString()))
     } else if (tokenType === "tokenOut") {
       const decimal = new BigNumber(input).decimalPlaces();
 
       props.setSecondTokenAmount(input.toString().trim());
       const output = getOtherTokenAmount(props.tokenInOp, props.tokenOutOp, input, false, props.userMinPrice, props.userMaxPrice, props.curPrice, props.userCurPrice);
-      props.setFirstTokenAmount(output)
+      props.setFirstTokenAmount(output.output as string | number)
+      props.setTickLower(output.tickLower as number)
+      props.setTickUpper(output.tickUpper as number)
+      props.setCurSqrt(new BigNumber((output.currentSqrt as JSBI).toString()))
     }
   };
   const onClickAmount = () => {

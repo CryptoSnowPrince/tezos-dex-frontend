@@ -26,9 +26,14 @@ export const deployV3Pool = async (
   token2: IConfigToken,
   feeTier: FEE_TIER,
   isExist: boolean,
+  tickLower: number,
+  tickUpper: number,
   caller: string,
-  token1Amount: BigNumber,
-  token2Amount: BigNumber,
+  token1Amount: string,
+  token2Amount: string,
+  token1MinAmount: string,
+  token2MinAmount: string,
+  currentSqrt: BigNumber,
   transactionSubmitModal: TTransactionSubmitModal | undefined,
   resetAllValues: TResetAllValues | undefined,
   setShowConfirmTransaction: TSetShowConfirmTransaction | undefined,
@@ -52,37 +57,48 @@ export const deployV3Pool = async (
       allBatch.push({
         kind: OpKind.TRANSACTION,
         ...positionManagerInstance.methods
-          .createPoolIfNecessary("fa12", token1.address, "fa12", token2.address, 500)
+          .createPoolIfNecessary("fa12", token1.address, "fa12", token2.address, feeTier)
           .toTransferParams(),
       });
-    }
-
-    allBatch.push({
-      kind: OpKind.TRANSACTION,
-      ...token1Instance.methods.approve(factoryAddress, token1Amount).toTransferParams(),
-    });
-
-    allBatch.push({
-      kind: OpKind.TRANSACTION,
-      ...token2Instance.methods.approve(factoryAddress, token2Amount).toTransferParams(),
-    });
-
-    if (!isExist) {
       allBatch.push({
         kind: OpKind.TRANSACTION,
         ...positionManagerInstance.methods
-          .initializePoolIfNecessary("fa12", token1.address, "fa12", token2.address, 500, 2 ** 96)
+          .initializePoolIfNecessary(
+            "fa12",
+            token1.address,
+            "fa12",
+            token2.address,
+            feeTier,
+            currentSqrt
+          )
           .toTransferParams(),
       });
     }
 
-    const priceLower = 0 * 2 ** 96;
-    const priceUpper = 2 ** 192 * 2 ** 96;
-    const tickSpacing = 10;
-    const tickLower = Math.floor(Math.log(priceLower / tickSpacing) / Math.log(Math.sqrt(2)));
-    const tickUpper = Math.ceil(Math.log(priceUpper / tickSpacing) / Math.log(Math.sqrt(2)));
-    console.log("tickLower: ", tickLower);
-    console.log("tickUpper: ", tickUpper);
+    console.log("[prince] deployV3Pool: token1Amount", token1Amount);
+    // console.log('[prince] deployV3Pool: token1Amount .integerValue()',(new BigNumber(token1Amount).multipliedBy(new BigNumber(10).pow(token1.decimals))).integerValue(BigNumber.ROUND_CEIL).toString())
+    console.log("[prince] deployV3Pool: token2Amount", token2Amount);
+    // console.log('[prince] deployV3Pool: token2Amount .integerValue()', (new BigNumber(token2Amount).multipliedBy(new BigNumber(10).pow(token2.decimals))).integerValue(BigNumber.ROUND_CEIL).toString())
+
+    allBatch.push({
+      kind: OpKind.TRANSACTION,
+      ...token1Instance.methods
+        .approve(
+          positionManagerAddress,
+          new BigNumber(token1Amount).multipliedBy(new BigNumber(10).pow(token1.decimals))
+        )
+        .toTransferParams(),
+    });
+
+    allBatch.push({
+      kind: OpKind.TRANSACTION,
+      ...token2Instance.methods
+        .approve(
+          positionManagerAddress,
+          new BigNumber(token2Amount).multipliedBy(new BigNumber(10).pow(token2.decimals))
+        )
+        .toTransferParams(),
+    });
 
     allBatch.push({
       kind: OpKind.TRANSACTION,
@@ -93,12 +109,12 @@ export const deployV3Pool = async (
           "fa12",
           token2.address,
           feeTier,
-          43820,
-          47880,
-          token1Amount,
-          token2Amount,
-          0,
-          0,
+          tickLower,
+          tickUpper,
+          new BigNumber(token1Amount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
+          new BigNumber(token2Amount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
+          new BigNumber(token1MinAmount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
+          new BigNumber(token2MinAmount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
           caller,
           new Date(Date.now() + 1000000).toISOString()
         )

@@ -3,7 +3,7 @@ import { BigNumber } from "bignumber.js";
 import {
   connectedNetwork,
   dappClient,
-  factoryAddress,
+  v3factoryAddress,
   voterAddress as voterContractAddress,
 } from "../../common/walletconnect";
 import Config from "../../config/config";
@@ -108,8 +108,8 @@ export const getPoolAddress = async (
   feeTier: FEE_TIER
 ): Promise<string> => {
   const Tezos = await dappClient().tezos();
-  const factoryInstance = await Tezos.wallet.at(factoryAddress);
-  const storage: any = await factoryInstance.storage();
+  const v3factoryInstance = await Tezos.wallet.at(v3factoryAddress);
+  const storage: any = await v3factoryInstance.storage();
 
   const address = await storage["getPool"].get({
     0: { fa12: tokenIn.address },

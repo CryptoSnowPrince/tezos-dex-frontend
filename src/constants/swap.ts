@@ -13,6 +13,7 @@ export interface tokensModal {
   new: boolean;
   chainType?: string;
   address?: string;
+  interface: IConfigToken;
 }
 export interface tokensModalNewPool {
   name: string;

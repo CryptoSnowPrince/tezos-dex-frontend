@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import clsx from "clsx";
 import { Position, ToolTip } from "../Tooltip/TooltipAdvanced";
 import { topTokensList } from "../../api/swap/wrappers";
-import { Chain } from "../../config/types";
+import { Chain, IConfigToken } from "../../config/types";
 import { IAllTokensBalance } from "../../api/util/types";
 import nFormatter, { changeSource, tEZorCTEZtoUppercase } from "../../api/util/helpers";
 import { tokenIcons } from "../../constants/tokensList";
@@ -24,6 +24,7 @@ interface ISwapModalProps {
     image: string | StaticImageData;
     chainType: Chain;
     address: string | undefined;
+    interface: IConfigToken;
   }[];
   show: boolean;
   selectToken: Function;
@@ -47,6 +48,7 @@ function SwapModal(props: ISwapModalProps) {
         image: string | StaticImageData;
         chainType: Chain;
         address: string | undefined;
+        interface: IConfigToken;
       }[]
     | []
   >([]);
@@ -114,12 +116,14 @@ function SwapModal(props: ISwapModalProps) {
       image: string | StaticImageData;
       address: string;
       chainType: Chain;
+      interface: IConfigToken;
     }[],
     array2: {
       name: string;
       image: string | StaticImageData;
       chainType: Chain;
       address: string | undefined;
+      interface: IConfigToken;
     }[]
   ) {
     const res: {
@@ -127,6 +131,7 @@ function SwapModal(props: ISwapModalProps) {
       image: string | StaticImageData;
       address: string | undefined;
       chainType: Chain;
+      interface: IConfigToken;
     }[] = [];
     if (array1.length >= array2.length) {
       array1.filter((token) => {

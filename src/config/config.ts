@@ -1,4 +1,4 @@
-import { IConfig, TokenStandard } from './types';
+import { IConfig, TokenStandard } from "./types";
 import { NetworkType } from "@airgap/beacon-types";
 
 const Config: IConfig = {
@@ -38,12 +38,7 @@ const Config: IConfig = {
   },
   FACTORY: {
     mainnet: "KT1ECkj846eLwRSexCKagq8FfkBBxqhsNhkD",
-    // testnet: "KT1UmJmgNvy7sGztaFkr598Lj7JxiWbTFbQp",
-    testnet: "KT1L7qXzdRgD2tMiYvS2VVFfeob43SKs5a5U",
-  },
-  POSITION_MANAGER: {
-    mainnet: "//temp",
-    testnet: "KT1LeoXmqZUqaBUkYMUhHrMYkUMaPuTwM8Zg",
+    testnet: "KT1UmJmgNvy7sGztaFkr598Lj7JxiWbTFbQp",
   },
   TEZ_DEPLOYER: {
     mainnet: "KT1JnpY4fUQ9DurUhb7uCQtKkunLiamgdzyc",
@@ -60,7 +55,7 @@ const Config: IConfig = {
   },
   ANALYTICS_INDEXER: {
     mainnet: "https://api.analytics.plenty.network/",
-    testnet: "http://3.111.147.231:3000/",//"https://analytics-indexer.ghostnet.kodex.finance/",
+    testnet: "http://3.111.147.231:3000/", //"https://analytics-indexer.ghostnet.kodex.finance/",
   },
 
   FAUCET: "KT1RZREo5PFKCGSgtfoMUzXqisT6mFQ1qxhH",
@@ -131,21 +126,33 @@ const Config: IConfig = {
   // mainnet
   // NETWORK: "mainnet",
   // WALLET_NETWORK: NetworkType.MAINNET,
-  
+
   // testnet
   NETWORK: "testnet",
   WALLET_NETWORK: NetworkType.GHOSTNET,
-  
+
   ADMIN_ADDRESS: "KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW",
   BURNER: "tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg",
 
   EXPLORER_LINKS: {
     RINKEBY: "https://rinkeby.etherscan.io/tx/",
     ETHEREUM: "https://etherscan.io/tx/",
-    TEZOS: { 
+    TEZOS: {
       mainnet: "https://tzkt.io/",
-      testnet: "https://ghostnet.tzkt.io/"
+      testnet: "https://ghostnet.tzkt.io/",
     },
+  },
+  V3FACTORY: {
+    mainnet: "KT1ECkj846eLwRSexCKagq8FfkBBxqhsNhkD",
+    testnet: "KT1L7qXzdRgD2tMiYvS2VVFfeob43SKs5a5U",
+  },
+  POSITION_MANAGER: {
+    mainnet: "//temp",
+    testnet: "KT1LeoXmqZUqaBUkYMUhHrMYkUMaPuTwM8Zg",
+  },
+  V3SWAP_ROUTER: {
+    mainnet: "//temp",
+    testnet: "KT1KpyYEjy9XEBiAHH1r8YX4zHeV9FyQrcuu",
   },
 };
 

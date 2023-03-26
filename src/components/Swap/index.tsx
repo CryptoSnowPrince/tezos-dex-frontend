@@ -640,6 +640,8 @@ function Swap(props: ISwapProps) {
           setRecepient={setRecepient}
           setShowConfirmSwap={setShowConfirmSwap}
           showConfirmSwap={showConfirmSwap}
+          setV3ShowConfirmSwap={setShowConfirmSwap}
+          v3ShowConfirmSwap={showConfirmSwap}
           setShowConfirmTransaction={setShowConfirmTransaction}
           showConfirmTransaction={showConfirmTransaction}
           setShowTransactionSubmitModal={setShowTransactionSubmitModal}

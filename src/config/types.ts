@@ -42,13 +42,15 @@ export interface IConfig {
   ANALYTICS_INDEXER: { mainnet: string; testnet: string };
   PLY_TOKEN: { mainnet: string; testnet: string };
   FACTORY: { mainnet: string; testnet: string };
-  POSITION_MANAGER: { mainnet: string; testnet: string };
   TEZ_DEPLOYER: { mainnet: string; testnet: string };
   EXCHANGE_TOKENS: { [key in MigrateToken]: IExchangeTokenData };
   IPFS_LINKS: { primary: string; fallback: string };
   AIRDROP_SERVER: { mainnet: string; testnet: string };
   AIRDROP: { mainnet: string; testnet: string };
   AIRDROP_ETH_MESSAGE_PREFIX: string;
+  V3FACTORY: { mainnet: string; testnet: string };
+  POSITION_MANAGER: { mainnet: string; testnet: string };
+  V3SWAP_ROUTER: { mainnet: string; testnet: string };
 }
 
 interface IApi {

@@ -55,15 +55,17 @@ export const voterAddress = Config.VOTER[connectedNetwork];
 export const veSwapAddress = Config.VE_SWAP[connectedNetwork];
 export const faucetAddress = Config.FAUCET;
 export const factoryAddress = Config.FACTORY[connectedNetwork];
-export const positionManagerAddress = Config.POSITION_MANAGER[connectedNetwork];
 export const tezDeployerAddress = Config.TEZ_DEPLOYER[connectedNetwork];
 export const routerAddress = Config.ROUTER[connectedNetwork];
 export const tzktExplorer = Config.EXPLORER_LINKS.TEZOS[connectedNetwork];
+export const v3factoryAddress = Config.V3FACTORY[connectedNetwork];
+export const v3swapRouterAddress = Config.V3SWAP_ROUTER[connectedNetwork];
+export const positionManagerAddress = Config.POSITION_MANAGER[connectedNetwork];
 
 export const getRpcNode = () =>
   store.getState().rpcData.rpcNode || Config.RPC_NODES[connectedNetwork];
 
-export const dispatch = () => useAppDispatch();
+// export const dispatch = () => useAppDispatch();
 
 export function dappClient() {
   let instance: BeaconWallet | undefined;

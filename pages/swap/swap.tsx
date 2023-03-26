@@ -21,7 +21,7 @@ import {
     IAllTokensBalance,
     IAllTokensBalanceResponse,
 } from "../../src/api/util/types";
-import { Chain, MigrateToken } from "../../src/config/types";
+import { Chain, IConfigToken, MigrateToken } from "../../src/config/types";
 import { tEZorCTEZtoUppercase } from "../../src/api/util/helpers";
 import Footer from "../../components/footer";
 import { getTokenDataFromTzkt } from "../../src/api/util/tokens";
@@ -61,6 +61,7 @@ export default function Swap(props: ISwapProps) {
     const [secondTokenAmount, setSecondTokenAmount] = useState<number | string>("");
     const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
     const [showConfirmSwap, setShowConfirmSwap] = useState(false);
+    const [v3ShowConfirmSwap, setV3ShowConfirmSwap] = useState(false);
     const [recepient, setRecepient] = useState("");
 
     const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
@@ -68,6 +69,9 @@ export default function Swap(props: ISwapProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [swapModalShow, setSwapModalShow] = useState(false);
     const [slippage, setSlippage] = useState(Number(userSettings.slippage));
+
+    const [tokenInOp, setTokenInOp] = React.useState<IConfigToken>({} as IConfigToken);
+    const [tokenOutOp, setTokenOutOp] = React.useState<IConfigToken>({} as IConfigToken);
 
     const [balanceUpdate, setBalanceUpdate] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -79,14 +83,14 @@ export default function Swap(props: ISwapProps) {
         isLoadingfirst: false,
         isLoadingSecond: false,
     });
-    
+
     useEffect(() => {
         if (searchQuery !== "" && searchQuery.length > 8) {
             getTokenDataFromTzkt(searchQuery.trim()).then((res) => {
                 if (res.allTokensList.length !== 0) {
                     getAllTokensBalanceFromTzkt(res.allTokensList, walletAddress).then((res) => {
                         // contractTokenBalance.push(res.allTokensBalances);
-                        setContractTokenBalance({...contractTokenBalance, ...res.allTokensBalances});
+                        setContractTokenBalance({ ...contractTokenBalance, ...res.allTokensBalances });
                     });
                 }
             });
@@ -289,10 +293,12 @@ export default function Swap(props: ISwapProps) {
             };
         }
 
+        console.log('[prince] handleSwapTokenInput')
         if (
             input === "" ||
-            isNaN(Number(input)) ||
-            (Object.keys(tokenOut).length !== 0 && allPath.current.length === 0)
+            // isNaN(Number(input)) ||
+            // (Object.keys(tokenOut).length !== 0 && allPath.current.length === 0)
+            isNaN(Number(input))
         ) {
             setFirstTokenAmount("");
             setSecondTokenAmount("");
@@ -335,17 +341,18 @@ export default function Swap(props: ISwapProps) {
                 setFirstTokenAmount(input.toString().trim());
                 const decimal = new BigNumber(input).decimalPlaces();
 
-                if (
-                    input !== null &&
-                    decimal !== null &&
-                    new BigNumber(decimal).isGreaterThan(tokens[tokenIn.name]?.decimals)
-                ) {
-                    flag = 0;
-                    setErrorMessage(
-                        `The Precision of ${tEZorCTEZtoUppercase(tokenIn.name)} token cant be greater than ${tokens[tokenIn.name].decimals
-                        } decimals`
-                    );
-                }
+                // if (
+                //     input !== null &&
+                //     decimal !== null &&
+                //     new BigNumber(decimal).isGreaterThan(tokens[tokenIn.name]?.decimals)
+                // ) {
+                //     flag = 0;
+                //     setErrorMessage(
+                //         `The Precision of ${tEZorCTEZtoUppercase(tokenIn.name)} token cant be greater than ${tokens[tokenIn.name].decimals
+                //         } decimals`
+                //     );
+                // }
+
                 // if (flag === 1) {
                 //   setErrorMessage("");
                 // }
@@ -355,89 +362,91 @@ export default function Swap(props: ISwapProps) {
                         isLoadingSecond: true,
                         isLoadingfirst: false,
                     };
-                    const res = computeAllPathsWrapper(
-                        allPath.current,
-                        new BigNumber(input),
-                        new BigNumber(slippage),
-                        allPathSwapData.current,
-                        tokenPrice
-                    );
-                    loading.current = {
-                        isLoadingSecond: false,
-                        isLoadingfirst: false,
-                    };
-                    routeDetails.current = {
-                        minimumOut: res.finalMinimumTokenOut,
-                        minimumTokenOut: res.minimumTokenOut,
-                        feePerc: res.feePerc,
-                        isStable: res.isStable,
-                        path: res.path,
-                        finalFeePerc: res.finalFeePerc,
-                        priceImpact: res.finalPriceImpact,
-                        success: true,
-                        exchangeRate: res.exchangeRate,
-                    };
-                    if (res.tokenOutAmount.isLessThan(0)) {
-                        flag = 0;
-                        setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
-                    }
+                    // const res = computeAllPathsWrapper(
+                    //     allPath.current,
+                    //     new BigNumber(input),
+                    //     new BigNumber(slippage),
+                    //     allPathSwapData.current,
+                    //     tokenPrice
+                    // );
+                    // loading.current = {
+                    //     isLoadingSecond: false,
+                    //     isLoadingfirst: false,
+                    // };
+                    // routeDetails.current = {
+                    //     minimumOut: res.finalMinimumTokenOut,
+                    //     minimumTokenOut: res.minimumTokenOut,
+                    //     feePerc: res.feePerc,
+                    //     isStable: res.isStable,
+                    //     path: res.path,
+                    //     finalFeePerc: res.finalFeePerc,
+                    //     priceImpact: res.finalPriceImpact,
+                    //     success: true,
+                    //     exchangeRate: res.exchangeRate,
+                    // };
+                    // if (res.tokenOutAmount.isLessThan(0)) {
+                    //     flag = 0;
+                    //     setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
+                    // }
 
-                    setSecondTokenAmount(
-                        res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
-                    );
+                    // setSecondTokenAmount(
+                    //     res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
+                    // );
+                    setSecondTokenAmount(0)
                 }
             } else if (tokenType === "tokenOut") {
                 setSecondTokenAmount(input.toString().trim());
                 const decimal = new BigNumber(input).decimalPlaces();
 
-                if (
-                    input !== null &&
-                    decimal !== null &&
-                    new BigNumber(decimal).isGreaterThan(tokens[tokenOut.name].decimals)
-                ) {
-                    flag = 0;
-                    setErrorMessage(
-                        `The Precision of ${tEZorCTEZtoUppercase(tokenOut.name)} token cant be greater than ${tokens[tokenOut.name].decimals
-                        } decimals`
-                    );
-                }
+                // if (
+                //     input !== null &&
+                //     decimal !== null &&
+                //     new BigNumber(decimal).isGreaterThan(tokens[tokenOut.name].decimals)
+                // ) {
+                //     flag = 0;
+                //     setErrorMessage(
+                //         `The Precision of ${tEZorCTEZtoUppercase(tokenOut.name)} token cant be greater than ${tokens[tokenOut.name].decimals
+                //         } decimals`
+                //     );
+                // }
 
                 if (Object.keys(tokenIn).length !== 0) {
-                    loading.current = {
-                        isLoadingfirst: true,
-                        isLoadingSecond: false,
-                    };
-                    const res = computeReverseCalculationWrapper(
-                        allPath1.current,
-                        new BigNumber(input),
-                        new BigNumber(slippage),
-                        allPathSwapData1.current,
-                        tokenPrice,
-                        allPath.current,
-                        allPathSwapData.current
-                    );
-                    loading.current = {
-                        isLoadingSecond: false,
-                        isLoadingfirst: false,
-                    };
-                    routeDetails.current = {
-                        minimumOut: res.finalMinimumTokenOut,
-                        minimumTokenOut: res.minimumTokenOut,
-                        feePerc: res.feePerc,
-                        isStable: res.isStable,
-                        path: res.path,
-                        finalFeePerc: res.finalFeePerc,
-                        priceImpact: res.finalPriceImpact,
-                        success: true,
-                        exchangeRate: res.exchangeRate,
-                    };
-                    if (res.tokenOutAmount.isLessThan(0)) {
-                        flag = 0;
-                        setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
-                    }
-                    setFirstTokenAmount(
-                        res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
-                    );
+                    //     loading.current = {
+                    //         isLoadingfirst: true,
+                    //         isLoadingSecond: false,
+                    //     };
+                    //     const res = computeReverseCalculationWrapper(
+                    //         allPath1.current,
+                    //         new BigNumber(input),
+                    //         new BigNumber(slippage),
+                    //         allPathSwapData1.current,
+                    //         tokenPrice,
+                    //         allPath.current,
+                    //         allPathSwapData.current
+                    //     );
+                    //     loading.current = {
+                    //         isLoadingSecond: false,
+                    //         isLoadingfirst: false,
+                    //     };
+                    //     routeDetails.current = {
+                    //         minimumOut: res.finalMinimumTokenOut,
+                    //         minimumTokenOut: res.minimumTokenOut,
+                    //         feePerc: res.feePerc,
+                    //         isStable: res.isStable,
+                    //         path: res.path,
+                    //         finalFeePerc: res.finalFeePerc,
+                    //         priceImpact: res.finalPriceImpact,
+                    //         success: true,
+                    //         exchangeRate: res.exchangeRate,
+                    //     };
+                    //     if (res.tokenOutAmount.isLessThan(0)) {
+                    //         flag = 0;
+                    //         setErrorMessage(ERRORMESSAGES.INSUFFICIENT_LIQUIDITY);
+                    //     }
+                    //     setFirstTokenAmount(
+                    //         res.tokenOutAmount.isLessThan(0) ? 0 : res.tokenOutAmount.toString().trim()
+                    //     );
+                    setFirstTokenAmount(0);
                 }
             }
         }
@@ -490,11 +499,15 @@ export default function Swap(props: ISwapProps) {
                 name: token.name,
                 image: token.image,
             });
+            setTokenInOp(token.interface)
+            console.log('setTokenInOp interface', token.interface)
         } else {
             setTokenOut({
                 name: token.name,
                 image: token.image,
             });
+            setTokenOutOp(token.interface)
+            console.log('setTokenOutOp interface', token.interface)
         }
         handleClose();
     };
@@ -611,6 +624,7 @@ export default function Swap(props: ISwapProps) {
             image: `/assets/Tokens/${token[1]?.symbol}.png`,
             chainType: token[1]?.originChain as Chain,
             address: token[1].address,
+            interface: token[1]
         }));
     }, [tokens]);
     useEffect(() => {
@@ -740,6 +754,8 @@ export default function Swap(props: ISwapProps) {
                         setRecepient={setRecepient}
                         setShowConfirmSwap={setShowConfirmSwap}
                         showConfirmSwap={showConfirmSwap}
+                        setV3ShowConfirmSwap={setV3ShowConfirmSwap}
+                        v3ShowConfirmSwap={v3ShowConfirmSwap}
                         setShowConfirmTransaction={setShowConfirmTransaction}
                         showConfirmTransaction={showConfirmTransaction}
                         setShowTransactionSubmitModal={setShowTransactionSubmitModal}
@@ -756,6 +772,8 @@ export default function Swap(props: ISwapProps) {
                         isSwitchClicked={isSwitchClicked.current}
                         allBalance={allBalance}
                         contractTokenBalance={contractTokenBalance}
+                        tokenInOp={tokenInOp}
+                        tokenOutOp={tokenOutOp}
                     />
                 </div>
                 <SwapModal

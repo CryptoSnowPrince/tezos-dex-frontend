@@ -45,15 +45,21 @@ import {
   tEZorCTEZtoUppercase,
 } from "../../api/util/helpers";
 import { IAllTokensBalance, IAllTokensBalanceResponse } from "../../api/util/types";
-import { Chain } from "../../config/types";
+import { Chain, IConfigToken, TokenStandard } from "../../config/types";
 import { tokenIcons } from "../../constants/tokensList";
-import { tzktExplorer } from "../../common/walletconnect";
+import { dappClient, tzktExplorer, v3swapRouterAddress, walletNetwork } from "../../common/walletconnect";
+import ConfirmV3Swap from "./ConfirmV3Swap";
+import { OpKind, TezosToolkit, WalletParamsWithKind } from "@taquito/taquito";
+import { getBatchOperationsWithLimits } from "../../api/util/operations";
+import { FEE_TIER, MaxUint256 } from "../../constants/global";
 
 interface ISwapTabProps {
   className?: string;
   walletAddress: string | "";
   firstTokenAmount: string | number;
   secondTokenAmount: string | number;
+  tokenInOp: IConfigToken;
+  tokenOutOp: IConfigToken;
   connectWallet: () => void;
   tokenIn: { name: string; image: any };
   tokenOut: {
@@ -65,6 +71,7 @@ interface ISwapTabProps {
     image: string;
     chainType: Chain;
     address: string | undefined;
+    interface: IConfigToken;
   }[];
   handleTokenType: (type: tokenType) => void;
 
@@ -86,6 +93,8 @@ interface ISwapTabProps {
   handleSwapTokenInput: (input: string | number, tokenType: "tokenIn" | "tokenOut") => void;
   showConfirmSwap: boolean;
   setShowConfirmSwap: any;
+  v3ShowConfirmSwap: boolean;
+  setV3ShowConfirmSwap: any;
   showConfirmTransaction: any;
   setShowConfirmTransaction: any;
   showTransactionSubmitModal: boolean;
@@ -176,12 +185,128 @@ function SwapTab(props: ISwapTabProps) {
   };
   const [isConvert, setConvert] = useState(false);
   const handleSwap = () => {
-    !expertMode && props.setShowConfirmSwap(true);
-    expertMode && handleConfirmSwap();
+    // MODIFY
+    !expertMode && props.setV3ShowConfirmSwap(true);
+    expertMode && handleV3ConfirmSwap();
+    // !expertMode && props.setShowConfirmSwap(true);
+    // expertMode && handleConfirmSwap();
   };
   const convertRates = (e: any) => {
     e.stopPropagation();
     setConvert(!isConvert);
+  };
+  // NEW
+  const handleV3ConfirmSwap = async () => {
+    console.log('[prince] handleV3ConfirmSwap')
+
+    try {
+      const { CheckIfWalletConnected } = dappClient();
+      const WALLET_RESP = await CheckIfWalletConnected();
+      if (!WALLET_RESP.success) {
+        // throw new Error("Wallet connection failed");
+        window.alert("Wallet connection failed");
+      }
+
+      const Tezos: TezosToolkit = await dappClient().tezos();
+      if (!props.tokenInOp.address || !props.tokenOutOp.address) {
+        window.alert("Please select tokens");
+      }
+      if (props.tokenInOp.standard !== TokenStandard.FA12 || props.tokenOutOp.standard !== TokenStandard.FA12) {
+        window.alert("Support fa1.2");
+      }
+      console.log('[prince] handleV3ConfirmSwap: ', props.tokenInOp.address, props.tokenOutOp.address, props.recepient)
+      const v3swapRouterInstance = await Tezos.wallet.at(v3swapRouterAddress);
+      const token1Instance = await Tezos.wallet.at(props.tokenInOp.address as string);
+
+      const allBatch: WalletParamsWithKind[] = [];
+
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...token1Instance.methods
+          .approve(
+            v3swapRouterAddress,
+            // new BigNumber(props.firstTokenAmount).multipliedBy(new BigNumber(10).pow(props.tokenInOp.decimals))
+            MaxUint256
+          )
+          .toTransferParams(),
+      });
+      allBatch.push({
+        kind: OpKind.TRANSACTION,
+        ...v3swapRouterInstance.methods
+          .exactInputSingle(
+            "fa12",
+            props.tokenInOp.address,
+            "fa12",
+            props.tokenOutOp.address,
+            FEE_TIER.TIER1,
+            props.recepient ? props.recepient : props.walletAddress,
+            new Date(Date.now() + 1000000).toISOString(),
+            Number(props.firstTokenAmount) ? new BigNumber(props.firstTokenAmount).multipliedBy(new BigNumber(10).pow(props.tokenInOp.decimals)) : 1000000,
+            0,
+            0
+          )
+          .toTransferParams(),
+      });
+      console.log('[prince] handleV3ConfirmSwap2')
+
+      // allBatch.push({
+      //   kind: OpKind.TRANSACTION,
+      //   ...positionManagerInstance.methods
+      //     .mint(
+      //       "fa12",
+      //       token1.address,
+      //       "fa12",
+      //       token2.address,
+      //       feeTier,
+      //       tickLower,
+      //       tickUpper,
+      //       new BigNumber(token1Amount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
+      //       new BigNumber(token2Amount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
+      //       0,
+      //       0,
+      //       // new BigNumber(token1MinAmount).multipliedBy(new BigNumber(10).pow(token1.decimals)),
+      //       // new BigNumber(token2MinAmount).multipliedBy(new BigNumber(10).pow(token2.decimals)),
+      //       caller,
+      //       new Date(Date.now() + 1000000).toISOString()
+      //     )
+      //     .toTransferParams(),
+      // });
+
+      // ============
+
+      const updatedBatchOperations = await getBatchOperationsWithLimits(allBatch);
+      const batch = Tezos.wallet.batch(updatedBatchOperations);
+      props.setShowConfirmTransaction && props.setShowConfirmTransaction(true);
+      const batchOp = await batch.send();
+      console.log('[prince] handleV3ConfirmSwap3')
+
+      transactionSubmitModal && transactionSubmitModal(batchOp.opHash);
+
+      await batchOp.confirmation(1);
+
+      const status = await batchOp.status();
+      if (status === "applied") {
+        console.log('applied')
+        // return {
+        //   success: true,
+        //   operationId: batchOp.opHash,
+        // };
+      } else {
+        // throw new Error(status);
+        console.log('err')
+      }
+      setTimeout(() => {
+        props.setShowTransactionSubmitModal(false);
+      }, 6000);
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Something went wrong!");
+    } finally {
+      props.setShowConfirmTransaction && props.setShowConfirmTransaction(false);
+      props.setShowTransactionSubmitModal(false);
+    }
+
+    !expertMode && props.setV3ShowConfirmSwap(false);
   };
   const handleConfirmSwap = () => {
     dispatch(setIsLoadingWallet({ isLoading: true, operationSuccesful: false }));
@@ -295,15 +420,18 @@ function SwapTab(props: ISwapTabProps) {
             Select a token
           </Button>
         );
-      } else if (props.errorMessage !== "") {
-        return (
-          <Button color="disabled" width="w-full">
-            Swap
-          </Button>
-        );
+        // MODIFY
+        // } else if (props.errorMessage !== "") {
+        //   return (
+        //     <Button color="disabled" width="w-full">
+        //       Swap
+        //     </Button>
+        //   );
       } else if (
-        (Object.keys(props.tokenOut).length !== 0 && props.firstTokenAmount === "") ||
-        Number(props.firstTokenAmount) === 0
+        ((Object.keys(props.tokenOut).length !== 0 && props.firstTokenAmount === "") ||
+          Number(props.firstTokenAmount) === 0) &&
+        ((props.secondTokenAmount === "") ||
+          Number(props.secondTokenAmount) === 0)
       ) {
         return (
           <Button color="disabled" width="w-full">
@@ -346,13 +474,13 @@ function SwapTab(props: ISwapTabProps) {
 
     props.tokenIn.name === "tez"
       ? props.handleSwapTokenInput(
-          Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) - 0.02,
-          "tokenIn"
-        )
+        Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) - 0.02,
+        "tokenIn"
+      )
       : props.handleSwapTokenInput(
-          props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString(),
-          "tokenIn"
-        );
+        props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance.toString(),
+        "tokenIn"
+      );
   };
 
   return (
@@ -399,7 +527,7 @@ function SwapTab(props: ISwapTabProps) {
           (props.firstTokenAmount >
             Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) ||
             props.errorMessage) &&
-            "border-errorBorder hover:border-errorBorder bg-errorBg",
+          "border-errorBorder hover:border-errorBorder bg-errorBg",
           isFirstInputFocus ? "border-text-700" : "border-text-800 "
         )}
       >
@@ -440,7 +568,8 @@ function SwapTab(props: ISwapTabProps) {
                     )}
                     placeholder="0.0"
                     lang="en"
-                    disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
+                    disabled={false}
+                    // disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
                     onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenIn")}
                     value={props.firstTokenAmount}
                     onFocus={() => setIsFirstInputFocus(true)}
@@ -466,7 +595,7 @@ function SwapTab(props: ISwapTabProps) {
             <span className="text-text-600 font-body3">Balance:</span>{" "}
             <span className="font-body4 cursor-pointer text-primary-white ">
               {Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) >= 0 ||
-              Number(props.contractTokenBalance[props.tokenIn.name]?.balance) >= 0 ? (
+                Number(props.contractTokenBalance[props.tokenIn.name]?.balance) >= 0 ? (
                 <ToolTip
                   message={fromExponential(
                     Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0
@@ -475,7 +604,7 @@ function SwapTab(props: ISwapTabProps) {
                   )}
                   disable={
                     Number(props.allBalance?.allTokensBalances[props.tokenIn.name]?.balance) > 0 ||
-                    Number(props.contractTokenBalance[props.tokenIn.name]?.balance) > 0
+                      Number(props.contractTokenBalance[props.tokenIn.name]?.balance) > 0
                       ? false
                       : true
                   }
@@ -499,8 +628,8 @@ function SwapTab(props: ISwapTabProps) {
             ~$
             {props.firstTokenAmount && props.tokenPrice[props.tokenIn.name]
               ? Number(
-                  Number(props.firstTokenAmount) * Number(props.tokenPrice[props.tokenIn.name])
-                ).toFixed(2)
+                Number(props.firstTokenAmount) * Number(props.tokenPrice[props.tokenIn.name])
+              ).toFixed(2)
               : "0.00"}
           </div>
         </div>
@@ -559,8 +688,9 @@ function SwapTab(props: ISwapTabProps) {
               <div>
                 {Object.keys(props.tokenOut).length !== 0 ? (
                   isRefresh ||
-                  props.loading.isLoadingSecond ||
-                  (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                    // MODIFY
+                    // props.loading.isLoadingSecond ||
+                    (props.isSwitchClicked && props.secondTokenAmount === "") ? (
                     <p className="ml-auto my-[4px] w-[100px]  h-[32px] rounded animate-pulse bg-shimmer-100"></p>
                   ) : (
                     <input
@@ -569,7 +699,8 @@ function SwapTab(props: ISwapTabProps) {
                         "text-primary-white  inputSecond text-right border-0 font-input-text lg:font-medium1 outline-none w-[100%] placeholder:text-primary-white "
                       )}
                       placeholder="0.0"
-                      disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
+                      disabled={false}
+                      // disabled={props.errorMessage === ERRORMESSAGES.SWAPROUTER}
                       onChange={(e) => props.handleSwapTokenInput(e.target.value, "tokenOut")}
                       value={fromExponential(props.secondTokenAmount)}
                       onFocus={() => setIsSecondInputFocus(true)}
@@ -595,14 +726,14 @@ function SwapTab(props: ISwapTabProps) {
               <span className="text-text-600 font-body3">Balance:</span>{" "}
               <span className="font-body4 cursor-pointer text-text-500 ">
                 {Object.keys(props.tokenOut).length !== 0 &&
-                (Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ||
-                  Number(props.contractTokenBalance[props.tokenOut.name]?.balance) >= 0) ? (
+                  (Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >= 0 ||
+                    Number(props.contractTokenBalance[props.tokenOut.name]?.balance) >= 0) ? (
                   <ToolTip
                     message={fromExponential(
                       Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) > 0
                         ? props.allBalance?.allTokensBalances[
-                            props.tokenOut.name
-                          ]?.balance.toString()
+                          props.tokenOut.name
+                        ]?.balance.toString()
                         : props.contractTokenBalance[props.tokenOut.name]?.balance.toString()
                     )}
                     disable={
@@ -617,7 +748,7 @@ function SwapTab(props: ISwapTabProps) {
                     {nFormatterWithLesserNumber(
                       new BigNumber(
                         Number(props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance) >
-                        0
+                          0
                           ? props.allBalance?.allTokensBalances[props.tokenOut.name]?.balance
                           : props.contractTokenBalance[props.tokenOut.name]?.balance
                       )
@@ -641,11 +772,11 @@ function SwapTab(props: ISwapTabProps) {
               )}
               ~$
               {Object.keys(props.tokenOut).length !== 0 &&
-              props.secondTokenAmount &&
-              props.tokenPrice[props.tokenOut.name]
+                props.secondTokenAmount &&
+                props.tokenPrice[props.tokenOut.name]
                 ? Number(
-                    Number(props.secondTokenAmount) * Number(props.tokenPrice[props.tokenOut.name])
-                  ).toFixed(2)
+                  Number(props.secondTokenAmount) * Number(props.tokenPrice[props.tokenOut.name])
+                ).toFixed(2)
                 : "0.00"}
             </div>
           </div>
@@ -673,8 +804,8 @@ function SwapTab(props: ISwapTabProps) {
             onClick={() => setOpenSwapDetails(!openSwapDetails)}
           >
             {isRefresh ||
-            props.loading.isLoadingSecond ||
-            (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+              props.loading.isLoadingSecond ||
+              (props.isSwitchClicked && props.secondTokenAmount === "") ? (
               <div className="flex relative top-[8px]">
                 <span className="ml-[6px] font-text-bold mr-[7px]"> Fetching best price</span>
                 <span className="relative -top-[5px]">
@@ -763,14 +894,14 @@ function SwapTab(props: ISwapTabProps) {
                     >
                       {!isConvert
                         ? ` ${nFormatterWithLesserNumber(
-                            new BigNumber(props.routeDetails.exchangeRate)
-                          )} 
+                          new BigNumber(props.routeDetails.exchangeRate)
+                        )} 
                             ${tEZorCTEZtoUppercase(props.tokenOut.name)}`
                         : `${nFormatterWithLesserNumber(
-                            new BigNumber(
-                              new BigNumber(1).dividedBy(props.routeDetails.exchangeRate)
-                            )
-                          )} ${tEZorCTEZtoUppercase(props.tokenIn.name)}`}
+                          new BigNumber(
+                            new BigNumber(1).dividedBy(props.routeDetails.exchangeRate)
+                          )
+                        )} ${tEZorCTEZtoUppercase(props.tokenIn.name)}`}
                     </ToolTip>
                   </span>
                   <span className="relative top-px">
@@ -820,8 +951,8 @@ function SwapTab(props: ISwapTabProps) {
                                                 tokenIcons[token?.name as string]
                                                   ? tokenIcons[token?.name as string].src
                                                   : tokens[token?.name as string]?.iconUrl
-                                                  ? tokens[token?.name as string].iconUrl
-                                                  : `/assets/Tokens/fallback.png`
+                                                    ? tokens[token?.name as string].iconUrl
+                                                    : `/assets/Tokens/fallback.png`
                                               }
                                               width={isMobile ? "21px" : "28px"}
                                               height={isMobile ? "21px" : "28px"}
@@ -870,8 +1001,8 @@ function SwapTab(props: ISwapTabProps) {
                                                     tokenIcons[token?.name as string]
                                                       ? tokenIcons[token?.name as string].src
                                                       : tokens[token?.name as string]?.iconUrl
-                                                      ? tokens[token?.name as string].iconUrl
-                                                      : `/assets/Tokens/fallback.png`
+                                                        ? tokens[token?.name as string].iconUrl
+                                                        : `/assets/Tokens/fallback.png`
                                                   }
                                                   width={isMobile ? "21px" : "28px"}
                                                   height={isMobile ? "21px" : "28px"}
@@ -968,8 +1099,8 @@ function SwapTab(props: ISwapTabProps) {
                   </span>
                 </div>
                 {isRefresh ||
-                props.loading.isLoadingSecond ||
-                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  props.loading.isLoadingSecond ||
+                  (props.isSwitchClicked && props.secondTokenAmount === "") ? (
                   <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
                     999999999999
                   </div>
@@ -984,8 +1115,8 @@ function SwapTab(props: ISwapTabProps) {
                       {Number(props.routeDetails.minimumOut) < 0
                         ? `0 ${tEZorCTEZtoUppercase(props.tokenOut.name)}`
                         : ` ${Number(props.routeDetails.minimumOut).toFixed(
-                            4
-                          )} ${tEZorCTEZtoUppercase(props.tokenOut.name)}`}
+                          4
+                        )} ${tEZorCTEZtoUppercase(props.tokenOut.name)}`}
                     </ToolTip>
                   </div>
                 )}
@@ -1010,8 +1141,8 @@ function SwapTab(props: ISwapTabProps) {
                   </span>
                 </div>
                 {isRefresh ||
-                props.loading.isLoadingSecond ||
-                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  props.loading.isLoadingSecond ||
+                  (props.isSwitchClicked && props.secondTokenAmount === "") ? (
                   <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
                     99999999
                   </div>
@@ -1050,8 +1181,8 @@ function SwapTab(props: ISwapTabProps) {
                   </span>
                 </div>
                 {isRefresh ||
-                props.loading.isLoadingSecond ||
-                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  props.loading.isLoadingSecond ||
+                  (props.isSwitchClicked && props.secondTokenAmount === "") ? (
                   <div className=" ml-auto h-[19px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
                     999999999999
                   </div>
@@ -1082,8 +1213,8 @@ function SwapTab(props: ISwapTabProps) {
                   </span>
                 </div>
                 {isRefresh ||
-                props.loading.isLoadingSecond ||
-                (props.isSwitchClicked && props.secondTokenAmount === "") ? (
+                  props.loading.isLoadingSecond ||
+                  (props.isSwitchClicked && props.secondTokenAmount === "") ? (
                   <div className=" w-[110px] mt-2 h-[35px] rounded animate-pulse bg-shimmer-100 text-shimmer-100">
                     99999999
                   </div>
@@ -1109,8 +1240,8 @@ function SwapTab(props: ISwapTabProps) {
                                           tokenIcons[token?.name as string]
                                             ? tokenIcons[token?.name as string].src
                                             : tokens[token?.name as string]?.iconUrl
-                                            ? tokens[token?.name as string].iconUrl
-                                            : `/assets/Tokens/fallback.png`
+                                              ? tokens[token?.name as string].iconUrl
+                                              : `/assets/Tokens/fallback.png`
                                         }
                                         width={"28px"}
                                         height={"28px"}
@@ -1157,8 +1288,8 @@ function SwapTab(props: ISwapTabProps) {
                                               tokenIcons[token?.name as string]
                                                 ? tokenIcons[token?.name as string].src
                                                 : tokens[token?.name as string]?.iconUrl
-                                                ? tokens[token?.name as string].iconUrl
-                                                : `/assets/Tokens/fallback.png`
+                                                  ? tokens[token?.name as string].iconUrl
+                                                  : `/assets/Tokens/fallback.png`
                                             }
                                             width={"28px"}
                                             height={"28px"}
@@ -1180,8 +1311,8 @@ function SwapTab(props: ISwapTabProps) {
                                               tokenIcons[swapRoute[index]?.name as string]
                                                 ? tokenIcons[swapRoute[index]?.name as string].src
                                                 : tokens[swapRoute[index]?.name as string]?.iconUrl
-                                                ? tokens[swapRoute[index]?.name as string].iconUrl
-                                                : `/assets/Tokens/fallback.png`
+                                                  ? tokens[swapRoute[index]?.name as string].iconUrl
+                                                  : `/assets/Tokens/fallback.png`
                                             }
                                             width={"28px"}
                                             height={"28px"}
@@ -1235,6 +1366,19 @@ function SwapTab(props: ISwapTabProps) {
           secondTokenAmount={props.secondTokenAmount.toString()}
           routeDetails={props.routeDetails}
           onClick={handleConfirmSwap}
+        />
+      )}
+      {props.v3ShowConfirmSwap && (
+        <ConfirmV3Swap
+          show={props.v3ShowConfirmSwap}
+          tokens={props.tokens}
+          setShow={props.setV3ShowConfirmSwap}
+          tokenIn={props.tokenIn}
+          tokenOut={props.tokenOut}
+          firstTokenAmount={props.firstTokenAmount}
+          secondTokenAmount={props.secondTokenAmount.toString()}
+          routeDetails={props.routeDetails}
+          onClick={handleV3ConfirmSwap}
         />
       )}
       {props.showConfirmTransaction && (

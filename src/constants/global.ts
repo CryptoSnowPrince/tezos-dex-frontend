@@ -674,6 +674,7 @@ export const getOtherTokenAmount = (
     liquidity
   );
   console.log("[prince] getOtherTokenAmount: otherTokenAmount", otherTokenAmount);
+  // fix as temp to skip
   if (isTokenA) {
     return (
       (JSBI.toNumber(otherTokenAmount) * _curPrice ** 2 * 100 ** (tokenB.decimals - tokenA.decimals)) /
